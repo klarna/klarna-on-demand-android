@@ -7,6 +7,6 @@ public class ContextTest extends TestCase {
     public void testSetApiKey(){
         String apiKey = "myKey";
         Context.setApiKey(apiKey);
-        assertEquals(Context.getApiKey(), "");
+        assertEquals(Context.getApiKey(), apiKey);
     }
 }

@@ -18,6 +18,27 @@ android {
     }
 }
 
+configurations {
+    unitTestCompile.extendsFrom runtime
+    unitTestRuntime.extendsFrom unitTestCompile
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    unitTestCompile files("$project.buildDir/intermediates/classes/release")
+    unitTestCompile group: 'junit', name: 'junit', version: '4.+'
 }
+
+sourceSets {
+    unitTest {
+        java.srcDir file('src/androidTest/java')
+    }
+}
+
+task unitTest(type:Test, dependsOn: assemble) {
+    description = "run unit tests"
+    testClassesDir = project.sourceSets.unitTest.output.classesDir
+    classpath = project.sourceSets.unitTest.runtimeClasspath
+}
+
+check.dependsOn unitTest
