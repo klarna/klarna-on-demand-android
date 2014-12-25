@@ -8,6 +8,9 @@ public class Context {
     }
 
     protected static String getApiKey(){
+        if (apiKey == null) {
+            throw new RuntimeException("You must set the API key first.");
+        }
         return apiKey;
     }
 }

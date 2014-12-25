@@ -1,12 +1,26 @@
 package com.klarna.ondemand;
 
-import junit.framework.TestCase;
+import org.junit.Before;
+import org.junit.Test;
 
-public class ContextTest extends TestCase {
+import static junit.framework.Assert.*;
 
-    public void testSetApiKey(){
-        String apiKey = "myKey";
+public class ContextTest {
+
+    @Before
+    public void beforeEach(){
+        Context.setApiKey(null);
+    }
+
+    @Test
+    public void setApiKey(){
+        String apiKey = "my_key";
         Context.setApiKey(apiKey);
         assertEquals(Context.getApiKey(), apiKey);
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void getApiKeyThrowsRuntimeExceptionWhenApiKeyNotSet(){
+        Context.getApiKey();
     }
 }
