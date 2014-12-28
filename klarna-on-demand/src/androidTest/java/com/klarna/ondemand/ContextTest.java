@@ -2,6 +2,8 @@ package com.klarna.ondemand;
 
 import junit.framework.TestCase;
 
+import java.lang.RuntimeException;
+
 
 public class ContextTest extends TestCase {
 
@@ -13,5 +15,15 @@ public class ContextTest extends TestCase {
         String apiKey = "my_key";
         Context.setApiKey(apiKey);
         assertEquals(Context.getApiKey(), apiKey);
+    }
+
+    public void testGetApiKeyShouldThrowExceptionWhenThereIsNoApiKey() {
+        try {
+            Context.getApiKey();
+            fail("Exception missing");
+        }
+        catch(RuntimeException e) {
+            assertEquals(e.getMessage(), "You must set the API key first.");
+        }
     }
 }
