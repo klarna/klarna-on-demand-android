@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 public class ContextTest extends TestCase {
 
-    public void setUp(){
+    protected void setUp() throws java.lang.Exception {
         Context.setApiKey(null);
     }
 
