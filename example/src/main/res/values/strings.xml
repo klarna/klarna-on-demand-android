@@ -2,6 +2,5 @@
 <resources>
 
     <string name="app_name">Klarna On Demand Example</string>
-    <string name="action_settings">Settings</string>
 
 </resources>
