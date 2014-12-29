@@ -34,7 +34,13 @@ public class MainActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
-            //TODO: handle resultCode.
+            switch (resultCode) {
+                case RegistrationActivity.RESULT_CANCELLED:
+                    break;
+                default:
+                    break;
+            }
+
 
         }
     }
