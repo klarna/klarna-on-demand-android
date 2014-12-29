@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        Context.setApiKey("skadoo");
+        Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
     }
 
     public void openKlarnaRegistration(View view) {
