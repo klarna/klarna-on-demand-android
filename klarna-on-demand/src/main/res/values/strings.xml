@@ -2,8 +2,6 @@
 <resources>
 
     <string name="app_name">klarna-on-demand</string>
-    <string name="title_activity_registration">RegistrationActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="title_activity_registration">Payment Setup</string>
 
 </resources>
