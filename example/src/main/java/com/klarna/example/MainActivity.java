@@ -3,12 +3,11 @@ package com.klarna.example;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.klarna.ondemand.Context;
 import com.klarna.ondemand.RegistrationActivity;
+import com.klarna.ondemand.WebViewActivity;
 
 
 public class MainActivity extends Activity {
@@ -25,8 +24,6 @@ public class MainActivity extends Activity {
     }
 
     public void openKlarnaRegistration(View view) {
-        RegistrationActivity registrationWebView = new RegistrationActivity();
-
         Intent intent = new Intent(this, RegistrationActivity.class);
         startActivityForResult(intent, REQUEST_CODE);
     }
@@ -35,7 +32,7 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CODE) {
             switch (resultCode) {
-                case RegistrationActivity.RESULT_CANCELLED:
+                case WebViewActivity.RESULT_CANCELED:
                     break;
                 default:
                     break;
