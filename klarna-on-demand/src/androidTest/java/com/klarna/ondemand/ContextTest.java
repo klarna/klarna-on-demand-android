@@ -1,8 +1,8 @@
-package com.klarna.ondemand;
+package com.klarna.ondemand.test;
 
+import com.klarna.ondemand.Context;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -13,11 +13,6 @@ import java.lang.RuntimeException;
 @Config(emulateSdk = 18)
 @RunWith(RobolectricTestRunner.class)
 public class ContextTest {
-
-    @Before
-    public void setUp() throws java.lang.Exception {
-        Context.setApiKey(null);
-    }
 
     @Test
     public void testSetApiKey(){
