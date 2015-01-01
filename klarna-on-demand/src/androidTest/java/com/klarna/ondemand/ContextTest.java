@@ -3,6 +3,7 @@ package com.klarna.ondemand;
 import junit.framework.TestCase;
 
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,6 +20,11 @@ public class ContextTest{
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    @Before
+    public void before(){
+        Context.setApiKey(null);
+    }
+
     @Test
     public void setApiKey(){
         String apiKey = "my_key";
@@ -30,6 +36,7 @@ public class ContextTest{
     public void getApiKeyShouldThrowExceptionWhenThereIsNoApiKey() {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("You must set the API key first.");
+
         Context.getApiKey();
     }
 }
