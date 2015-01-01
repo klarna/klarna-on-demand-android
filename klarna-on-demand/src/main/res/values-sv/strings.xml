@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">klarna-on-demand</string>
+    <string name="title_activity_registration">Betalinformation</string>
+    <string name="LOADING_SPINNER">Laddar ...</string>
+    
+</resources>
