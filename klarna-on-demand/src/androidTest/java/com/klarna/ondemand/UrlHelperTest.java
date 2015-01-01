@@ -1,15 +1,17 @@
 package com.klarna.ondemand;
 
-
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Locale;
 
-public class UrlHelperTest extends TestCase {
+@RunWith(RobolectricTestRunner.class)
+@Config(emulateSdk = 18)
+public class UrlHelperTest{
 
     String token = "my_token";
 
@@ -31,10 +33,10 @@ public class UrlHelperTest extends TestCase {
     }
 
     @Test
-    public void testRegistrationUrl_ShouldReturnUrlWithFrenchLocale_WhenLocaleIsFrench() {
-        Locale.setDefault(Locale.FRENCH);
+    public void testRegistrationUrl_ShouldReturnUrlWithSwedishLocale_WhenLocaleIsSwedish() {
+        Locale.setDefault(new Locale("sv"));
 
-        Assert.assertTrue(UrlHelper.registrationUrl().contains("locale=fr"));
+        Assert.assertTrue(UrlHelper.registrationUrl().contains("locale=sv"));
     }
     //endregion
 
@@ -53,10 +55,10 @@ public class UrlHelperTest extends TestCase {
     }
 
     @Test
-    public void testPreferencesUrlWithToken_ShouldReturnUrlWithFrenchLocale_WhenLocaleIsFrench() {
-        Locale.setDefault(Locale.FRENCH);
+    public void testPreferencesUrlWithToken_ShouldReturnUrlWithSwedishLocale_WhenLocaleIsSwedish() {
+        Locale.setDefault(new Locale("sv"));
 
-        Assert.assertTrue(UrlHelper.preferencesUrl(token).contains("locale=fr"));
+        Assert.assertTrue(UrlHelper.preferencesUrl(token).contains("locale=sv"));
     }
     //endregion
 }
