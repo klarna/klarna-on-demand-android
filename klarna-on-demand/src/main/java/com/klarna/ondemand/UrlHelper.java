@@ -2,7 +2,7 @@ package com.klarna.ondemand;
 
 import java.util.Locale;
 
-public final class KODUrl {
+public final class UrlHelper {
 
     private static final String KlarnaPlaygroundUrl = "https://inapp.playground.klarna.com";
     private static final String KlarnaProductionUrl = "https://inapp.klarna.com";
@@ -15,10 +15,14 @@ public final class KODUrl {
     }
 
     static String registrationUrl() {
-        return String.format("%s/registration/new?api_key=%s&locale=%s", KODUrl.baseUrl(), Context.getApiKey(), Locale.getDefault().getLanguage());
+        return String.format("%s/registration/new?api_key=%s&locale=%s", UrlHelper.baseUrl(), Context.getApiKey(), defaultLocale());
     }
 
     static String preferencesUrl(String token) {
-        return String.format("%s/users/%s/preferences?api_key=%s", KODUrl.baseUrl(), token, Context.getApiKey());
+        return String.format("%s/users/%s/preferences?api_key=%s&locale=%s", UrlHelper.baseUrl(), token, Context.getApiKey(), defaultLocale());
+    }
+
+    static String defaultLocale() {
+        return Locale.getDefault().getLanguage();
     }
 }
