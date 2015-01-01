@@ -3,6 +3,7 @@ package com.klarna.ondemand;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -12,12 +13,16 @@ import android.webkit.WebViewClient;
 
 public abstract class WebViewActivity extends Activity {
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_webview);
 
+        addSpinner();
+        
         initializeWebView();
 
         WebView webView = (WebView) findViewById(R.id.webView);
@@ -67,13 +72,26 @@ public abstract class WebViewActivity extends Activity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.clearCache(true);
         webView.setWebViewClient(new WebViewClient() {
+
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url){
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return false;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                progressDialog.dismiss();
+            }
         });
     }
+    
+    private void addSpinner() {
+        progressDialog = new ProgressDialog(WebViewActivity.this);
+        progressDialog.setMessage(getString(R.string.LOADING_SPINNER));
+        progressDialog.show();
+    }
+
     private void initializeActionBar() {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

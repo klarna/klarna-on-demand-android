@@ -3,5 +3,6 @@
 
     <string name="app_name">klarna-on-demand</string>
     <string name="title_activity_registration">Payment Setup</string>
+    <string name="LOADING_SPINNER">Loading ...</string>
 
 </resources>

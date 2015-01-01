@@ -7,6 +7,6 @@ public class RegistrationActivity extends WebViewActivity {
 
     @Override
     protected String url() {
-        return KODUrl.registrationUrl();
+        return UrlHelper.registrationUrl();
     }
 }

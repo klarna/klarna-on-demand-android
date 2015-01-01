@@ -1,34 +1,35 @@
-package com.klarna.ondemand.test;
+package com.klarna.ondemand;
 
-import com.klarna.ondemand.Context;
+import junit.framework.TestCase;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.lang.RuntimeException;
 
-@Config(emulateSdk = 18)
 @RunWith(RobolectricTestRunner.class)
-public class ContextTest {
+@Config(emulateSdk = 18)
+public class ContextTest{
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testSetApiKey(){
+    public void setApiKey(){
         String apiKey = "my_key";
         Context.setApiKey(apiKey);
         Assert.assertEquals(Context.getApiKey(), apiKey);
     }
 
     @Test
-    public void testGetApiKeyShouldThrowExceptionWhenThereIsNoApiKey() {
-        try {
-            Context.getApiKey();
-            Assert.fail("Exception missing");
-        }
-        catch(RuntimeException e) {
-            Assert.assertEquals(e.getMessage(), "You must set the API key first.");
-        }
+    public void getApiKeyShouldThrowExceptionWhenThereIsNoApiKey() {
+        thrown.expect(RuntimeException.class);
+        thrown.expectMessage("You must set the API key first.");
+        Context.getApiKey();
     }
 }
