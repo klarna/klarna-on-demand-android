@@ -79,7 +79,6 @@ public abstract class WebViewActivity extends Activity {
         actionBar.setHomeButtonEnabled(true);
     }
 
-
     private void showDismissAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getTitle());
