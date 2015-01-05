@@ -19,7 +19,7 @@ public class ContextTest extends TestCase {
     public void testGetApiKeyShouldThrowExceptionWhenThereIsNoApiKey() {
         try {
             Context.getApiKey();
-            fail("Exception missing");
+            fail("Exception not thrown");
         }
         catch(RuntimeException e) {
             assertEquals(e.getMessage(), "You must set the API key first.");

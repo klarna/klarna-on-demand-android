@@ -15,11 +15,11 @@ public final class UrlHelper {
     }
 
     static String registrationUrl() {
-        return String.format("%s/registration/new?api_key=%s&locale=%s", UrlHelper.baseUrl(), Context.getApiKey(), defaultLocale());
+        return String.format("%s/registration/new?api_key=%s&locale=%s", baseUrl(), Context.getApiKey(), defaultLocale());
     }
 
     static String preferencesUrl(String token) {
-        return String.format("%s/users/%s/preferences?api_key=%s&locale=%s", UrlHelper.baseUrl(), token, Context.getApiKey(), defaultLocale());
+        return String.format("%s/users/%s/preferences?api_key=%s&locale=%s", baseUrl(), token, Context.getApiKey(), defaultLocale());
     }
 
     static String defaultLocale() {

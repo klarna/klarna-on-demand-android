@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 public abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +22,12 @@ public abstract class WebViewActivity extends Activity {
 
         setContentView(R.layout.activity_webview);
 
+        webView = initializeWebView();
+
         addSpinner();
 
         initializeActionBar();
 
-        initializeWebView();
-
-        WebView webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(url());
     }
 
@@ -47,7 +47,7 @@ public abstract class WebViewActivity extends Activity {
 
     protected abstract String url();
 
-    private void initializeWebView() {
+    private WebView initializeWebView() {
         WebView webView = (WebView) findViewById(R.id.webView);
 
         webView.getSettings().setJavaScriptEnabled(true);
@@ -65,6 +65,8 @@ public abstract class WebViewActivity extends Activity {
                 progressDialog.dismiss();
             }
         });
+
+        return webView;
     }
     
     private void addSpinner() {

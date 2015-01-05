@@ -11,7 +11,7 @@ import com.klarna.ondemand.WebViewActivity;
 
 public class MainActivity extends Activity {
 
-    public final int REQUEST_CODE = 1;
+    public final int KLARNA_REGISTRATION_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +24,12 @@ public class MainActivity extends Activity {
 
     public void openKlarnaRegistration(View view) {
         Intent intent = new Intent(this, RegistrationActivity.class);
-        startActivityForResult(intent, REQUEST_CODE);
+        startActivityForResult(intent, KLARNA_REGISTRATION_REQUEST_CODE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CODE) {
+        if (requestCode == KLARNA_REGISTRATION_REQUEST_CODE) {
             switch (resultCode) {
                 case WebViewActivity.RESULT_CANCELED:
                     break;
