@@ -1,6 +1,7 @@
 package com.klarna.ondemand;
 
 import junit.framework.TestCase;
+
 import java.util.Locale;
 
 public class UrlHelperTest extends TestCase {

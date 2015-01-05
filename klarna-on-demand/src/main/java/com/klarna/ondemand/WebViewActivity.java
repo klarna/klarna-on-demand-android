@@ -10,10 +10,20 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.jockeyjs.Jockey;
+import com.jockeyjs.JockeyHandler;
+import com.jockeyjs.JockeyImpl;
+
+import java.util.Map;
 
 public abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
+    private WebView webView;
+    private WebViewClient webViewClient;
+    private Jockey jockey;
+
+    public static final int RESULT_ERROR = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +31,16 @@ public abstract class WebViewActivity extends Activity {
 
         setContentView(R.layout.activity_webview);
 
+        webView = (WebView) findViewById(R.id.webView);
+
         addSpinner();
 
         initializeActionBar();
 
         initializeWebView();
 
-        WebView webView = (WebView) findViewById(R.id.webView);
+        registerJockeyEvents();
+
         webView.loadUrl(url());
     }
 
@@ -45,14 +58,24 @@ public abstract class WebViewActivity extends Activity {
         showDismissAlert();
     }
 
+    @Override
+    protected void onDestroy() {
+        jockey.off("userReady");
+        jockey.off("userError");
+
+        super.onDestroy();
+    }
+
     protected abstract String url();
 
-    private void initializeWebView() {
-        WebView webView = (WebView) findViewById(R.id.webView);
+    protected abstract void handleUserReadyEventWithPayload(Map<Object, Object> payload);
 
+    protected abstract void handleUserErrorEvent();
+
+    private void initializeWebView() {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.clearCache(true);
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(webViewClient = new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -77,6 +100,26 @@ public abstract class WebViewActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+    }
+
+    private void registerJockeyEvents() {
+        jockey = JockeyImpl.getDefault();
+        jockey.configure(webView);
+        jockey.setWebViewClient(webViewClient);
+
+        jockey.on("userReady", new JockeyHandler() {
+            @Override
+            protected void doPerform(Map<Object, Object> payload) {
+                handleUserReadyEventWithPayload(payload);
+            }
+        });
+
+        jockey.on("userError", new JockeyHandler() {
+            @Override
+            protected void doPerform(Map<Object, Object> payload) {
+                handleUserErrorEvent();
+            }
+        });
     }
 
     private void showDismissAlert() {

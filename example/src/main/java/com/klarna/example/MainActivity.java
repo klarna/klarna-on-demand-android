@@ -33,6 +33,10 @@ public class MainActivity extends Activity {
             switch (resultCode) {
                 case WebViewActivity.RESULT_CANCELED:
                     break;
+                case WebViewActivity.RESULT_OK:
+                    break;
+                case WebViewActivity.RESULT_ERROR:
+                    break;
                 default:
                     break;
             }

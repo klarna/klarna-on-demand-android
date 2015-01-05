@@ -1,7 +1,6 @@
 package com.klarna.ondemand;
 
 import junit.framework.TestCase;
-import java.lang.RuntimeException;
 
 public class ContextTest extends TestCase {
 
