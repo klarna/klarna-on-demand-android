@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-
 import com.klarna.ondemand.Context;
 import com.klarna.ondemand.RegistrationActivity;
 import com.klarna.ondemand.WebViewActivity;

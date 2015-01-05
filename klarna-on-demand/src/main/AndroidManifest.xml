@@ -6,7 +6,7 @@
         android:allowBackup="true">
         <activity
             android:name=".RegistrationActivity"
-            android:label="@string/title_activity_registration" >
+            android:label="@string/TITLE_ACTIVITY_REGISTRATION" >
         </activity>
     </application>
 

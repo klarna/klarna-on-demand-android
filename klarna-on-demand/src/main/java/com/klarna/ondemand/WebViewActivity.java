@@ -22,13 +22,13 @@ public abstract class WebViewActivity extends Activity {
         setContentView(R.layout.activity_webview);
 
         addSpinner();
-        
+
+        initializeActionBar();
+
         initializeWebView();
 
         WebView webView = (WebView) findViewById(R.id.webView);
         webView.loadUrl(url());
-
-        initializeActionBar();
     }
 
     @Override
@@ -42,26 +42,7 @@ public abstract class WebViewActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.title_activity_registration);
-        builder.setMessage("Are you sure you want to exit?");
-        builder.setCancelable(true);
-        //builder.setIcon(android.R.drawable.ic_dialog_alert);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
+        showDismissAlert();
     }
 
     protected abstract String url();
@@ -96,5 +77,28 @@ public abstract class WebViewActivity extends Activity {
         ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+    }
+
+
+    private void showDismissAlert() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(this.getTitle());
+        builder.setMessage("Are you sure you want to exit?");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                finish();
+            }
+        });
+
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 }
