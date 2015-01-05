@@ -28,7 +28,7 @@ public abstract class WebViewActivity extends Activity {
 
         initializeActionBar();
 
-        webView.loadUrl(url());
+        webView.loadUrl(getUrl());
     }
 
     @Override
@@ -45,7 +45,7 @@ public abstract class WebViewActivity extends Activity {
         showDismissAlert();
     }
 
-    protected abstract String url();
+    protected abstract String getUrl();
 
     private WebView initializeWebView() {
         WebView webView = (WebView) findViewById(R.id.webView);

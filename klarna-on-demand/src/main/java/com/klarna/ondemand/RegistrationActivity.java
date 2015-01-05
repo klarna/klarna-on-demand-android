@@ -6,7 +6,7 @@ package com.klarna.ondemand;
 public class RegistrationActivity extends WebViewActivity {
 
     @Override
-    protected String url() {
+    protected String getUrl() {
         return UrlHelper.registrationUrl();
     }
 }
