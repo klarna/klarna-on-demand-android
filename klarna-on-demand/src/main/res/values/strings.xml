@@ -2,4 +2,5 @@
 <resources>
     <string name="TITLE_ACTIVITY_REGISTRATION">Payment Setup</string>
     <string name="LOADING_SPINNER">Loading ...</string>
+    <string name="TITLE_ACTIVITY_PREFERENCES">Payment Preferences</string>
 </resources>

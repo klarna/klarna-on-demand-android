@@ -8,6 +8,10 @@
             android:name=".RegistrationActivity"
             android:label="@string/TITLE_ACTIVITY_REGISTRATION" >
         </activity>
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/TITLE_ACTIVITY_PREFERENCES" >
+        </activity>
     </application>
 
 </manifest>

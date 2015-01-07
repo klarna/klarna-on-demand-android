@@ -19,7 +19,7 @@ import java.util.Map;
 public abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
-    private WebView webView;
+    protected WebView webView;
     private WebViewClient webViewClient;
     private Jockey jockey;
 
@@ -70,7 +70,10 @@ public abstract class WebViewActivity extends Activity {
 
     protected abstract void handleUserReadyEventWithPayload(Map<Object, Object> payload);
 
-    protected abstract void handleUserErrorEvent();
+    protected void handleUserErrorEvent() {
+        setResult(RESULT_ERROR);
+        finish();
+    }
 
     private void initializeWebView() {
         webView.getSettings().setJavaScriptEnabled(true);
@@ -80,7 +83,7 @@ public abstract class WebViewActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
-                return true;
+                return false;
             }
 
             @Override
