@@ -7,6 +7,7 @@ public class UrlHelperTest extends TestCase {
 
     String token = "my_token";
 
+    @Override
     public void setUp() throws java.lang.Exception {
         Context.setApiKey("test_skadoo");
     }
@@ -25,18 +26,20 @@ public class UrlHelperTest extends TestCase {
         Locale.setDefault(new Locale("sv"));
 
         assertTrue(UrlHelper.registrationUrl().contains("locale=sv"));
+
+        Locale.setDefault(Locale.ENGLISH);
     }
     //endregion
 
     //region .PreferencesUrlWithToken
     public void testPreferencesUrlWithToken_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        String expectedPrefix = String.format("%s%s%s", "https://inapp.playground.klarna.com/users/", token, "/preferences");
+        String expectedPrefix = "https://inapp.playground.klarna.com/users/" + token + "/preferences";
         assertTrue(UrlHelper.preferencesUrl(token).startsWith(expectedPrefix));
     }
 
     public void testPreferencesUrlWithToken_ShouldReturnProductionUrl_WhenTokenIsForProduction() {
         Context.setApiKey("skadoo");
-        String expectedPrefix = String.format("%s%s%s", "https://inapp.klarna.com/users/", token, "/preferences");
+        String expectedPrefix = "https://inapp.klarna.com/users/" + token + "/preferences";
         assertTrue(UrlHelper.preferencesUrl(token).startsWith(expectedPrefix));
     }
 
@@ -44,6 +47,8 @@ public class UrlHelperTest extends TestCase {
         Locale.setDefault(new Locale("sv"));
 
         assertTrue(UrlHelper.preferencesUrl(token).contains("locale=sv"));
+
+        Locale.setDefault(Locale.ENGLISH);
     }
     //endregion
 }
