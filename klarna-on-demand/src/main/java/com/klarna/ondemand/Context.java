@@ -18,7 +18,7 @@ public class Context {
      * Returns the API key set using setApiKey:.
      * @return Merchant's public API key for this application.
      */
-    static String getApiKey(){
+    protected static String getApiKey(){
         if (apiKey == null) {
             throw new RuntimeException("You must set the API key first.");
         }

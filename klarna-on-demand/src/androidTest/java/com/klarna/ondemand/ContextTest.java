@@ -5,6 +5,7 @@ import java.lang.RuntimeException;
 
 public class ContextTest extends TestCase {
 
+    @Override
     protected void setUp() throws java.lang.Exception {
         Context.setApiKey(null);
     }

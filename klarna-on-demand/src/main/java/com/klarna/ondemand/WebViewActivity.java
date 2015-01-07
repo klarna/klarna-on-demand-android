@@ -84,7 +84,7 @@ public abstract class WebViewActivity extends Activity {
     private void showDismissAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getTitle());
-        builder.setMessage("Are you sure you want to exit?");
+        builder.setMessage(getString(R.string.DISMISS_ALERT_MESSAGE));
         builder.setCancelable(true);
 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

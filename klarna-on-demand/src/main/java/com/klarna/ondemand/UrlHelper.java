@@ -2,7 +2,7 @@ package com.klarna.ondemand;
 
 import java.util.Locale;
 
-public final class UrlHelper {
+final class UrlHelper {
 
     private static final String KlarnaPlaygroundUrl = "https://inapp.playground.klarna.com";
     private static final String KlarnaProductionUrl = "https://inapp.klarna.com";
