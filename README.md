@@ -14,20 +14,44 @@ Have a look at the [integration guide](doc/integration.md) for full details on h
 
 <a name="running_the_application"></a>
 ## Running the sample application
-We provide instructions on how to set up the project for both [Android Studio](doc/running-android-studio.md) and [Eclipse](doc/running-eclipse.md).
+### Prerequisites
+To run the application, you must first compile it. To that end, you will require the following:
 
-**Note:** While the instructions linked above will get the application up and running, you will not be able to successfully perform purchases without a backend for the application to interact with. You should go [here](https://github.com/klarna/sample-app-backend) and follow the instructions provided to get a sample backend running on your local machine.
+1. The [Java Runtime Environment](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (or the Java Development Kit, also through the link)
+2. The [Android SDK](https://developer.android.com/sdk/installing/index.html?pkg=tools)
+3. [Android SDK packages](https://developer.android.com/sdk/installing/adding-packages.html)
+
+### Running the application
+Simply clone the project repository and follow these steps:
+
+1. Open a terminal and navigate to the repository.
+2. Connect an android device to run the application on ([see below](#below)).
+3. Type `./gradlew installDebug` into your terminal (if you work on Windows, type `gradlew.bat installDebug`).
+4. The application is now installed on all connected devices. Run it.
+
+### Running a local server
+While the instructions above will get the application up and running, you will not be able to successfully perform purchases without a backend for the application to interact with. You should go [here](https://github.com/klarna/sample-app-backend) and follow the instructions provided to get a sample backend running on your local machine.
+
+<a name="below"></a>
+Since the sample application expects the server to be running on the same "machine", you will not be able to see a fully functional application running on a physical device. We recommend running the sample application on an emulator, such as [Genymotion](https://www.genymotion.com).
+
+### Problems?
+There are quite a few things that could break along the way and prevent you from successfully running the application. Gradle will usually output very helpful error messages, but do let us know if you [have an issue](./issue) and we will do our best to help.
 
 ## Contributing
 You'd like to help us out? That's great! Here's what you need to do in order to contribute.
 
+### Prerequisites
+As per [running the application](#running_the_application).
+
 ### Setup
 
 1. Fork the project and clone your repository
-2. Follow the instructions for [running the sample application](#running_the_application), as the SDK and sample application are part of the same project
+2. Import the project into a Gradle-friendly work environment such as [Android Studio](http://developer.android.com/sdk/index.html) or [Eclipse](https://eclipse.org/) with [Gradle tooling support](https://github.com/spring-projects/eclipse-integration-gradle/)
+3. Get busy
 
 ### Tests
-Pull requests must include tests for their proposed fixes/functionality. We use [JUnit](http://junit.org/) (v3) to write our tests and you can find the tests themselves [here](klarna-on-demand/src/androidTest/java/com/klarna/ondemand).
+Pull requests must include tests for their proposed fixes/functionality. We use [JUnit](http://junit.org/) to write our tests and you can find the tests themselves [here](klarna-on-demand/src/androidTest/java/com/klarna/ondemand).
 
 ## License
 Klarna on Demand is available under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for more info.
