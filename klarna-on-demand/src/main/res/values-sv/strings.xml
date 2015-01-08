@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="TITLE_ACTIVITY_REGISTRATION">Betalinformation</string>
+    <string name="LOADING_SPINNER">Laddar ...</string>
+</resources>

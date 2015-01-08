@@ -60,8 +60,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/jni" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/rs" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/build/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/build/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/bundles" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
@@ -82,12 +80,39 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
-      <excludeFolder url="file://$MODULE_DIR$/build/reports" />
-      <excludeFolder url="file://$MODULE_DIR$/build/test-results" />
       <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 21 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-reflect-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-classloading-base-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="bsh-2.0b4" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-common-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-testng-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="objenesis-2.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="cglib-nodep-3.1" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-api-support-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit3-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-api-easymock-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-core-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-reflect-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-api-support-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="javassist-3.18.2-GA" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-legacy-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-classloading-base-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-testng-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit3-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-core-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="junit-4.11" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="testng-6.8.8" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="easymock-3.3" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-legacy-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="jcommander-1.27" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-testng-common-1.5.6" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-api-easymock-1.5.6-sources" level="project" />
+    <orderEntry type="library" exported="" scope="TEST" name="powermock-module-junit4-common-1.5.6" level="project" />
   </component>
 </module>
 
