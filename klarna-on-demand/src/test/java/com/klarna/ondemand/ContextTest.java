@@ -1,13 +1,16 @@
 package com.klarna.ondemand;
 
-import junit.framework.TestCase;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.robolectric.annotation.Config;
 
 import java.lang.RuntimeException;
 
+@RunWith(PowerMockRunner.class)
+@Config(emulateSdk = 18)
 public class ContextTest {
 
     @Before

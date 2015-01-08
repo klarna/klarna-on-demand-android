@@ -1,12 +1,16 @@
 package com.klarna.ondemand;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.robolectric.annotation.Config;
 
 import java.util.Locale;
 
+@RunWith(PowerMockRunner.class)
+@Config(emulateSdk = 18)
 public class UrlHelperTest {
 
     String token = "my_token";
