@@ -20,7 +20,13 @@ android {
     }
 }
 
+apply plugin: 'android-unit-test'
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':jockeyJSAndroid')
+    testCompile 'junit:junit:4.10'
+    testCompile 'org.robolectric:robolectric:2.4'
+    testCompile 'org.powermock:powermock-easymock-release-full:1.6.1'
+    testCompile 'org.easymock:easymock:3.3'
 }
