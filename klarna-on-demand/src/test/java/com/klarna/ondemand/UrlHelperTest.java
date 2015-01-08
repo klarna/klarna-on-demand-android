@@ -16,7 +16,6 @@ import java.util.Locale;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@Config(emulateSdk = 18)
 @PrepareForTest(Context.class)
 public class UrlHelperTest {
 
