@@ -15,7 +15,11 @@ public final class UrlHelper {
     }
 
     static String registrationUrl() {
-        return String.format("%s/registration/new?api_key=%s&locale=%s", baseUrl(), Context.getApiKey(), defaultLocale());
+        return String.format("%s/registration/new?api_key=%s&locale=%s&public_key=%s",
+                baseUrl(),
+                Context.getApiKey(),
+                defaultLocale(),
+                Crypto.getInstance().getPublicKeyBase64Str());
     }
 
     static String preferencesUrl(String token) {
