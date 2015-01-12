@@ -14,12 +14,12 @@ public final class UrlHelper {
         return KlarnaProductionUrl;
     }
 
-    static String registrationUrl() {
+    static String registrationUrl(android.content.Context context) {
         return String.format("%s/registration/new?api_key=%s&locale=%s&public_key=%s",
                 baseUrl(),
                 Context.getApiKey(),
                 defaultLocale(),
-                Crypto.getInstance().getPublicKeyBase64Str());
+                Crypto.getInstance(context).getPublicKeyBase64Str());
     }
 
     static String preferencesUrl(String token) {
