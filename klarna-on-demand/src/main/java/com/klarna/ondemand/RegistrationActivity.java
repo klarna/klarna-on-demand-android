@@ -14,7 +14,7 @@ public class RegistrationActivity extends WebViewActivity {
     public static final String EXTRA_USER_TOKEN = "userToken";
 
     @Override
-    protected String url() {
+    protected String getUrl() {
         return UrlHelper.registrationUrl();
     }
 
@@ -35,7 +35,7 @@ public class RegistrationActivity extends WebViewActivity {
     private void showDismissAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getTitle());
-        builder.setMessage("Are you sure you want to exit?");
+        builder.setMessage(R.string.DISMISS_ALERT_MESSAGE);
         builder.setCancelable(true);
 
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {

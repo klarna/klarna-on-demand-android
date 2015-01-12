@@ -16,7 +16,7 @@ public class PreferencesActivity extends WebViewActivity {
     public static final String EXTRA_USER_TOKEN = "userToken";
 
     @Override
-    protected String url() {
+    protected String getUrl() {
         String token = getIntent().getStringExtra(EXTRA_USER_TOKEN);
         if(token == null) {
             throw new IllegalStateException("EXTRA_USER_TOKEN is not set for preferences activity");
@@ -26,7 +26,7 @@ public class PreferencesActivity extends WebViewActivity {
 
     @Override
     protected void handleUserReadyEventWithPayload(Map<Object, Object> payload) {
-        webView.loadUrl(url());
+        webView.loadUrl(getUrl());
     }
 
     @Override

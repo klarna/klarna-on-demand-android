@@ -28,6 +28,8 @@ import static org.mockito.Mockito.spy;
 public class RegistrationActivityTest {
 
     private ActivityController<RegistrationActivity> registrationActivityController;
+    RegistrationActivity registrationActivity;
+
 
     @Before
     public void beforeEach() {
@@ -35,7 +37,7 @@ public class RegistrationActivityTest {
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).withIntent(intent);
-        RegistrationActivity registrationActivity = spy(registrationActivityController.get());
+        registrationActivity = spy(registrationActivityController.get());
     }
 
     @After
@@ -45,8 +47,6 @@ public class RegistrationActivityTest {
 
     @Test
     public void handleUserReadyEventWithPayload_ShouldCallFinishWithRESULTOK_WhenATokenIsReceived() {
-        RegistrationActivity registrationActivity = spy(registrationActivityController.get());
-
         registrationActivity.handleUserReadyEventWithPayload(new HashMap<Object,Object>(){{ put("userToken", "my_token"); }});
 
         Mockito.verify(registrationActivity).setResult(eq(Activity.RESULT_OK), any(Intent.class));
@@ -55,8 +55,6 @@ public class RegistrationActivityTest {
 
     @Test
     public void handleUserErrorEvent_ShouldCallFinishWithRESULTERROR() {
-        RegistrationActivity registrationActivity = spy(registrationActivityController.get());
-
         registrationActivity.handleUserErrorEvent();
 
         Mockito.verify(registrationActivity).setResult(eq(RegistrationActivity.RESULT_ERROR));
@@ -65,8 +63,6 @@ public class RegistrationActivityTest {
 
     @Test
     public void homeButtonPress_ShouldCallFinishWithRESULTCANCELED() {
-        RegistrationActivity registrationActivity = spy(registrationActivityController.get());
-
         MenuItem item = new TestMenuItem() {
             public int getItemId() {
                 return android.R.id.home;
