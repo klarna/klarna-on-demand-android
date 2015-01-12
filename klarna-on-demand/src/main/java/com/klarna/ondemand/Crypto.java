@@ -1,9 +1,11 @@
 package com.klarna.ondemand;
 
-import android.content.SharedPreferences;
+import android.content.*;
+import android.content.Context;
 import android.util.Base64;
 
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -17,123 +19,91 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 class Crypto {
-    static {
-       // Security.insertProviderAt(new org.spongycastle.jce.provider.BouncyCastleProvider(), 1);
-    }
+
+    public static final String PUBLIC_KEY = "PublicKey";
+    public static final String PRIVATE_KEY = "PrivateKey";
+    public static final String PREFERENCES_FILE_NAME = "KeyPair";
+    public static final String ALGORITHM = "RSA";
 
     private static Crypto objCrypto;
-    private String publicKeyBase64Str;
-    private SharedPreferences.Editor sharedPreferencesEditor;
-    private SharedPreferences sharedPerfernces;
-    private android.content.Context context;
 
+    private String publicKeyBase64Str;
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
 
     protected static Crypto getInstance(android.content.Context context) {
-        if (objCrypto == null)
-        {
-            objCrypto = new Crypto(context);
+        if (objCrypto == null) {
+            try {
+                objCrypto = new Crypto(context);
+            } catch (Exception e) {
+                throw new RuntimeException("Could not initialize " + Crypto.class.getName(), e);
+            }
         }
         return objCrypto;
     }
 
-    private Crypto(android.content.Context context) {
-        try {
-            this.context = context;
-            sharedPerfernces = context.getSharedPreferences("KeyPair", android.content.Context.MODE_PRIVATE);
-            sharedPreferencesEditor = sharedPerfernces.edit();
+    private Crypto(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
 
-            publicKey = getPublicKey();
-            privateKey = getPrivateKey();
+        publicKey = readPublicKey(sharedPreferences);
+        privateKey = readPrivateKey(sharedPreferences);
+        if (publicKey == null || privateKey == null) {
+            KeyPair keyPair = generateKeyPair();
+            publicKey = keyPair.getPublic();
+            privateKey = keyPair.getPrivate();
 
-            if (publicKey == null || privateKey == null) {
-                KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-                kpg.initialize(512);
-                KeyPair kp = kpg.genKeyPair();
-                publicKey = kp.getPublic();
-                privateKey = kp.getPrivate();
-
-                byte[] publicKeyBytes = publicKey.getEncoded();
-                String pubKeyStr = new String(Base64.encode(publicKeyBytes, Base64.DEFAULT));
-                byte[] privKeyBytes = privateKey.getEncoded();
-                String privKeyStr = new String(Base64.encode(privKeyBytes, Base64.DEFAULT));
-
-
-
-                sharedPreferencesEditor.putString("PublicKey", pubKeyStr);
-                sharedPreferencesEditor.putString("PrivateKey", privKeyStr);
-                sharedPreferencesEditor.commit();
-            }
-            publicKeyBase64Str =  new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
-            String bla = sign("blabla");
-            System.out.print(getPublicKeyBase64Str());
-            System.out.println("##################################");
-            System.out.println(bla);
-            System.out.println();
-        } catch (Exception e) {
-            e.printStackTrace();
+            persistKeyPair(sharedPreferences, keyPair);
         }
 
+        publicKeyBase64Str = new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
     }
 
     protected String getPublicKeyBase64Str() {
-        System.out.print(publicKeyBase64Str);
         return publicKeyBase64Str;
     }
 
-    protected String sign(String message){
-        try {
-            Signature sign = Signature.getInstance("SHA256withRSA");
-            sign.initSign(privateKey);
-            sign.update(message.getBytes());
-            return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
-        } catch (InvalidKeyException e) {
-            e.printStackTrace();
-        } catch (SignatureException e) {
-            e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-
+    protected String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        Signature sign = Signature.getInstance("SHA256withRSA");
+        sign.initSign(privateKey);
+        sign.update(message.getBytes());
+        return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
     }
 
-    private PublicKey getPublicKey(){
-        String pubKeyStr = sharedPerfernces.getString("PublicKey", "");
+    private void persistKeyPair(SharedPreferences sharedPreferences, KeyPair keyPair) {
+        SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
+
+        persistKey(sharedPreferencesEditor, PUBLIC_KEY, keyPair.getPublic());
+        persistKey(sharedPreferencesEditor, PRIVATE_KEY, keyPair.getPrivate());
+
+        sharedPreferencesEditor.commit();
+    }
+
+    private void persistKey(SharedPreferences.Editor sharedPreferencesEditor, String keyName, Key key) {
+        byte[] keyBytes = key.getEncoded();
+        String keyStr = new String(Base64.encode(keyBytes, Base64.DEFAULT));
+        sharedPreferencesEditor.putString(keyName, keyStr);
+    }
+
+    private KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
+        kpg.initialize(512);
+        return kpg.genKeyPair();
+    }
+
+    private PublicKey readPublicKey(SharedPreferences sharedPerfernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String pubKeyStr = sharedPerfernces.getString(PUBLIC_KEY, "");
         byte[] sigBytes = Base64.decode(pubKeyStr, Base64.DEFAULT);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(sigBytes);
-        KeyFactory keyFact = null;
-        try {
-            keyFact = KeyFactory.getInstance("RSA");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        try {
-            return  keyFact.generatePublic(x509KeySpec);
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        return null;
+        KeyFactory keyFact = KeyFactory.getInstance(ALGORITHM);
+        return keyFact.generatePublic(x509KeySpec);
     }
 
-
-    private PrivateKey getPrivateKey(){
-        String privKeyStr = sharedPerfernces.getString("PrivateKey", "");
+    private PrivateKey readPrivateKey(SharedPreferences sharedPerfernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String privKeyStr = sharedPerfernces.getString(PRIVATE_KEY, "");
         byte[] sigBytes = Base64.decode(privKeyStr, Base64.DEFAULT);
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(sigBytes);
-        KeyFactory keyFact = null;
-        try {
-            keyFact = KeyFactory.getInstance("RSA");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        try {
-            return  keyFact.generatePrivate(pkcs8EncodedKeySpec);
-        } catch (InvalidKeySpecException e) {
-            e.printStackTrace();
-        }
-        return null;
+        KeyFactory keyFact = KeyFactory.getInstance(ALGORITHM);
+        return keyFact.generatePrivate(pkcs8EncodedKeySpec);
     }
 }
