@@ -92,7 +92,10 @@ class Crypto {
     }
 
     private PublicKey readPublicKey(SharedPreferences sharedPerfernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String pubKeyStr = sharedPerfernces.getString(PUBLIC_KEY, "");
+        String pubKeyStr = sharedPerfernces.getString(PUBLIC_KEY, null);
+        if (pubKeyStr == null) {
+            return null;
+        }
         byte[] sigBytes = Base64.decode(pubKeyStr, Base64.DEFAULT);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(sigBytes);
         KeyFactory keyFact = KeyFactory.getInstance(ALGORITHM);
@@ -100,7 +103,10 @@ class Crypto {
     }
 
     private PrivateKey readPrivateKey(SharedPreferences sharedPerfernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String privKeyStr = sharedPerfernces.getString(PRIVATE_KEY, "");
+        String privKeyStr = sharedPerfernces.getString(PRIVATE_KEY, null);
+        if (privKeyStr == null) {
+            return null;
+        }
         byte[] sigBytes = Base64.decode(privKeyStr, Base64.DEFAULT);
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(sigBytes);
         KeyFactory keyFact = KeyFactory.getInstance(ALGORITHM);
