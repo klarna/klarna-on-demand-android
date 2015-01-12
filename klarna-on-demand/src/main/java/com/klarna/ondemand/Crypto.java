@@ -1,31 +1,20 @@
 package com.klarna.ondemand;
 
 import android.content.SharedPreferences;
-import android.security.KeyPairGeneratorSpec;
 import android.util.Base64;
-import android.util.Log;
 
-import org.spongycastle.util.io.pem.PemObject;
-import org.spongycastle.util.io.pem.PemWriter;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.security.InvalidKeyException;
 import java.security.KeyFactory;
-import java.security.KeyPairGenerator;
 import java.security.KeyPair;
-import java.security.KeyStore;
-import java.security.KeyStoreException;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Security;
-import java.security.cert.CertificateException;
+import java.security.Signature;
+import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Enumeration;
 
 class Crypto {
     static {
@@ -33,6 +22,7 @@ class Crypto {
     }
 
     private static Crypto objCrypto;
+    private String publicKeyBase64Str;
     private SharedPreferences.Editor sharedPreferencesEditor;
     private SharedPreferences sharedPerfernces;
     private android.content.Context context;
@@ -71,39 +61,46 @@ class Crypto {
                 String privKeyStr = new String(Base64.encode(privKeyBytes, Base64.DEFAULT));
 
 
-                System.out.print(pubKeyStr);
-                getPublicKeyBase64Str();
-
-
 
                 sharedPreferencesEditor.putString("PublicKey", pubKeyStr);
                 sharedPreferencesEditor.putString("PrivateKey", privKeyStr);
                 sharedPreferencesEditor.commit();
             }
-
-
-
+            publicKeyBase64Str =  new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
+            String bla = sign("blabla");
+            System.out.print(getPublicKeyBase64Str());
+            System.out.println("##################################");
+            System.out.println(bla);
+            System.out.println();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    public String getPublicKeyBase64Str() {
-        StringWriter writer = new StringWriter();
-        PemWriter pemWriter = new PemWriter(writer);
-        try {
-            pemWriter.writeObject(new PemObject("RSA PUBLIC KEY", publicKey.getEncoded()));
-            pemWriter.flush();
-            pemWriter.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.print(writer.toString());
-        return writer.toString();
+    protected String getPublicKeyBase64Str() {
+        System.out.print(publicKeyBase64Str);
+        return publicKeyBase64Str;
     }
 
-    public PublicKey getPublicKey(){
+    protected String sign(String message){
+        try {
+            Signature sign = Signature.getInstance("SHA256withRSA");
+            sign.initSign(privateKey);
+            sign.update(message.getBytes());
+            return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
+        } catch (InvalidKeyException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    private PublicKey getPublicKey(){
         String pubKeyStr = sharedPerfernces.getString("PublicKey", "");
         byte[] sigBytes = Base64.decode(pubKeyStr, Base64.DEFAULT);
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(sigBytes);
@@ -122,7 +119,7 @@ class Crypto {
     }
 
 
-    public PrivateKey getPrivateKey(){
+    private PrivateKey getPrivateKey(){
         String privKeyStr = sharedPerfernces.getString("PrivateKey", "");
         byte[] sigBytes = Base64.decode(privKeyStr, Base64.DEFAULT);
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(sigBytes);

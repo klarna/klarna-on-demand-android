@@ -39,10 +39,5 @@ dependencies {
 
     androidTestCompile 'org.easymock:easymock:3.3'
 
-    compile ('com.madgag.spongycastle:core:1.50.0.0')
-    compile ('com.madgag.spongycastle:prov:1.50.0.0')
-    compile ('com.madgag.spongycastle:pkix:1.50.0.0')
-    compile ('com.madgag.spongycastle:pg:1.50.0.0')
-
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
