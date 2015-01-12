@@ -47,15 +47,11 @@ public abstract class WebViewActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
+            setResult(homeButtonResultCode());
             finish();
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        showDismissAlert();
     }
 
     @Override
@@ -65,6 +61,8 @@ public abstract class WebViewActivity extends Activity {
 
         super.onDestroy();
     }
+
+    protected abstract int homeButtonResultCode();
 
     protected abstract String url();
 
@@ -82,7 +80,6 @@ public abstract class WebViewActivity extends Activity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
                 return false;
             }
 
@@ -123,27 +120,5 @@ public abstract class WebViewActivity extends Activity {
                 handleUserErrorEvent();
             }
         });
-    }
-
-    private void showDismissAlert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(this.getTitle());
-        builder.setMessage("Are you sure you want to exit?");
-        builder.setCancelable(true);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-            }
-        });
-
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 }

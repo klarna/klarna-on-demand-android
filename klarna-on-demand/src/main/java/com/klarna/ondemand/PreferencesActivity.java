@@ -28,4 +28,15 @@ public class PreferencesActivity extends WebViewActivity {
     protected void handleUserReadyEventWithPayload(Map<Object, Object> payload) {
         webView.loadUrl(url());
     }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    @Override
+    protected int homeButtonResultCode() {
+        return RESULT_OK;
+    }
 }
