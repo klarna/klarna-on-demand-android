@@ -32,7 +32,7 @@ Simply clone the project repository and follow these steps:
 4. The application is now installed on all connected devices. Run it.
 
 ### Running a local server
-While the instructions above will get the application up and running, you will not be able to successfully perform purchases without a backend for the application to interact with. You should go [here](https://github.com/klarna/sample-app-backend) and follow the instructions provided to get a sample backend running on your local machine.
+While the instructions above will get the application up and running, you will not be able to successfully perform purchases without a backend for the application to interact with. You should go [here](https://github.com/klarna/sample-ondemand-backend) and follow the instructions provided to get a sample backend running on your local machine.
 
 <a name="below"></a>
 Since the sample application expects the server to be running on the same "machine", you will not be able to see a fully functional application running on a physical device. We recommend running the sample application on an emulator, such as [Genymotion](https://www.genymotion.com).
