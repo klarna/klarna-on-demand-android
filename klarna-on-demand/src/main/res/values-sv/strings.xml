@@ -2,4 +2,6 @@
 <resources>
     <string name="TITLE_ACTIVITY_REGISTRATION">Betalinformation</string>
     <string name="LOADING_SPINNER">Laddar ...</string>
+    <string name="TITLE_ACTIVITY_PREFERENCES">Välj Betalsätt</string>
+    <string name="DISMISS_ALERT_MESSAGE">Är du säker på att du vill avsluta?</string>
 </resources>

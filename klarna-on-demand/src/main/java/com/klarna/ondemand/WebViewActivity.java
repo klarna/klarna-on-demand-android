@@ -10,11 +10,20 @@ import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.jockeyjs.Jockey;
+import com.jockeyjs.JockeyHandler;
+import com.jockeyjs.JockeyImpl;
+
+import java.util.Map;
 
 public abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
-    private WebView webView;
+    protected WebView webView;
+    private WebViewClient webViewClient;
+    private Jockey jockey;
+
+    public static final int RESULT_ERROR = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +31,15 @@ public abstract class WebViewActivity extends Activity {
 
         setContentView(R.layout.activity_webview);
 
-        webView = initializeWebView();
+        webView = (WebView) findViewById(R.id.webView);
 
         addSpinner();
 
         initializeActionBar();
+
+        initializeWebView();
+
+        registerJockeyEvents();
 
         webView.loadUrl(getUrl());
     }
@@ -34,6 +47,7 @@ public abstract class WebViewActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == android.R.id.home) {
+            setResult(homeButtonResultCode());
             finish();
         }
 
@@ -41,22 +55,31 @@ public abstract class WebViewActivity extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
-        showDismissAlert();
+    protected void onDestroy() {
+        jockey.off("userReady");
+        jockey.off("userError");
+
+        super.onDestroy();
     }
+
+    protected abstract int homeButtonResultCode();
 
     protected abstract String getUrl();
 
-    private WebView initializeWebView() {
-        WebView webView = (WebView) findViewById(R.id.webView);
+    protected abstract void handleUserReadyEventWithPayload(Map<Object, Object> payload);
 
+    protected void handleUserErrorEvent() {
+        setResult(RESULT_ERROR);
+        finish();
+    }
+
+    private void initializeWebView() {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.clearCache(true);
-        webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(webViewClient = new WebViewClient() {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
                 return false;
             }
 
@@ -65,8 +88,6 @@ public abstract class WebViewActivity extends Activity {
                 progressDialog.dismiss();
             }
         });
-
-        return webView;
     }
     
     private void addSpinner() {
@@ -81,25 +102,23 @@ public abstract class WebViewActivity extends Activity {
         actionBar.setHomeButtonEnabled(true);
     }
 
-    private void showDismissAlert() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(this.getTitle());
-        builder.setMessage("Are you sure you want to exit?");
-        builder.setCancelable(true);
+    private void registerJockeyEvents() {
+        jockey = JockeyImpl.getDefault();
+        jockey.configure(webView);
+        jockey.setWebViewClient(webViewClient);
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
+        jockey.on("userReady", new JockeyHandler() {
+            @Override
+            protected void doPerform(Map<Object, Object> payload) {
+                handleUserReadyEventWithPayload(payload);
             }
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
+        jockey.on("userError", new JockeyHandler() {
+            @Override
+            protected void doPerform(Map<Object, Object> payload) {
+                handleUserErrorEvent();
             }
         });
-
-        AlertDialog alert = builder.create();
-        alert.show();
     }
 }
