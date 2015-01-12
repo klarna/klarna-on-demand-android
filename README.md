@@ -5,6 +5,8 @@ Klarna on-demand allows you to integrate Klarna's payment solution in mobile app
 
 This project contains Klarna's on-demand purchase SDK for Android 4+, as well as a sample application utilizing the SDK.
 
+**Note:** This project is still a work in progress, and as such the documentation may be behind (or ahead) what is currently implemented.
+
 ![It's Klarna in your App](screenshot.png)
 
 While not necessary, the simplest way to get going with both the sample application and the SDK is to use [Gradle](https://www.gradle.org/) and so all the following instructions will focus on that approach. For an alternative approach, see the [official documentation (coming soon)](http://developers.klarna.com).
