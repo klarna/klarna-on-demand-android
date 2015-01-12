@@ -17,14 +17,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    sourceSets {
+        androidTest.setRoot('src/test')
+    }
 }
 
 apply plugin: 'android-unit-test'
 
 dependencies {
+    testCompile 'junit:junit:4.11'
+    testCompile 'org.mockito:mockito-all:1.9.0'
+    testCompile 'org.robolectric:robolectric:2.4'
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':jockeyJSAndroid')
-    testCompile 'org.powermock:powermock-mockito-release-full:1.6.1'
-    testCompile 'junit:junit:4.10'
-    testCompile 'org.robolectric:robolectric:2.4'
 }
