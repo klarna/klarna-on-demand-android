@@ -31,5 +31,5 @@ Thumbs.db
 .gradle
 build/
 
-# gradle properties\
+# gradle properties
 gradle.properties
