@@ -26,10 +26,15 @@ android {
 apply plugin: 'android-unit-test'
 
 dependencies {
-    testCompile 'junit:junit:4.11'
-    testCompile 'org.mockito:mockito-all:1.9.0'
+    testCompile('junit:junit:4.12')
     testCompile 'org.robolectric:robolectric:2.4'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(':jockeyJSAndroid')
+
+    testCompile 'org.powermock:powermock-api-mockito:1.5.6'
+    testCompile 'org.powermock:powermock-module-junit4:1.5.6'
+    testCompile 'org.powermock:powermock-module-junit4-rule:1.5.6'
+    testCompile 'org.powermock:powermock-classloading-xstream:1.5.6'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
 }

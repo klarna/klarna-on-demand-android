@@ -1,5 +1,8 @@
 package com.klarna.ondemand;
 
+import com.jockeyjs.Jockey;
+import com.jockeyjs.JockeyImpl;
+
 import junit.framework.Assert;
 
 import java.util.Map;
@@ -26,7 +29,7 @@ public class PreferencesActivity extends WebViewActivity {
 
     @Override
     protected void handleUserReadyEventWithPayload(Map<Object, Object> payload) {
-        webView.loadUrl(getUrl());
+        getWebView().loadUrl(getUrl());
     }
 
     @Override

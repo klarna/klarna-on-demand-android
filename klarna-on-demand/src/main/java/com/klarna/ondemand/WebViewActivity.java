@@ -19,7 +19,6 @@ import java.util.Map;
 public abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
-    protected WebView webView;
     private WebViewClient webViewClient;
     private Jockey jockey;
 
@@ -31,8 +30,6 @@ public abstract class WebViewActivity extends Activity {
 
         setContentView(R.layout.activity_webview);
 
-        webView = (WebView) findViewById(R.id.webView);
-
         addSpinner();
 
         initializeActionBar();
@@ -41,7 +38,7 @@ public abstract class WebViewActivity extends Activity {
 
         registerJockeyEvents();
 
-        webView.loadUrl(getUrl());
+        getWebView().loadUrl(getUrl());
     }
 
     @Override
@@ -73,7 +70,13 @@ public abstract class WebViewActivity extends Activity {
         finish();
     }
 
+    protected WebView getWebView() {
+        return (WebView) findViewById(R.id.webView);
+    }
+
     private void initializeWebView() {
+        WebView webView = getWebView();
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.clearCache(true);
         webView.setWebViewClient(webViewClient = new WebViewClient() {
@@ -104,7 +107,7 @@ public abstract class WebViewActivity extends Activity {
 
     private void registerJockeyEvents() {
         jockey = JockeyImpl.getDefault();
-        jockey.configure(webView);
+        jockey.configure(getWebView());
         jockey.setWebViewClient(webViewClient);
 
         jockey.on("userReady", new JockeyHandler() {
