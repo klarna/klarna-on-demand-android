@@ -11,6 +11,10 @@ import java.util.Map;
  */
 public class RegistrationActivity extends WebViewActivity {
 
+    /**
+     * Extra item that is returned by the activity when the registration finishes.
+     * This item uniquely identifies the user at Klarna.
+     */
     public static final String EXTRA_USER_TOKEN = "userToken";
 
     @Override
@@ -19,7 +23,7 @@ public class RegistrationActivity extends WebViewActivity {
     }
 
     @Override
-    protected void handleUserReadyEventWithPayload(Map<Object, Object> payload) {
+    protected void handleUserReadyEvent(Map<Object, Object> payload) {
         String token = (String) payload.get("userToken");
         Intent result = new Intent();
         result.putExtra(EXTRA_USER_TOKEN, token);
@@ -32,19 +36,19 @@ public class RegistrationActivity extends WebViewActivity {
         showDismissAlert();
     }
 
-    private void showDismissAlert() {
+    protected void showDismissAlert() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(this.getTitle());
         builder.setMessage(R.string.DISMISS_ALERT_MESSAGE);
         builder.setCancelable(true);
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.DISMISS_ALERT_POSITIVE_BUTTON_TEXT), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 finish();
             }
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.DISMISS_ALERT_NEGATIVE_BUTTON_TEXT), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }

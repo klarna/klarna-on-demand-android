@@ -1,6 +1,7 @@
 package com.klarna.example;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -36,7 +37,9 @@ public class MainActivity extends Activity {
                     findViewById(R.id.preferencesButton).setVisibility(View.VISIBLE);
                     break;
                 case RegistrationActivity.RESULT_CANCELED:
+                    break;
                 case RegistrationActivity.RESULT_ERROR:
+                    // You may want to convey this failure to your user.
                     break;
                 default:
                     break;
@@ -45,7 +48,9 @@ public class MainActivity extends Activity {
         else if(requestCode == PREFERENCES_REQUEST_CODE) {
             switch(resultCode) {
                 case PreferencesActivity.RESULT_OK:
+                    break;
                 case PreferencesActivity.RESULT_ERROR:
+                    // You may also want to convey this failure to your user.
                     break;
                 default:
                     break;
@@ -67,17 +72,18 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, PreferencesActivity.class);
         intent.putExtra(PreferencesActivity.EXTRA_USER_TOKEN, getUserToken());
         startActivityForResult(intent, PREFERENCES_REQUEST_CODE);
+
     }
 
     private void saveUserToken(String token) {
-        SharedPreferences preferences = getPreferences(0);
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(USER_TOKEN_KEY, token);
         editor.commit();
     }
 
     private String getUserToken() {
-        SharedPreferences preferences = getPreferences(0);
+        SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         String token = preferences.getString(USER_TOKEN_KEY, null);
         return token;
     }

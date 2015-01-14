@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.view.MenuItem;
 import android.webkit.WebView;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.mockito.Mockito;
-import org.mockito.configuration.DefaultMockitoConfiguration;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -23,6 +20,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.tester.android.view.TestMenuItem;
 import org.robolectric.util.ActivityController;
 
+import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
@@ -33,44 +31,40 @@ public class PreferencesActivityTest {
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
-    private PreferencesActivity preferencesActivity;
     private ActivityController<PreferencesActivity> preferencesActivityController;
+    private PreferencesActivity preferencesActivity;
 
     @Before
     public void beforeEach() {
         PowerMockito.mockStatic(Context.class);
-        Mockito.when(Context.getApiKey()).thenReturn("test_skadoo");
+        when(Context.getApiKey()).thenReturn("test_skadoo");
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.putExtra(preferencesActivity.EXTRA_USER_TOKEN, "my_token");
         preferencesActivityController = Robolectric.buildActivity(PreferencesActivity.class).withIntent(intent).create();
+        preferencesActivity = spy(preferencesActivityController.get());
     }
 
     @Test
-    public void handleUserErrorEvent_ShouldCallFinishWithRESULTERROR() {
-        PreferencesActivity preferencesActivity = Mockito.spy(preferencesActivityController.get());
-
+    public void handleUserErrorEvent_ShouldCallFinishWithResultError() {
         preferencesActivity.handleUserErrorEvent();
 
-        Mockito.verify(preferencesActivity).setResult(RegistrationActivity.RESULT_ERROR);
-        Mockito.verify(preferencesActivity).finish();
+        verify(preferencesActivity).setResult(RegistrationActivity.RESULT_ERROR);
+        verify(preferencesActivity).finish();
     }
 
     @Test
-    public void handleUserReadyEventWithPayload_ShouldLoadPreferencesUrl() {
-        WebView webView = Mockito.mock(WebView.class);
-        PreferencesActivity preferencesActivity = Mockito.spy(preferencesActivityController.get());
-        Mockito.when(preferencesActivity.getWebView()).thenReturn(webView);
+    public void handleUserReadyEvent_ShouldLoadPreferencesUrl() {
+        WebView webView = mock(WebView.class);
+        when(preferencesActivity.getWebView()).thenReturn(webView);
 
-        preferencesActivity.handleUserReadyEventWithPayload(null);
+        preferencesActivity.handleUserReadyEvent(null);
 
-        Mockito.verify(webView).loadUrl(UrlHelper.preferencesUrl("my_token"));
+        verify(webView).loadUrl(UrlHelper.preferencesUrl("my_token"));
     }
 
     @Test
-    public void homeButtonPress_ShouldCallFinishWithRESULTCANCELED() {
-        PreferencesActivity preferencesActivity = Mockito.spy(preferencesActivityController.get());
-
+    public void homeButtonPress_ShouldCallFinishWithResultCanceled() {
         MenuItem item = new TestMenuItem() {
             public int getItemId() {
                 return android.R.id.home;
@@ -78,17 +72,15 @@ public class PreferencesActivityTest {
         };
         preferencesActivity.onOptionsItemSelected(item);
 
-        Mockito.verify(preferencesActivity).setResult(RegistrationActivity.RESULT_OK);
-        Mockito.verify(preferencesActivity).finish();
+        verify(preferencesActivity).setResult(RegistrationActivity.RESULT_OK);
+        verify(preferencesActivity).finish();
     }
 
     @Test
-    public void backButtonPress_ShouldCallFinishWithRESULTOK() {
-        PreferencesActivity preferencesActivity = Mockito.spy(preferencesActivityController.get());
-
+    public void backButtonPress_ShouldCallFinishWithResultOK() {
         preferencesActivity.onBackPressed();
 
-        Mockito.verify(preferencesActivity).setResult(RegistrationActivity.RESULT_OK);
-        Mockito.verify(preferencesActivity).finish();
+        verify(preferencesActivity).setResult(RegistrationActivity.RESULT_OK);
+        verify(preferencesActivity).finish();
     }
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 public class PreferencesActivity extends WebViewActivity {
 
     /**
-     * Token that uniquely identifies the user.
+     * Token that uniquely identifies the user at Klarna.
      * This extra item is required.
      */
     public static final String EXTRA_USER_TOKEN = "userToken";
@@ -28,7 +28,7 @@ public class PreferencesActivity extends WebViewActivity {
     }
 
     @Override
-    protected void handleUserReadyEventWithPayload(Map<Object, Object> payload) {
+    protected void handleUserReadyEvent(Map<Object, Object> payload) {
         getWebView().loadUrl(getUrl());
     }
 

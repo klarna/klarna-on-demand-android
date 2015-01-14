@@ -4,9 +4,6 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
 
 public class ContextTest {
 
@@ -14,7 +11,7 @@ public class ContextTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void setApiKey() {
+    public void setApiKey_ShouldReturnThePreviouslySetApiKey() {
         String apiKey = "my_key";
         Context.setApiKey(apiKey);
         Assert.assertEquals(Context.getApiKey(), apiKey);
@@ -22,7 +19,7 @@ public class ContextTest {
     }
 
     @Test
-    public void getApiKeyShouldThrowExceptionWhenThereIsNoApiKey() {
+    public void getApiKey_ShouldThrowExceptionWhenThereIsNoApiKey() {
         thrown.expect(RuntimeException.class);
         thrown.expectMessage("You must set the API key first.");
 
