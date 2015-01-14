@@ -61,7 +61,7 @@ public class UrlHelperTest {
     //region .PreferencesUrlWithToken
     @Test
     public void preferencesUrlWithToken_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        String expectedPrefix = String.format("%s%s%s", "https://inapp.playground.klarna.com/users/", token, "/preferences");
+        String expectedPrefix = "https://inapp.playground.klarna.com/users/" + token + "/preferences";
         Assert.assertTrue(UrlHelper.preferencesUrl(token).startsWith(expectedPrefix));
     }
 
@@ -70,7 +70,7 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("skadoo");
 
-        String expectedPrefix = String.format("%s%s%s", "https://inapp.klarna.com/users/", token, "/preferences");
+        String expectedPrefix = "https://inapp.klarna.com/users/" + token +"/preferences";
         Assert.assertTrue(UrlHelper.preferencesUrl(token).startsWith(expectedPrefix));
     }
 
