@@ -1,5 +1,5 @@
 # Klarna on Demand
-[![Build Status](https://travis-ci.org/yuval-netanel/klarna-on-demand-android.svg?branch=master)](https://travis-ci.org/yuval-netanel/klarna-on-demand-android)
+[![Build Status](https://travis-ci.org/klarna/klarna-on-demand-android.svg?branch=master)](https://travis-ci.org/klarna/klarna-on-demand-android)
 
 Klarna on-demand allows you to integrate Klarna's payment solution in mobile apps that offer on demand services. It's a perfect fit for apps selling concert tickets, taxi rides, food pick-ups, etc.
 
