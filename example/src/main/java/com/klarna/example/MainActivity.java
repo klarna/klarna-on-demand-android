@@ -23,7 +23,7 @@ public class MainActivity extends Activity {
 
         com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
 
-        initializeUIElements();
+        updateUIElements();
     }
 
     @Override
@@ -33,8 +33,7 @@ public class MainActivity extends Activity {
                 case RegistrationActivity.RESULT_OK:
                     String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
                     saveUserToken(token);
-                    findViewById(R.id.registerButton).setVisibility(View.INVISIBLE);
-                    findViewById(R.id.preferencesButton).setVisibility(View.VISIBLE);
+                    updateUIElements();
                     break;
                 case RegistrationActivity.RESULT_CANCELED:
                     break;
@@ -58,7 +57,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void initializeUIElements() {
+    private void updateUIElements() {
         findViewById(R.id.registerButton).setVisibility(hasUserToken() == false ? View.VISIBLE : View.INVISIBLE);
         findViewById(R.id.preferencesButton).setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
     }
