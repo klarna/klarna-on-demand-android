@@ -19,6 +19,7 @@ public abstract class WebViewActivity extends Activity {
     private ProgressDialog progressDialog;
     private WebViewClient webViewClient;
     private Jockey jockey;
+    private WebView webView;
 
     private static final String USER_READY_EVENT_IDENTIFIER = "userReady";
     private static final String USER_ERROR_EVENT_IDENTIFIER = "userError";
@@ -71,7 +72,10 @@ public abstract class WebViewActivity extends Activity {
     }
 
     protected WebView getWebView() {
-        return (WebView) findViewById(R.id.webView);
+        if(webView == null) {
+            webView = (WebView) findViewById(R.id.webView);
+        }
+        return webView;
     }
 
     private void initializeWebView() {
