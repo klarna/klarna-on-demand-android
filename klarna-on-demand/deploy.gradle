@@ -30,6 +30,15 @@ signing {
     sign configurations.archives
 }
 
+// Fallback values for OSSRH credentials
+if (!project.hasProperty("ossrhUsername")) {
+    ext.ossrhUsername = ""
+}
+
+if (!project.hasProperty("ossrhPassword")) {
+    ext.ossrhPassword = ""
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {
