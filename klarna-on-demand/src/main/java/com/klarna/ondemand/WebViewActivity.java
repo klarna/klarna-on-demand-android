@@ -72,9 +72,10 @@ public abstract class WebViewActivity extends Activity {
     }
 
     protected WebView getWebView() {
-        if(webView == null) {
+        if (webView == null) {
             webView = (WebView) findViewById(R.id.webView);
         }
+
         return webView;
     }
 
