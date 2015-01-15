@@ -1,3 +1,6 @@
+apply plugin: 'maven'
+apply plugin: 'signing'
+
 // Add tasks for javadoc and source jar generation
 task androidJavadocs(type: Javadoc) {
     source = android.sourceSets.main.java.srcDirs
@@ -23,6 +26,7 @@ artifacts {
 
 // Define upload task
 signing {
+    required { gradle.startParameter.taskNames.contains("uploadArchives") }
     sign configurations.archives
 }
 
