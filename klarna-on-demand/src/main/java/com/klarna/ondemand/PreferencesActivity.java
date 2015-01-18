@@ -1,10 +1,5 @@
 package com.klarna.ondemand;
 
-import com.jockeyjs.Jockey;
-import com.jockeyjs.JockeyImpl;
-
-import junit.framework.Assert;
-
 import java.util.Map;
 
 /**

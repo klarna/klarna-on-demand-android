@@ -1,3 +1,2 @@
 include ':klarna-on-demand'
 include ':example'
-include ':jockeyJSAndroid'
