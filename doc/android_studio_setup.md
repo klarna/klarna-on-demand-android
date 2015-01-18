@@ -25,7 +25,7 @@ Please follow these steps in order to allow Android Studio to run and debug JUni
   * Click `OK`.
 
 
-## Running the tests:
+## Running the tests
   * Choose `All tests` as the active run-configuration.
   * Click `Run` (^ + R), or `Debug` (^ + D).
 
