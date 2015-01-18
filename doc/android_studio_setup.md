@@ -1,4 +1,4 @@
-## Setup JUnit environment on Android Studio
+## Setup JUnit4 environment on Android Studio
 
 Please follow these steps in order to allow Android Studio to run and debug JUnit4 tests:
 * Install 'Android Studio Unit Test' plugin:
@@ -25,7 +25,7 @@ Please follow these steps in order to allow Android Studio to run and debug JUni
   * Click `OK`.
 
 
-In order to run the tests:
+## Running the tests:
   * Choose `All tests` as the active run-configuration.
   * Click `Run` (^ + R), or `Debug` (^ + D).
 
