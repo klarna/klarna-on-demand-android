@@ -14,6 +14,7 @@ Please follow these steps in order to setup JUnit4 support on Android Studio:
   * Fill in the following fields:
     * Name: `Build test classes`.
     * Gradle project: `<project_dir>/klarna-on-demand/build.gradle`.
+    * Click: `Apply`.
   * Click on `+` (Plus) sign and choose: `JUnit`.
   * Fill in the following fields:
     * Name: `All Tests`.
