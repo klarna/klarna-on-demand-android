@@ -55,7 +55,7 @@ As per [running the application](#running_the_application).
 ### Tests
 Pull requests must include tests for their proposed fixes/functionality. We use [JUnit](http://junit.org/) to write our tests and you can find the tests themselves [here](klarna-on-demand/src/test/java/com/klarna/ondemand).
 
-If you're using Android Studio, use the [following guide](https://github.com/klarna/klarna-on-demand-android/blob/master/doc/android_studio_setup.md) in order to setup and run JUnit testing environment.
+If you're using Android Studio, use the [following guide](https://github.com/klarna/klarna-on-demand-android/blob/master/doc/android_studio_setup.md) in order to setup a JUnit testing environment.
 
 ## License
 Klarna on Demand is available under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for more info.
