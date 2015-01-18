@@ -2,9 +2,7 @@ package com.klarna.ondemand;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -19,10 +17,12 @@ import java.util.Map;
 public abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
-    protected WebView webView;
     private WebViewClient webViewClient;
     private Jockey jockey;
+    private WebView webView;
 
+    private static final String USER_READY_EVENT_IDENTIFIER = "userReady";
+    private static final String USER_ERROR_EVENT_IDENTIFIER = "userError";
     public static final int RESULT_ERROR = 1;
 
     @Override
@@ -30,8 +30,6 @@ public abstract class WebViewActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_webview);
-
-        webView = (WebView) findViewById(R.id.webView);
 
         addSpinner();
 
@@ -41,7 +39,7 @@ public abstract class WebViewActivity extends Activity {
 
         registerJockeyEvents();
 
-        webView.loadUrl(getUrl());
+        getWebView().loadUrl(getUrl());
     }
 
     @Override
@@ -56,8 +54,8 @@ public abstract class WebViewActivity extends Activity {
 
     @Override
     protected void onDestroy() {
-        jockey.off("userReady");
-        jockey.off("userError");
+        jockey.off(USER_READY_EVENT_IDENTIFIER);
+        jockey.off(USER_ERROR_EVENT_IDENTIFIER);
 
         super.onDestroy();
     }
@@ -66,14 +64,24 @@ public abstract class WebViewActivity extends Activity {
 
     protected abstract String getUrl();
 
-    protected abstract void handleUserReadyEventWithPayload(Map<Object, Object> payload);
+    protected abstract void handleUserReadyEvent(Map<Object, Object> payload);
 
     protected void handleUserErrorEvent() {
         setResult(RESULT_ERROR);
         finish();
     }
 
+    protected WebView getWebView() {
+        if (webView == null) {
+            webView = (WebView) findViewById(R.id.webView);
+        }
+
+        return webView;
+    }
+
     private void initializeWebView() {
+        WebView webView = getWebView();
+
         webView.getSettings().setJavaScriptEnabled(true);
         webView.clearCache(true);
         webView.setWebViewClient(webViewClient = new WebViewClient() {
@@ -104,17 +112,17 @@ public abstract class WebViewActivity extends Activity {
 
     private void registerJockeyEvents() {
         jockey = JockeyImpl.getDefault();
-        jockey.configure(webView);
+        jockey.configure(getWebView());
         jockey.setWebViewClient(webViewClient);
 
-        jockey.on("userReady", new JockeyHandler() {
+        jockey.on(USER_READY_EVENT_IDENTIFIER, new JockeyHandler() {
             @Override
             protected void doPerform(Map<Object, Object> payload) {
-                handleUserReadyEventWithPayload(payload);
+                handleUserReadyEvent(payload);
             }
         });
 
-        jockey.on("userError", new JockeyHandler() {
+        jockey.on(USER_ERROR_EVENT_IDENTIFIER, new JockeyHandler() {
             @Override
             protected void doPerform(Map<Object, Object> payload) {
                 handleUserErrorEvent();

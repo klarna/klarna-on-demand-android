@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.mockito.Mockito;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
@@ -21,48 +24,50 @@ import java.util.HashMap;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.*;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
+@PrepareForTest(Context.class)
+@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class RegistrationActivityTest {
 
-    private ActivityController<RegistrationActivity> registrationActivityController;
-    RegistrationActivity registrationActivity;
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
+    private ActivityController<RegistrationActivity> registrationActivityController;
+    private RegistrationActivity registrationActivity;
 
     @Before
     public void beforeEach() {
-        Context.setApiKey("test_skadoo");
+        PowerMockito.mockStatic(Context.class);
+        when(Context.getApiKey()).thenReturn("test_skadoo");
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).withIntent(intent);
+        registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).withIntent(intent).create();
         registrationActivity = spy(registrationActivityController.get());
     }
 
-    @After
-    public void afterEach() {
-        Context.setApiKey(null);
+    @Test
+    public void handleUserReadyEvent_ShouldCallFinishWithResultOk_WhenATokenIsReceived() {
+        registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
+            put("userToken", "my_token");
+        }});
+
+        verify(registrationActivity).setResult(eq(Activity.RESULT_OK), any(Intent.class));
+        verify(registrationActivity).finish();
     }
 
     @Test
-    public void handleUserReadyEventWithPayload_ShouldCallFinishWithRESULTOK_WhenATokenIsReceived() {
-        registrationActivity.handleUserReadyEventWithPayload(new HashMap<Object,Object>(){{ put("userToken", "my_token"); }});
-
-        Mockito.verify(registrationActivity).setResult(eq(Activity.RESULT_OK), any(Intent.class));
-        Mockito.verify(registrationActivity).finish();
-    }
-
-    @Test
-    public void handleUserErrorEvent_ShouldCallFinishWithRESULTERROR() {
+    public void handleUserErrorEvent_ShouldCallFinishWithResultError() {
         registrationActivity.handleUserErrorEvent();
 
-        Mockito.verify(registrationActivity).setResult(eq(RegistrationActivity.RESULT_ERROR));
-        Mockito.verify(registrationActivity).finish();
+        verify(registrationActivity).setResult(RegistrationActivity.RESULT_ERROR);
+        verify(registrationActivity).finish();
     }
 
     @Test
-    public void homeButtonPress_ShouldCallFinishWithRESULTCANCELED() {
+    public void homeButtonPress_ShouldCallFinishWithResultCanceled() {
         MenuItem item = new TestMenuItem() {
             public int getItemId() {
                 return android.R.id.home;
@@ -70,7 +75,14 @@ public class RegistrationActivityTest {
         };
         registrationActivity.onOptionsItemSelected(item);
 
-        Mockito.verify(registrationActivity).setResult(eq(RegistrationActivity.RESULT_CANCELED));
-        Mockito.verify(registrationActivity).finish();
+        verify(registrationActivity).setResult(RegistrationActivity.RESULT_CANCELED);
+        verify(registrationActivity).finish();
+    }
+
+    @Test
+    public void backButtonPress_ShouldCallShowDismissAlert() {
+        registrationActivity.onBackPressed();
+
+        verify(registrationActivity).showDismissAlert();
     }
 }

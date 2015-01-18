@@ -4,4 +4,6 @@
     <string name="LOADING_SPINNER">Laddar ...</string>
     <string name="TITLE_ACTIVITY_PREFERENCES">Välj Betalsätt</string>
     <string name="DISMISS_ALERT_MESSAGE">Är du säker på att du vill avsluta?</string>
+    <string name="DISMISS_ALERT_POSITIVE_BUTTON_TEXT">Ja</string>
+    <string name="DISMISS_ALERT_NEGATIVE_BUTTON_TEXT">Nej</string>
 </resources>
