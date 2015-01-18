@@ -1,11 +1,15 @@
 package com.klarna.example;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
+import com.klarna.ondemand.OriginProof;
 import com.klarna.ondemand.PreferencesActivity;
 import com.klarna.ondemand.RegistrationActivity;
 
@@ -60,6 +64,7 @@ public class MainActivity extends Activity {
     private void updateUIElements() {
         findViewById(R.id.registerButton).setVisibility(hasUserToken() == false ? View.VISIBLE : View.INVISIBLE);
         findViewById(R.id.preferencesButton).setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
+        findViewById(R.id.buyButton).setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void openKlarnaRegistration(View view) {
@@ -71,6 +76,18 @@ public class MainActivity extends Activity {
         Intent intent = new Intent(this, PreferencesActivity.class);
         intent.putExtra(PreferencesActivity.EXTRA_USER_TOKEN, getUserToken());
         startActivityForResult(intent, PREFERENCES_REQUEST_CODE);
+
+    }
+
+    public void onBuy(View view) {
+        String originProof = new OriginProof(getApplicationContext()).generate(3600, "SEK", getUserToken());
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("origin proof");
+        builder.setMessage(originProof);
+
+        AlertDialog alert = builder.create();
+        alert.show();
 
     }
 

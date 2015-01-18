@@ -19,4 +19,15 @@
         android:layout_below="@+id/registerButton"
         android:layout_centerHorizontal="true"
         android:onClick="openKlarnaPreferences" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buy"
+        android:id="@+id/buyButton"
+        android:layout_gravity="center_horizontal|top"
+        android:onClick="onBuy"
+        android:layout_below="@+id/preferencesButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp" />
 </RelativeLayout>

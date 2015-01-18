@@ -19,7 +19,7 @@ final class UrlHelper {
                 baseUrl(),
                 Context.getApiKey(),
                 defaultLocale(),
-                Crypto.getInstance(context).getPublicKeyBase64Str());
+                CryptoImpl.getInstance(context).getPublicKeyBase64Str());
     }
 
     static String preferencesUrl(String token) {
