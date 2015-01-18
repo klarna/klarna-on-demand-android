@@ -1,4 +1,4 @@
-## How to setup JUnit4 tests on Android Studio
+## How to setup JUnit4 tests
 
 Please follow these steps in order to setup JUnit4 support on Android Studio:
 * Install 'Android Studio Unit Test' plugin:
