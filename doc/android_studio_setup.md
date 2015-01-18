@@ -1,6 +1,6 @@
-## Setup JUnit4 environment on Android Studio
+## How to setup JUnit4 tests on Android Studio
 
-Please follow these steps in order to allow Android Studio to run and debug JUnit4 tests:
+Please follow these steps in order to setup JUnit4 support on Android Studio:
 * Install 'Android Studio Unit Test' plugin:
   * On Android Studio, go to `Preferences`.
   * On the left panel, choose `Plugins`.
@@ -8,7 +8,7 @@ Please follow these steps in order to allow Android Studio to run and debug JUni
   * On the new opened window, search and choose `Android Studio Unit Test`.
   * Click `Install Plugin`.
   * When installation is finished, restart Android Studio.
-* Create a new JUnit test configuration:
+* Create a new JUnit test configuration for Klarna On Demand project:
   * Click `Run` menu-item, and then choose `Edit Configurations`.
   * Click on `+` (Plus) sign on the upper-left corner of the window, and choose: `Gradle`.
   * Fill in the following fields:
