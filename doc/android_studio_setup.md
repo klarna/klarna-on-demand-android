@@ -23,7 +23,8 @@ Please follow these steps in order to allow Android Studio to run and debug JUni
     * Working directory: `$MODULE_DIR$` (yes, write it with the dollar signs).
     * Use classpath of module: `klarna-on-demand`.
   * Click `OK`.
-  
+
+
 In order to run the tests:
   * Choose `All tests` as the active run-configuration.
   * Click `Run` (^ + R), or `Debug` (^ + D).
