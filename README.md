@@ -1,5 +1,6 @@
 # Klarna on Demand
 [![Build Status](https://travis-ci.org/klarna/klarna-on-demand-android.svg?branch=master)](https://travis-ci.org/klarna/klarna-on-demand-android)
+[![License](https://img.shields.io/cocoapods/l/Klarna-on-Demand.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 Klarna on-demand allows you to integrate Klarna's payment solution in mobile apps that offer on demand services. It's a perfect fit for apps selling concert tickets, taxi rides, food pick-ups, etc.
 
@@ -53,9 +54,9 @@ As per [running the application](#running_the_application).
 3. Get busy
 
 ### Tests
-Pull requests must include tests for their proposed fixes/functionality. We use [JUnit](http://junit.org/) to write our tests and you can find the tests themselves [here](klarna-on-demand/src/test/java/com/klarna/ondemand).
+Pull requests must include tests for their proposed fixes/functionality. We use [JUnit](http://junit.org/) to write our tests and you can find the tests themselves [here](src/test/java/com/klarna/ondemand).
 
-If you're using Android Studio, use the [following guide](https://github.com/klarna/klarna-on-demand-android/blob/master/doc/android_studio_setup.md) in order to setup a JUnit testing environment.
+Use the [following guide](doc/android_studio_setup.md) in order to setup a JUnit4 testing environment.
 
 ## License
 Klarna on Demand is available under the Apache 2.0 license. See the [LICENSE](./LICENSE) file for more info.

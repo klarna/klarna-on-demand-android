@@ -15,7 +15,7 @@ public final class Context {
     }
 
     /**
-     * Returns the API key set using setApiKey:.
+     * Returns the API key set using {@link #setApiKey(String) setApiKey}.
      * @return Merchant's public API key for this application.
      */
     protected static String getApiKey(){

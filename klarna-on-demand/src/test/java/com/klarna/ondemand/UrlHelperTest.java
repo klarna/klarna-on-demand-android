@@ -54,7 +54,7 @@ public class UrlHelperTest {
     }
 
     @Test
-    public void registrationUrl_ShouldReturnUrlWithSwedishLocale_WhenLocaleIsSwedish() {
+    public void registrationUrl_ShouldReturnUrlWithTheDefaultLocale() {
         Locale.setDefault(new Locale("my_locale"));
         android.content.Context context = Robolectric.application.getApplicationContext();
 
@@ -79,7 +79,7 @@ public class UrlHelperTest {
     }
 
     @Test
-    public void preferencesUrlWithToken_ShouldReturnUrlWithSwedishLocale_WhenLocaleIsSwedish() {
+    public void preferencesUrlWithToken_ShouldReturnUrlWithTheDefaultLocale() {
         Locale.setDefault(new Locale("my_locale"));
 
         Assert.assertTrue(UrlHelper.preferencesUrl(token).contains("locale=my_locale"));

@@ -31,7 +31,6 @@ import android.util.SparseArray;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.jockeyjs.JockeyHandler.OnCompletedListener;
 import com.jockeyjs.util.ForwardingWebViewClient;
 
 public abstract class JockeyImpl implements Jockey {
@@ -104,7 +103,7 @@ public abstract class JockeyImpl implements Jockey {
 		if (this.handles(type)) {
 			JockeyHandler handler = _listeners.get(type);
 
-			handler.perform(envelope.payload, new OnCompletedListener() {
+			handler.perform(envelope.payload, new JockeyHandler.OnCompletedListener() {
 				@Override
 				public void onCompleted() {
 					// This has to be done with a handler because a webview load
