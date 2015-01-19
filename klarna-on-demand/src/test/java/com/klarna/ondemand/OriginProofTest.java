@@ -48,7 +48,7 @@ public class OriginProofTest {
         Assert.assertTrue(data.getInt("amount") == 3600);
         Assert.assertTrue(data.getString("currency").equals("SEK"));
         Assert.assertTrue(data.getString("user_token").equals("my_token"));
-        Assert.assertTrue(data.getString("nonce") == "dd");
+        Assert.assertTrue(data.getString("id").equals("dd"));
     }
 
 }

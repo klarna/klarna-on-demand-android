@@ -2,9 +2,14 @@ package com.klarna.ondemand;
 
 import android.util.Base64;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONObject;
+
+import java.lang.reflect.Type;
+import java.util.Map;
 import java.util.UUID;
 
 public class OriginProof {
@@ -21,7 +26,7 @@ public class OriginProof {
                     .put("amount", amount)
                     .put("currency", currency)
                     .put("user_token", userToken)
-                    .put("nonce", UUID.randomUUID().toString());
+                    .put("id", UUID.randomUUID().toString());
             String signature = CryptoImpl.getInstance(context).sign(data.toString());
 
             JSONObject originProof = new JSONObject()
