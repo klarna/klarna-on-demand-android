@@ -3,7 +3,7 @@ package com.klarna.ondemand;
 /**
  * Manages the application-wide context for Klarna on Demand payments.
  */
-public class Context {
+public final class Context {
     private static String apiKey;
 
     /**

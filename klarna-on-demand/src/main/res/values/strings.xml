@@ -2,5 +2,8 @@
 <resources>
     <string name="TITLE_ACTIVITY_REGISTRATION">Payment Setup</string>
     <string name="LOADING_SPINNER">Loading ...</string>
+    <string name="TITLE_ACTIVITY_PREFERENCES">Payment Preferences</string>
     <string name="DISMISS_ALERT_MESSAGE">Are you sure you want to exit?</string>
+    <string name="DISMISS_ALERT_POSITIVE_BUTTON_TEXT">Yes</string>
+    <string name="DISMISS_ALERT_NEGATIVE_BUTTON_TEXT">No</string>
 </resources>
