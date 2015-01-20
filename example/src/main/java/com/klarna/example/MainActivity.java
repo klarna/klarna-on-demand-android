@@ -80,11 +80,11 @@ public class MainActivity extends Activity {
     }
 
     public void onBuy(View view) {
-        String originProof = new OriginProof(getApplicationContext()).generate(3600, "SEK", getUserToken());
+        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("origin proof");
-        builder.setMessage(originProof);
+        builder.setMessage(originProof.toString());
 
         AlertDialog alert = builder.create();
         alert.show();

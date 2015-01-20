@@ -2,8 +2,10 @@ package com.klarna.ondemand;
 
 import android.util.Base64;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +15,10 @@ import org.powermock.modules.junit4.rule.PowerMockRule;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SignatureException;
 
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
@@ -26,31 +32,55 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "org.json.*" })
 public class OriginProofTest {
 
-    private final String UUID_PATTERN = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
+    private static final String UUID_PATTERN = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
+    private android.content.Context context;
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
-    @Test
-    public void sign_shouldReturnAbase64EncodedJsonInTheCorrectFormat() throws Exception {
-        android.content.Context context = Robolectric.application.getApplicationContext();
+    @Before
+    public void init() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
+        context = Robolectric.application.getApplicationContext();
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenReturn("my_signature");
 
         mockStatic(CryptoImpl.class);
         when(CryptoImpl.getInstance(context)).thenReturn(cryptoMock);
+    }
 
-        String originProof = new OriginProof(context).generate(3600, "SEK", "my_token");
+    @Test
+    public void sign_shouldReturnAbase64EncodedJsonInTheCorrectFormat() throws Exception {
+        OriginProof originProof = new OriginProof(3600, "SEK", "my_token", context);
 
-        String decodeOriginProof = new String(Base64.decode(originProof, Base64.DEFAULT));
-        JSONObject originProofJson = new JSONObject(decodeOriginProof);
+        JSONObject originProofJson = getOriginProofJson(originProof);
         Assert.assertTrue(originProofJson.getString("signature").equals("my_signature"));
 
-        JSONObject data = new JSONObject(originProofJson.getString("data"));
+        JSONObject data = getDataJson(originProof);
         Assert.assertTrue(data.getInt("amount") == 3600);
         Assert.assertTrue(data.getString("currency").equals("SEK"));
         Assert.assertTrue(data.getString("user_token").equals("my_token"));
         Assert.assertTrue(data.getString("id").matches(UUID_PATTERN));
+    }
+
+    @Test
+    public void sign_generateDifferentIdForEachOrder() throws Exception {
+        OriginProof originProofA = new OriginProof(3600, "SEK", "my_token", context);
+        JSONObject dataA = getDataJson(originProofA);
+
+        OriginProof originProofB = new OriginProof(3600, "SEK", "my_token", context);
+        JSONObject dataB = getDataJson(originProofB);
+
+        Assert.assertFalse(dataA.getString("id").equals(dataB.getString("id")));
+    }
+
+    private JSONObject getOriginProofJson(OriginProof originProof) throws JSONException {
+        String decodeOriginProof = new String(Base64.decode(originProof.toString(), Base64.DEFAULT));
+        return new JSONObject(decodeOriginProof);
+    }
+
+    private JSONObject getDataJson(OriginProof originProof) throws JSONException {
+        JSONObject originProofJson = getOriginProofJson(originProof);
+        return new JSONObject(originProofJson.getString("data"));
     }
 
 }
