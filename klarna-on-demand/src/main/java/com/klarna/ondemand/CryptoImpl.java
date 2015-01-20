@@ -19,10 +19,10 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 class CryptoImpl implements Crypto {
-    public static final String PUBLIC_KEY = "PublicKey";
-    public static final String PRIVATE_KEY = "PrivateKey";
-    public static final String PREFERENCES_FILE_NAME = "KeyPair";
-    public static final String ALGORITHM = "RSA";
+    private static final String PUBLIC_KEY = "PublicKey";
+    private static final String PRIVATE_KEY = "PrivateKey";
+    private static final String PREFERENCES_FILE_NAME = "KeyPair";
+    private static final String ALGORITHM = "RSA";
 
     private static CryptoImpl objCrypto;
 

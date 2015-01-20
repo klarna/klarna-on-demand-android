@@ -4,6 +4,9 @@ import android.util.Base64;
 import org.json.JSONObject;
 import java.util.UUID;
 
+/**
+ * Assists in creating origin proofs that allow performing secure purchases.
+ */
 public class OriginProof {
 
     private final android.content.Context context;
@@ -13,6 +16,13 @@ public class OriginProof {
     private final UUID uuid;
     private final String originProofBase64Str;
 
+    /**
+     * Generates an origin proof that can be used to verify the details of the purchase.
+     * @param amount    The purchase's total amount in "cents"
+     * @param currency  The currency used in this purchase ("SEK", "EUR", or other <a href="http://en.wikipedia.org/wiki/ISO_4217">ISO 4217 codes</a>)
+     * @param userToken Token identifying the user making the purchase
+     * @param context   The android context
+     */
     public OriginProof(int amount, String currency, String userToken, android.content.Context context) {
         this.amount = amount;
         this.currency = currency;
@@ -22,6 +32,11 @@ public class OriginProof {
         originProofBase64Str = generateBase64Str();
     }
 
+    /**
+     *  Returns a textual representation of the origin proof that needs to be sent along with the purchase for it to succeed.
+     *
+     *  @return A textual representation of the origin proof that needs to be sent along with the purchase for it to succeed.
+     */
     @Override
     public String toString() {
         return originProofBase64Str;
