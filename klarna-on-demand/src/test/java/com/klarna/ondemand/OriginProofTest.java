@@ -53,12 +53,12 @@ public class OriginProofTest {
         OriginProof originProof = new OriginProof(3600, "SEK", "my_token", context);
 
         JSONObject originProofJson = getOriginProofJson(originProof);
-        Assert.assertTrue(originProofJson.getString("signature").equals("my_signature"));
+        Assert.assertEquals(originProofJson.getString("signature"), "my_signature");
 
         JSONObject data = getDataJson(originProof);
-        Assert.assertTrue(data.getInt("amount") == 3600);
-        Assert.assertTrue(data.getString("currency").equals("SEK"));
-        Assert.assertTrue(data.getString("user_token").equals("my_token"));
+        Assert.assertEquals(data.getInt("amount"), 3600);
+        Assert.assertEquals(data.getString("currency"), "SEK");
+        Assert.assertEquals(data.getString("user_token"), "my_token");
         Assert.assertTrue(data.getString("id").matches(UUID_PATTERN));
     }
 
@@ -70,7 +70,7 @@ public class OriginProofTest {
         OriginProof originProofB = new OriginProof(3600, "SEK", "my_token", context);
         JSONObject dataB = getDataJson(originProofB);
 
-        Assert.assertFalse(dataA.getString("id").equals(dataB.getString("id")));
+        Assert.assertNotEquals(dataA.getString("id"), (dataB.getString("id")));
     }
 
     private JSONObject getOriginProofJson(OriginProof originProof) throws JSONException {
