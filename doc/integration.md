@@ -40,85 +40,67 @@ public class MainActivity extends Activity {
 
 <a name="registration_view"></a>
 ##The registration view
-Users must go through a quick registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to receive payments from the user.
+Users must go through a quick registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to receive payments from the user.
 
-**Note:** It is important to point out that the registration view will not function properly without network access, and that it does not currently support a landscape orientation.
+**Note:** It is important to point out that the registration activity will not function properly without network access, and that it does not currently support a landscape orientation.
 
 ###Showing the view
-For the sake of this example, we will assume we have a button that launches the registration view (we will cover a better way to handle this [later](#when_to_show_registration)).
+For the sake of this example, we will assume we have a button that launches the registration activity (we will cover a better approach [later](#when_to_show_registration)).
 
-First off, import the registration view's header file into your view controller:
+First off, import the registration activity:
 
-```objective-c
-#import "KODRegistrationViewController.h"
+```java
+import com.klarna.ondemand.RegistrationActivity;
 ```
 
-Then, assuming the button's touch handler is called `onRegisterPressed`, set it up like this:
+Then, assuming the button's click handler is called `onRegisterPressed`, set it up like this:
 
-```objective-c
-- (IBAction)onRegisterPressed:(id)sender {
-  // Create a new Klarna registration view controller, initialized with the containing controller as its event-handler
-  KODRegistrationViewController *registrationViewController = [[KODRegistrationViewController alloc] initWithDelegate:self];
-
-  // Create a navigation controller with the registration view controller as its root view controller
-  UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:registrationViewController];
-
-  // Show the navigation controller (as a modal)
-  [self presentViewController:navigationController
-                     animated:YES
-                   completion:nil];
+```java
+public void onRegisterPressed(View view) {
+  Intent intent = new Intent(this, RegistrationActivity.class);
+  startActivityForResult(intent, REGISTRATION_REQUEST_CODE);
 }
 ```
 
-There are a couple of things that are worth pointing out in the code above:
-
-- To properly initialize the registration view, you need to supply it with a delegate that it will use to notify you of various important events. We will go over these events later when we examine the [KODRegistrationViewControllerDelegate](#kod_registration_view_controller_delegate) protocol. We recommend having the view controller that hosts the registration view conform to said protocol.
-- We display the registration view by making it part of a navigation view controller. This is the recommended way to display the registration view, and will give users the option to back out of the registration process.
+We should point out that the `REGISTRATION_REQUEST_CODE` is simply a constant that we will later use to tell that the registration activity has completed.
 
 This is really all there is to displaying the registration view.
 
 ###Interacting with the view
-Displaying the view is great, but will only get you so far. It is important to know how our users interact with the view and to that end the view dispatches events to a delegate supplied during its initialization.
+Displaying the view is great, but will only get you so far. It is important to know how our users interact with the view and to that end we will show how to properly set up a result handler for the registration activity.
 
-<a name="kod_registration_view_controller_delegate"></a>
-####The KODRegistrationViewControllerDelegate protocol
-The registration view expects its delegate to conform to this protocol, which exposes three different types of callbacks:
+There are several possible outcomes when a user goes through the registration activity:
 
 1. Registration complete - the user successfully completed the registration process, and has been assigned a token that you can use to place orders on the user's behalf.
 2. Registration cancelled - the user chose to back out of the registration process.
 3. Registration failed - an error of some sort has prevented the user from successfully going through the registration process.
 
-Building upon the code sample from the previous section, consider the following methods which make a view controller conform to the KODRegistrationViewControllerDelegate protocol. The methods correspond to the types of callbacks we have just listed:
+The `RegistrationActivity` class exposes constants that signify each of these possible outcomes, so your parent activity should contain a handler similar to this one:
 
-```objective-c
-- (void)klarnaRegistrationController:(KODRegistrationViewController *)controller finishedWithUserResult:(KODRegistrationResult *)registrationResult {
-  // Dismiss the registration view and store the user's token
-  [self dismissViewControllerAnimated:YES completion:nil];
-  [self saveUserToken: registrationResult.token]; // this is for illustrative purposes, we do not supply this method
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  if (requestCode == REGISTRATION_REQUEST_CODE) {
+    switch (resultCode) {
+      case RegistrationActivity.RESULT_OK:
+        // Here we store the token assigned to the user
+        String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
+        saveUserToken(token);
+        break;
+      case RegistrationActivity.RESULT_CANCELED:
+        break;
+      case RegistrationActivity.RESULT_ERROR:
+        // You will want to convey this failure to your user.
+        break;
+      default:
+        break;
+    }
+  }
+  // Possibly handle other request codes
 }
-
-- (void)klarnaRegistrationCancelled:(KODRegistrationViewController *)controller {
-  // Dismiss the registration view
-  [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)klarnaRegistrationFailed:(KODRegistrationViewController *)controller {
-  // Dismiss Klarna registration view and notify the user of the error
-  [self dismissViewControllerAnimated:YES completion:nil];
-  [self notifyRegistrationFailed]; // Again, this is just an illustration
-}
-
 ```
 
-As you can see, your first order of business will usually be to dismiss the registration view upon any of the events occurring. Then, depending on the event, you will want to take further action such as storing the user token or displaying an error message.
-
-You should also declare that your view controller implements the protocol by declaring it in the following fashion:
-
-```objective-c
-@interface MainViewController : UIViewController<KODRegistrationViewControllerDelegate>
-// Various interface definitions
-@end
-```
+Note how we retrieve the user's token from the registration activity's extra data when handling the `RegistrationActivity.RESULT_OK` case. Also note that the SDK does not supply the `saveUserToken` method, which is in the above code for illustrative purposes.
 
 <a name="when_to_show_registration"></a>
 ###When should you show the registration view?
