@@ -8,9 +8,8 @@ Simply open up your build.gradle file and add the following dependency:
 
 ```groovy
 dependencies {
-  ...
   compile 'com.klarna.ondemand:klarna-on-demand-sdk:1.0.0'
-  ...
+  //...
 }
 ```
 
@@ -22,7 +21,7 @@ We recommend setting your API key in your main activity in the manner shown belo
 ```java
 public class MainActivity extends Activity {
   
-  ...
+  //...
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +32,7 @@ public class MainActivity extends Activity {
     com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
   }
   
-  ...
+  //...
   
 }
 ```
@@ -45,7 +44,7 @@ Users must go through a quick registration process in order to pay using Klarna.
 **Note:** It is important to point out that the registration activity will not function properly without network access, and that it does not currently support a landscape orientation.
 
 ###Showing the view
-For the sake of this example, we will assume we have a button that launches the registration activity (we will cover a better approach [later](#when_to_show_registration)).
+For the sake of this example, assume we have a button that launches the registration activity (we will cover a better approach [later](#when_to_show_registration)).
 
 First off, import the registration activity:
 
@@ -62,7 +61,7 @@ public void onRegisterPressed(View view) {
 }
 ```
 
-We should point out that the `REGISTRATION_REQUEST_CODE` is simply a constant that we will later use to tell that the registration activity has completed.
+We should point out that `REGISTRATION_REQUEST_CODE` is simply a constant that we will later use to tell that the registration activity has completed.
 
 This is really all there is to displaying the registration view.
 
@@ -100,7 +99,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-Note how we retrieve the user's token from the registration activity's extra data when handling the `RegistrationActivity.RESULT_OK` case. Also note that the SDK does not supply the `saveUserToken` method, which is in the above code for illustrative purposes.
+Note the following:
+
+* We retrieve the user's token from the registration activity's extra data when handling the `RegistrationActivity.RESULT_OK` case.
+* The SDK does not supply the `saveUserToken` method, which is in the above code for illustrative purposes.
+* We used the previously introduced `REGISTRATION_REQUEST_CODE` constant which tells us it is the registration activity that ended.
 
 <a name="when_to_show_registration"></a>
 ###When should you show the registration view?
