@@ -140,7 +140,7 @@ First, import the preferences activity:
 import com.klarna.ondemand.PreferencesActivity;
 ```
 
-Then, assuming the you have a parent activity with a button that opens the preferences view, and the click handler for said button is called `onPreferencesPressed`, we would set it up in the following manner:
+Now, let us assume you have a parent activity with a button that opens the preferences view and the click handler for said button is called `onPreferencesPressed`. We would set the button's click handler in the following way:
 
 ```java
 public void onPreferencesPressed(View view) {
@@ -150,14 +150,14 @@ public void onPreferencesPressed(View view) {
 }
 ```
 
-Note how we supply the preferences activity with extra data in the form of the user's token (assume that `getUserToken` returns the user's token previously saved during registration). We should also mention that `PREFERENCES_REQUEST_CODE` is an arbitrary constant that we will later use to identify the preferences activity.
+Note how we supply the preferences activity with extra data in the form of the user's token (assume that `getUserToken` returns the user's token previously stored during registration). We should also mention that `PREFERENCES_REQUEST_CODE` is an arbitrary constant that we will later use to identify the preferences activity.
 
 This is all it takes to display the preferences view.
 
 ###Interacting with the view
-Klarna's payment preferences are managed internally by the SDK so you don't need to worry about them. However, your application needs to know when the user is finished with the preferences view, or if an error occurred. We will now see how to properly set up a result handler for that purpose.
+Klarna's payment preferences are managed internally by the SDK so you don't need to worry about them. However, your application needs to know when the user is finished with the preferences view, or if an error occurred. We will see how to set up a result handler for that purpose.
 
-There are several possible outcomes when a user interacts with the preferences activity:
+There are two possible outcomes when a user interacts with the preferences activity:
 
 1. Preferences closed - the user actively requested to close the preferences view.
 2. Preference operation failed - an error of some sort has prevented the user from successfully using the preferences view.
@@ -174,7 +174,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // already handled internally by the SDK.
         break;
       case PreferencesActivity.RESULT_ERROR:
-        // You may also want to convey this failure to your user.
+        // You should convey this failure to your user.
         break;
       default:
         break;
@@ -184,4 +184,6 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 }
 ```
 
-We should stress that in case of an error, you are strongly encouraged to notify the user as most errors are unrecoverable and require the preferences view to be reopened.
+Note that we identified that it is the preferences activity which ended by using the previously introduced `PREFERENCES_REQUEST_CODE` constant.
+
+We strongly encourage you to notify the user in case of an error, as most errors are unrecoverable and require the preferences view to be reopened.
