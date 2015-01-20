@@ -14,17 +14,19 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
 @PrepareForTest(CryptoImpl.class)
-@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
+@PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "org.json.*" })
 public class OriginProofTest {
+
+    private final String UUID_PATTERN = "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}";
 
     @Rule
     public PowerMockRule rule = new PowerMockRule();
@@ -40,7 +42,7 @@ public class OriginProofTest {
 
         String originProof = new OriginProof(context).generate(3600, "SEK", "my_token");
 
-        String decodeOriginProof = Base64.decode(originProof, Base64.DEFAULT).toString();
+        String decodeOriginProof = new String(Base64.decode(originProof, Base64.DEFAULT));
         JSONObject originProofJson = new JSONObject(decodeOriginProof);
         Assert.assertTrue(originProofJson.getString("signature").equals("my_signature"));
 
@@ -48,7 +50,7 @@ public class OriginProofTest {
         Assert.assertTrue(data.getInt("amount") == 3600);
         Assert.assertTrue(data.getString("currency").equals("SEK"));
         Assert.assertTrue(data.getString("user_token").equals("my_token"));
-        Assert.assertTrue(data.getString("id").equals("dd"));
+        Assert.assertTrue(data.getString("id").matches(UUID_PATTERN));
     }
 
 }
