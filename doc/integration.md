@@ -3,7 +3,7 @@ This guide includes all information necessary to receive payments from a user of
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+###Table of Contents
 
 - [Including the SDK in your project](#including-the-sdk-in-your-project)
 - [Supplying your API key](#supplying-your-api-key)
