@@ -1,6 +1,20 @@
 #Integration Guide
 This guide includes all information necessary to receive payments from a user of your application through Klarna. In this guide, you will see how to allow the user to register his device with Klarna, change payment preferences and perform purchases.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Including the SDK in your project](#including-the-sdk-in-your-project)
+- [Supplying your API key](#supplying-your-api-key)
+- [The registration view](#the-registration-view)
+  - [Showing the view](#showing-the-view)
+  - [Interacting with the view](#interacting-with-the-view)
+  - [When should you show the registration view?](#when-should-you-show-the-registration-view)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+
 ##Including the SDK in your project
 This guide assumes you use [Gradle](https://www.gradle.org/) to build your project. If you do not, refer to our [official documentation (coming soon)](http://developers.klarna.com) for an alternative setup approach.
 
