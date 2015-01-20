@@ -11,6 +11,9 @@ This guide includes all information necessary to receive payments from a user of
   - [Showing the view](#showing-the-view)
   - [Interacting with the view](#interacting-with-the-view)
   - [When should you show the registration view?](#when-should-you-show-the-registration-view)
+- [The preferences view](#the-preferences-view)
+  - [Showing the view](#showing-the-view-1)
+  - [Interacting with the view](#interacting-with-the-view-1)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
