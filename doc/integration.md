@@ -122,3 +122,63 @@ Note the following:
 <a name="when_to_show_registration"></a>
 ###When should you show the registration view?
 While we've seen how to utilize the registration view, we never talked about **when** you should display it. While it is ultimately up to you to decide, we have a fairly straightforward recommendation - you should only display the registration view when you do not have a user token stored. Assuming your user has gone through the registration process successfully and received a token there is no need to have the user register again, as tokens do not expire (though they can be revoked).
+
+##The preferences view
+After having registered to pay using Klarna, users may wish to view or even alter their payment settings (for example, users may wish to switch from using a credit card to monthly invoice payments). As was the case with registration, the SDK provides an activity which hosts a view for this purpose. Using the user token acquired during the registration process, you will be able to present your users with a preferences view.
+
+**Note:** It is important to point out that the preferences activity will not function properly without network access, and that it does not currently support a landscape orientation. Also, a user's token will remain constant regardless of any preference changes.
+
+###Showing the view
+It is good practice to allow users to access the preferences view on demand. Let's see how to set up a button that launches the preferences view.
+
+First, import the preferences activity:
+
+```java
+import com.klarna.ondemand.PreferencesActivity;
+```
+
+Then, assuming the you have a parent activity with a button that opens the preferences view, and the click handler for said button is called `onPreferencesPressed`, we would set it up in the following manner:
+
+```java
+public void onPreferencesPressed(View view) {
+  Intent intent = new Intent(this, PreferencesActivity.class);
+  intent.putExtra(PreferencesActivity.EXTRA_USER_TOKEN, getUserToken());
+  startActivityForResult(intent, PREFERENCES_REQUEST_CODE);
+}
+```
+
+Note how we supply the preferences activity with extra data in the form of the user's token (assume that `getUserToken` returns the user's token previously saved during registration). We should also mention that `PREFERENCES_REQUEST_CODE` is an arbitrary constant that we will later use to identify the preferences activity.
+
+This is all it takes to display the preferences view.
+
+###Interacting with the view
+Klarna's payment preferences are managed internally by the SDK so you don't need to worry about them. However, your application needs to know when the user is finished with the preferences view, or if an error occurred. We will now see how to properly set up a result handler for that purpose.
+
+There are several possible outcomes when a user interacts with the preferences activity:
+
+1. Preferences closed - the user actively requested to close the preferences view.
+2. Preference operation failed - an error of some sort has prevented the user from successfully using the preferences view.
+
+The `PreferencesActivity` class exposes constants that signify each of these possible outcomes, so your parent activity should contain a handler similar to this one:
+
+```java
+@Override
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+  if(requestCode == PREFERENCES_REQUEST_CODE) {
+    switch(resultCode) {
+      case PreferencesActivity.RESULT_OK:
+        // There is usually nothing to do here, as all preference changes were
+        // already handled internally by the SDK.
+        break;
+      case PreferencesActivity.RESULT_ERROR:
+        // You may also want to convey this failure to your user.
+        break;
+      default:
+        break;
+    }
+  }
+  // Possibly handle other request codes
+}
+```
+
+We should stress that in case of an error, you are strongly encouraged to notify the user as most errors are unrecoverable and require the preferences view to be reopened.
