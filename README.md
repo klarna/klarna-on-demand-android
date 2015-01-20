@@ -51,7 +51,7 @@ As per [running the application](#running_the_application).
 
 1. Fork the project and clone your repository
 2. Import the project into a Gradle-friendly work environment such as [Android Studio](http://developer.android.com/sdk/index.html) or [Eclipse](https://eclipse.org/) with [Gradle tooling support](https://github.com/spring-projects/eclipse-integration-gradle/)
-3. Get busy
+3. Get busy!
 
 ### Tests
 Pull requests must include tests for their proposed fixes/functionality. We use [JUnit](http://junit.org/) to write our tests and you can find the tests themselves [here](src/test/java/com/klarna/ondemand).

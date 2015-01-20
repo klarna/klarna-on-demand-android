@@ -47,3 +47,5 @@ task copyTestResources(type: Copy) {
 afterEvaluate {
     tasks.findByPath('testDebugClasses').dependsOn copyTestResources
 }
+
+apply from: 'deploy.gradle'
