@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
@@ -24,7 +23,6 @@ import java.security.SignatureException;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
@@ -39,10 +37,6 @@ public class OriginProofTest {
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Before
     public void init() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         context = Robolectric.application.getApplicationContext();
@@ -53,13 +47,11 @@ public class OriginProofTest {
         when(CryptoImpl.getInstance(context)).thenReturn(cryptoMock);
     }
 
-    @Test
-    public void getApiKey_ShouldThrowExceptionWhenThereIsNoApiKey() throws Exception {
+    @Test(expected=RuntimeException.class)
+    public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
         Crypto cryptoMock = mock(Crypto.class);
-        when(cryptoMock.sign(anyString())).thenThrow(new Exception());
-
-        thrown.expect(RuntimeException.class);
-        thrown.expectMessage("You must set the API key first.");
+        when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
+        mockStatic(CryptoImpl.class);
 
         new OriginProof(3600, "SEK", "my_token", context);
     }

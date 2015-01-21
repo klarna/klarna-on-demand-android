@@ -14,6 +14,9 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
 @PrepareForTest(CryptoImpl.class)
@@ -31,7 +34,8 @@ public class CryptoImplTest {
     public void getPublicKeyBase64Str_shouldReturnSameKeyOnTwoConsecutiveCall () {
         String publicKeyA = CryptoImpl.getInstance(context).getPublicKeyBase64Str();
         String publicKeyB = CryptoImpl.getInstance(context).getPublicKeyBase64Str();
-        Assert.assertEquals(publicKeyA, publicKeyB);
+
+        assertThat(publicKeyA).isEqualTo(publicKeyB);
     }
 
     //region #sign
@@ -39,14 +43,16 @@ public class CryptoImplTest {
     public void sign_shouldReturnSameSignOnTwoIdenticalCalls() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         String signA = CryptoImpl.getInstance(context).sign("my_messge");
         String signB = CryptoImpl.getInstance(context).sign("my_messge");
-        Assert.assertEquals(signA, signB);
+
+        assertThat(signA).isEqualTo(signB);
     }
 
     @Test
     public void sign_shouldReturnSameSignOnTwoDifferCalls() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         String signA = CryptoImpl.getInstance(context).sign("my_messgeA");
         String signB = CryptoImpl.getInstance(context).sign("my_messgeB");
-        Assert.assertNotEquals(signA, signB);
+
+        assertThat(signA).isNotEqualTo(signB);
     }
     //endregion
 }

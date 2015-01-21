@@ -58,7 +58,7 @@ public class OriginProof {
             return Base64.encodeToString(
                     originProof.toString().getBytes(), Base64.DEFAULT);
         } catch (Exception e) {
-            throw new RuntimeException("Could not generate origin proof String", e);
+            throw new RuntimeException("Could not generate origin proof String.", e);
         }
     }
 }
