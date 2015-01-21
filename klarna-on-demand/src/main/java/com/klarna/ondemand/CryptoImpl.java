@@ -24,7 +24,7 @@ class CryptoImpl implements Crypto {
     private static final String PREFERENCES_FILE_NAME = "KeyPair";
     private static final String ALGORITHM = "RSA";
 
-    private static CryptoImpl objCrypto;
+    private static CryptoImpl cyptoInstance;
 
     private String publicKeyBase64Str;
     private PublicKey publicKey;
@@ -32,14 +32,14 @@ class CryptoImpl implements Crypto {
 
 
     public static Crypto getInstance(android.content.Context context) {
-        if (objCrypto == null) {
+        if (cyptoInstance == null) {
             try {
-                objCrypto = new CryptoImpl(context);
+                cyptoInstance = new CryptoImpl(context);
             } catch (Exception e) {
                 throw new RuntimeException("Could not initialize " + CryptoImpl.class.getName(), e);
             }
         }
-        return objCrypto;
+        return cyptoInstance;
     }
 
     private CryptoImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
