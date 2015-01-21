@@ -2,9 +2,9 @@ package com.klarna.ondemand;
 
 import android.util.Base64;
 
+import org.assertj.core.api.SoftAssertions;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +20,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -47,27 +48,22 @@ public class OriginProofTest {
         when(CryptoImpl.getInstance(context)).thenReturn(cryptoMock);
     }
 
-    @Test(expected=RuntimeException.class)
-    public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
-        Crypto cryptoMock = mock(Crypto.class);
-        when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
-        mockStatic(CryptoImpl.class);
-
-        new OriginProof(3600, "SEK", "my_token", context);
-    }
-
     @Test
     public void sign_shouldReturnAbase64EncodedJsonInTheCorrectFormat() throws Exception {
         OriginProof originProof = new OriginProof(3600, "SEK", "my_token", context);
 
+        SoftAssertions softly = new SoftAssertions();
+
         JSONObject originProofJson = getOriginProofJson(originProof);
-        Assert.assertEquals(originProofJson.getString("signature"), "my_signature");
+        softly.assertThat(originProofJson.getString("signature")).isEqualTo("my_signature");
 
         JSONObject data = getDataJson(originProof);
-        Assert.assertEquals(data.getInt("amount"), 3600);
-        Assert.assertEquals(data.getString("currency"), "SEK");
-        Assert.assertEquals(data.getString("user_token"), "my_token");
-        Assert.assertTrue(data.getString("id").matches(UUID_PATTERN));
+        softly.assertThat(data.getInt("amount")).isEqualTo(3600);
+        softly.assertThat(data.getString("currency")).isEqualTo("SEK");
+        softly.assertThat(data.getString("user_token")).isEqualTo("my_token");
+        softly.assertThat(data.getString("id")).matches(UUID_PATTERN);
+
+        softly.assertAll();
     }
 
     @Test
@@ -78,7 +74,16 @@ public class OriginProofTest {
         OriginProof originProofB = new OriginProof(3600, "SEK", "my_token", context);
         JSONObject dataB = getDataJson(originProofB);
 
-        Assert.assertNotEquals(dataA.getString("id"), (dataB.getString("id")));
+        assertThat(dataA.getString("id")).isNotEqualTo(dataB.getString("id"));
+    }
+
+    @Test(expected=RuntimeException.class)
+    public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
+        Crypto cryptoMock = mock(Crypto.class);
+        when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
+        mockStatic(CryptoImpl.class);
+
+        new OriginProof(3600, "SEK", "my_token", context);
     }
 
     private JSONObject getOriginProofJson(OriginProof originProof) throws JSONException {
