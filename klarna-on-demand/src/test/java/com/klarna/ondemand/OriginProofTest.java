@@ -28,7 +28,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
-@PrepareForTest(CryptoImpl.class)
+@PrepareForTest(CryptoSharedPreferencesBaseImpl.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "org.json.*" })
 public class OriginProofTest {
 
@@ -44,8 +44,8 @@ public class OriginProofTest {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenReturn("my_signature");
 
-        mockStatic(CryptoImpl.class);
-        when(CryptoImpl.getInstance(context)).thenReturn(cryptoMock);
+        mockStatic(CryptoSharedPreferencesBaseImpl.class);
+        when(CryptoSharedPreferencesBaseImpl.getInstance(context)).thenReturn(cryptoMock);
     }
 
     @Test
@@ -81,14 +81,14 @@ public class OriginProofTest {
     public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
-        mockStatic(CryptoImpl.class);
+        mockStatic(CryptoSharedPreferencesBaseImpl.class);
 
         new OriginProof(3600, "SEK", "my_token", context);
     }
 
     private JSONObject getOriginProofJson(OriginProof originProof) throws JSONException {
-        String decodeOriginProof = new String(Base64.decode(originProof.toString(), Base64.DEFAULT));
-        return new JSONObject(decodeOriginProof);
+        String decodedOriginProof = new String(Base64.decode(originProof.toString(), Base64.DEFAULT));
+        return new JSONObject(decodedOriginProof);
     }
 
     private JSONObject getDataJson(OriginProof originProof) throws JSONException {

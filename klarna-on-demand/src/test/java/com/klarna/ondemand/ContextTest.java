@@ -13,7 +13,7 @@ public class ContextTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @After
-    public void cleanUp() {
+    public void afterEach() {
         Context.setApiKey(null);
     }
 

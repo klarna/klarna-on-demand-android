@@ -18,32 +18,36 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-class CryptoImpl implements Crypto {
+class CryptoSharedPreferencesBaseImpl implements Crypto {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
-    private static final String PREFERENCES_FILE_NAME = "KeyPair";
     private static final String ALGORITHM = "RSA";
+    private static final String DIGEST_ALGORITHM = "SHA256withRSA";
+    private static final int KEYSIZE = 512;
+    public static final String KLARNA = ".KLARNA.";
 
-    private static CryptoImpl cyptoInstance;
+    private static CryptoSharedPreferencesBaseImpl cyptoInstance;
 
     private String publicKeyBase64Str;
     private PublicKey publicKey;
     private PrivateKey privateKey;
 
 
-    public static Crypto getInstance(android.content.Context context) {
+    public synchronized static Crypto getInstance(android.content.Context context) {
         if (cyptoInstance == null) {
             try {
-                cyptoInstance = new CryptoImpl(context);
+                cyptoInstance = new CryptoSharedPreferencesBaseImpl(context);
             } catch (Exception e) {
-                throw new RuntimeException("Could not initialize " + CryptoImpl.class.getName(), e);
+                throw new RuntimeException("Could not initialize " + CryptoSharedPreferencesBaseImpl.class.getName(), e);
             }
         }
         return cyptoInstance;
     }
 
-    private CryptoImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(PREFERENCES_FILE_NAME, Context.MODE_PRIVATE);
+    private CryptoSharedPreferencesBaseImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(
+                context.getPackageName() + KLARNA,
+                Context.MODE_PRIVATE);
 
         publicKey = readPublicKey(sharedPreferences);
         privateKey = readPrivateKey(sharedPreferences);
@@ -55,7 +59,7 @@ class CryptoImpl implements Crypto {
             persistKeyPair(sharedPreferences, keyPair);
         }
 
-        publicKeyBase64Str = new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
+        publicKeyBase64Str = toBase64(publicKey);
     }
 
     @Override
@@ -65,7 +69,7 @@ class CryptoImpl implements Crypto {
 
     @Override
     public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-        Signature sign = Signature.getInstance("SHA256withRSA");
+        Signature sign = Signature.getInstance(DIGEST_ALGORITHM);
         sign.initSign(privateKey);
         sign.update(message.getBytes());
         return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
@@ -74,8 +78,8 @@ class CryptoImpl implements Crypto {
     private void persistKeyPair(SharedPreferences sharedPreferences, KeyPair keyPair) {
         SharedPreferences.Editor sharedPreferencesEditor = sharedPreferences.edit();
 
-        persistKey(sharedPreferencesEditor, PUBLIC_KEY, keyPair.getPublic());
-        persistKey(sharedPreferencesEditor, PRIVATE_KEY, keyPair.getPrivate());
+        sharedPreferencesEditor.putString(PUBLIC_KEY, toBase64(keyPair.getPublic()));
+        sharedPreferencesEditor.putString(PRIVATE_KEY, toBase64(keyPair.getPrivate()));
 
         sharedPreferencesEditor.commit();
     }
@@ -86,9 +90,13 @@ class CryptoImpl implements Crypto {
         sharedPreferencesEditor.putString(keyName, keyStr);
     }
 
+    private String toBase64(Key key) {
+        return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
+    }
+
     private KeyPair generateKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
-        kpg.initialize(512);
+        kpg.initialize(KEYSIZE);
         return kpg.genKeyPair();
     }
 

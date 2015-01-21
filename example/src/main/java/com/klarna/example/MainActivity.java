@@ -87,7 +87,6 @@ public class MainActivity extends Activity {
 
         AlertDialog alert = builder.create();
         alert.show();
-
     }
 
     private void saveUserToken(String token) {
