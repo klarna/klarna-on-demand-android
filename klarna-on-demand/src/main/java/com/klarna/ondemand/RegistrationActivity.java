@@ -19,7 +19,7 @@ public class RegistrationActivity extends WebViewActivity {
 
     @Override
     protected String getUrl() {
-        return UrlHelper.registrationUrl();
+        return UrlHelper.registrationUrl(getApplicationContext());
     }
 
     @Override

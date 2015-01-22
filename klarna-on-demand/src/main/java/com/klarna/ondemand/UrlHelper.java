@@ -8,14 +8,18 @@ final class UrlHelper {
     private static final String KlarnaProductionUrl = "https://inapp.klarna.com";
 
     static String baseUrl() {
-        if(Context.getApiKey().startsWith("test_")) {
+        if(com.klarna.ondemand.Context.getApiKey().startsWith("test_")) {
             return KlarnaPlaygroundUrl;
         }
         return KlarnaProductionUrl;
     }
 
-    static String registrationUrl() {
-        return String.format("%s/registration/new?api_key=%s&locale=%s", baseUrl(), Context.getApiKey(), defaultLocale());
+    static String registrationUrl(android.content.Context context) {
+        return String.format("%s/registration/new?api_key=%s&locale=%s&public_key=%s",
+                baseUrl(),
+                Context.getApiKey(),
+                defaultLocale(),
+                CryptoSharedPreferencesBaseImpl.getInstance(context).getPublicKeyBase64Str());
     }
 
     static String preferencesUrl(String token) {

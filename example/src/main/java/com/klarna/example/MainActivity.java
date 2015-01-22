@@ -1,11 +1,14 @@
 package com.klarna.example;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
+import com.klarna.ondemand.OriginProof;
 import com.klarna.ondemand.PreferencesActivity;
 import com.klarna.ondemand.RegistrationActivity;
 
@@ -14,6 +17,10 @@ public class MainActivity extends Activity {
     public static final int REGISTRATION_REQUEST_CODE = 1;
     public static final int PREFERENCES_REQUEST_CODE = 2;
     private static final String USER_TOKEN_KEY = "userToken";
+    private View registerButton;
+    private View preferencesButton;
+    private View buyButton;
+    private AlertDialog alert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +30,8 @@ public class MainActivity extends Activity {
 
         com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
 
+
+        initElements();
         updateUIElements();
     }
 
@@ -57,9 +66,22 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void initElements() {
+        registerButton = findViewById(R.id.registerButton);
+        preferencesButton = findViewById(R.id.preferencesButton);
+        buyButton = findViewById(R.id.buyButton);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("origin proof");
+        builder.setMessage(null);
+
+        alert = builder.create();
+    }
+
     private void updateUIElements() {
-        findViewById(R.id.registerButton).setVisibility(hasUserToken() == false ? View.VISIBLE : View.INVISIBLE);
-        findViewById(R.id.preferencesButton).setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
+        registerButton.setVisibility(hasUserToken() == false ? View.VISIBLE : View.INVISIBLE);
+        preferencesButton.setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
+        buyButton.setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void openKlarnaRegistration(View view) {
@@ -72,6 +94,12 @@ public class MainActivity extends Activity {
         intent.putExtra(PreferencesActivity.EXTRA_USER_TOKEN, getUserToken());
         startActivityForResult(intent, PREFERENCES_REQUEST_CODE);
 
+    }
+
+    public void onBuy(View view) {
+        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
+        alert.setMessage(originProof.toString());
+        alert.show();
     }
 
     private void saveUserToken(String token) {

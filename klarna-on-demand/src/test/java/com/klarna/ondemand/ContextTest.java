@@ -1,21 +1,28 @@
 package com.klarna.ondemand;
 
-import org.junit.Assert;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ContextTest {
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
+    @After
+    public void afterEach() {
+        Context.setApiKey(null);
+    }
+
     @Test
     public void setApiKey_ShouldReturnThePreviouslySetApiKey() {
         String apiKey = "my_key";
         Context.setApiKey(apiKey);
-        Assert.assertEquals(Context.getApiKey(), apiKey);
-        Context.setApiKey(null);
+
+        assertThat(Context.getApiKey()).isEqualTo(apiKey);
     }
 
     @Test
