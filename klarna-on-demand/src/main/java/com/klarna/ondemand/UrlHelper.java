@@ -8,7 +8,7 @@ final class UrlHelper {
     private static final String KlarnaProductionUrl = "https://inapp.klarna.com";
 
     static String baseUrl() {
-        if(Context.getApiKey().startsWith("test_")) {
+        if(com.klarna.ondemand.Context.getApiKey().startsWith("test_")) {
             return KlarnaPlaygroundUrl;
         }
         return KlarnaProductionUrl;
@@ -19,7 +19,7 @@ final class UrlHelper {
                 baseUrl(),
                 Context.getApiKey(),
                 defaultLocale(),
-                CryptoImpl.getInstance(context).getPublicKeyBase64Str());
+                CryptoSharedPreferencesBaseImpl.getInstance(context).getPublicKeyBase64Str());
     }
 
     static String preferencesUrl(String token) {

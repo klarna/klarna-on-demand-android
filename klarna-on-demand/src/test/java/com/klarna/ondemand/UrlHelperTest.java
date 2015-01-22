@@ -14,48 +14,60 @@ import org.robolectric.annotation.Config;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
-@PrepareForTest({Context.class, Locale.class})
+@PrepareForTest({Context.class, Locale.class, CryptoSharedPreferencesBaseImpl.class})
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class UrlHelperTest {
 
     private String token = "my_token";
+    private android.content.Context context;
 
     @Rule
     public final PowerMockRule rule = new PowerMockRule();
 
     @Before
     public void beforeEach() {
+        context = Robolectric.application.getApplicationContext();
+
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("test_skadoo");
+
+
+        Crypto cryptoMock = mock(Crypto.class);
+        when(cryptoMock.getPublicKeyBase64Str()).thenReturn("my_publicKey");
+
+        mockStatic(CryptoSharedPreferencesBaseImpl.class);
+        when(CryptoSharedPreferencesBaseImpl.getInstance(context)).thenReturn(cryptoMock);
     }
 
     //region .registrationUrl
     @Test
     public void registrationUrl_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        android.content.Context context = Robolectric.application.getApplicationContext();
-
         assertThat(UrlHelper.registrationUrl(context)).startsWith("https://inapp.playground.klarna.com/registration/new");
     }
 
     @Test
     public void registrationUrl_ShouldReturnProductionUrl_WhenTokenIsForProduction() {
         when(Context.getApiKey()).thenReturn("skadoo");
-        android.content.Context context = Robolectric.application.getApplicationContext();
-
         assertThat(UrlHelper.registrationUrl(context)).startsWith("https://inapp.klarna.com/registration/new");
     }
 
     @Test
     public void registrationUrl_ShouldReturnUrlWithTheDefaultLocale() {
         Locale.setDefault(new Locale("my_locale"));
-        android.content.Context context = Robolectric.application.getApplicationContext();
 
         assertThat(UrlHelper.registrationUrl(context)).contains("locale=my_locale");
+    }
+
+    @Test
+    public void registrationUrl_ShouldIncludeThePublicKeyInTheRegistrationUrl() {
+        assertThat(UrlHelper.registrationUrl(context)).contains("public_key=my_publicKey");
     }
     //endregion
 
