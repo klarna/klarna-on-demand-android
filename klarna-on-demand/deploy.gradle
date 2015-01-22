@@ -3,6 +3,7 @@ apply plugin: 'signing'
 
 // Add tasks for javadoc and source jar generation
 task androidJavadocs(type: Javadoc) {
+    exclude '**/jockeyjs/**'
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     options.links("http://docs.oracle.com/javase/7/docs/api/")

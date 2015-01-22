@@ -77,7 +77,7 @@ public class OriginProofTest {
         assertThat(dataA.getString("id")).isNotEqualTo(dataB.getString("id"));
     }
 
-    @Test(expected=RuntimeException.class)
+    @Test(ex    pected=RuntimeException.class)
     public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
