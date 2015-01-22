@@ -36,7 +36,7 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
     public synchronized static Crypto getInstance(android.content.Context context) {
         if (cyptoInstance == null) {
             try {
-                cyptoInstance = new CryptoSharedPreferencesBaseImpl(context);
+                cyptoInstance = new CryptoSharedPreferencesBaseImpl(context.getApplicationContext());
             } catch (Exception e) {
                 throw new RuntimeException("Could not initialize " + CryptoSharedPreferencesBaseImpl.class.getName(), e);
             }
