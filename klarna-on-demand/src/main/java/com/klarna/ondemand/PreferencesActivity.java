@@ -1,6 +1,7 @@
 package com.klarna.ondemand;
 
 import java.util.Map;
+import android.text.TextUtils;
 
 /**
  * Responsible for showing and modifying a user's payment methods.
