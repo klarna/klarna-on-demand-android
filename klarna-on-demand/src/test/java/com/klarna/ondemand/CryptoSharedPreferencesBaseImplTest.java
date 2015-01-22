@@ -55,7 +55,9 @@ public class CryptoSharedPreferencesBaseImplTest {
         String signA = crypto.sign("my_messge");
         String signB = crypto.sign("my_messge");
 
-        assertThat(signA).isEqualTo(signB);
+        assertThat(signA)
+                .isNotEmpty()
+                .isEqualTo(signB);
     }
 
     @Test
@@ -63,7 +65,11 @@ public class CryptoSharedPreferencesBaseImplTest {
         String signA = crypto.sign("my_messgeA");
         String signB = crypto.sign("my_messgeB");
 
-        assertThat(signA).isNotEqualTo(signB);
+        assertThat(signA)
+                .isNotEmpty()
+                .isNotEqualTo(signB);
+
+        assertThat(signB).isNotEmpty();
     }
 
     @Test
