@@ -44,7 +44,9 @@ public class CryptoSharedPreferencesBaseImplTest {
         String publicKeyA = crypto.getPublicKeyBase64Str();
         String publicKeyB = crypto.getPublicKeyBase64Str();
 
-        assertThat(publicKeyA).isEqualTo(publicKeyB);
+        assertThat(publicKeyA)
+                .isNotEmpty()
+                .isEqualTo(publicKeyB);
     }
 
     //region #sign
@@ -66,14 +68,14 @@ public class CryptoSharedPreferencesBaseImplTest {
 
     @Test
     public void sign_shouldCaclculateAValidSignature() throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, InvalidKeySpecException {
-        CryptoImpl cryptoImpl = (CryptoImpl) Mockito.spy(CryptoImpl.getInstance(context));
+        CryptoSharedPreferencesBaseImpl spyCrypto = (CryptoSharedPreferencesBaseImpl) Mockito.spy(crypto);
 
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.decode("MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAskcFcO+vuYAQfRjCGkhZXMGlrtpbJZRq9y0SJi2DlKo2Ph58Ni9j6mN4DVKdSSJhuR/myNzXmszLzZIgq1AwpQIDAQABAkA641rYw1O4YqUPrW3wYJWkHhMsftQ8xZnPrAOiuMYOBN5jJ1pKBXiy3nHxBCiSWAJY+kWSWzbY1zzecBtmbCDBAiEA1lrU0Uhk3H7v7qyZPWIgu2pHYi+/W17c3jsl/NgHQfMCIQDU6dea1HCfWcU31cW/wShhzXd4h1H6AqEmRIEGnCLRBwIhAINNAC9x+NZXqwC4GOXQxdwHLdKnDMAbS4+VC5/ldAyhAiEAs4/PhMWbgdisyi0gzFpz2x/0nRLK4SXskKB/jHqLpmsCICTcahC8Xm8EFD/kxkDpI2oMZuWa2ghvZ1zuSMpnfkgE",Base64.DEFAULT));
         KeyFactory keyFact = KeyFactory.getInstance("RSA");
         PrivateKey privateKey = keyFact.generatePrivate(pkcs8EncodedKeySpec);
 
-        Mockito.doReturn(privateKey).when(cryptoImpl).getPrivateKey();
-        assertThat(cryptoImpl.sign("my_data")).isEqualTo("n8PEnZ5s5Cn39Jx2nMRf+cTbw7YIw5ak0HBEQJUl4mX/rMjo1SQe/56elt95c5H9TydbEcmvDeDt\n2SpHXylNDA==\n");
+        Mockito.doReturn(privateKey).when(spyCrypto).getPrivateKey();
+        assertThat(spyCrypto.sign("my_data")).isEqualTo("n8PEnZ5s5Cn39Jx2nMRf+cTbw7YIw5ak0HBEQJUl4mX/rMjo1SQe/56elt95c5H9TydbEcmvDeDt\n2SpHXylNDA==\n");
     }
     //endregion
 }

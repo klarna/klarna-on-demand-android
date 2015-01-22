@@ -116,7 +116,7 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
     }
 
     private PrivateKey readPrivateKey(SharedPreferences sharedPerferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String privKeyStr = sharedPerfernces.getString(PRIVATE_KEY, null);
+        String privKeyStr = sharedPerferences.getString(PRIVATE_KEY, null);
         if (privKeyStr == null) {
             return null;
         }
