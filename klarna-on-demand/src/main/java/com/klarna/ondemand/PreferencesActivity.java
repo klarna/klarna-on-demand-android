@@ -16,7 +16,10 @@ public class PreferencesActivity extends WebViewActivity {
     @Override
     protected String getUrl() {
         String token = getIntent().getStringExtra(EXTRA_USER_TOKEN);
-        if(token == null) {
+        
+        if (TextUtils.isEmpty(token))
+        //This also checks if the Token is not null but empty string for some reason.
+        {
             throw new IllegalStateException("EXTRA_USER_TOKEN is not set for preferences activity");
         }
         return UrlHelper.preferencesUrl(token);
