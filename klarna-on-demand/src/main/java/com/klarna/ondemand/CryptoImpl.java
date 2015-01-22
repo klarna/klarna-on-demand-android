@@ -63,10 +63,14 @@ class CryptoImpl implements Crypto {
         return publicKeyBase64Str;
     }
 
+    protected PrivateKey getPrivateKey() {
+        return privateKey;
+    }
+
     @Override
     public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         Signature sign = Signature.getInstance("SHA256withRSA");
-        sign.initSign(privateKey);
+        sign.initSign(getPrivateKey());
         sign.update(message.getBytes());
         return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
     }
@@ -103,7 +107,7 @@ class CryptoImpl implements Crypto {
         return keyFact.generatePublic(x509KeySpec);
     }
 
-    private PrivateKey readPrivateKey(SharedPreferences sharedPerfernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private PrivateKey readPrivateKey(SharedPreferences sharedPerferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
         String privKeyStr = sharedPerfernces.getString(PRIVATE_KEY, null);
         if (privKeyStr == null) {
             return null;
