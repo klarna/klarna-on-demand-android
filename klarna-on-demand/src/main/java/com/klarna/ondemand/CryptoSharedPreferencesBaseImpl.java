@@ -74,7 +74,7 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
     @Override
     public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         Signature sign = Signature.getInstance(DIGEST_ALGORITHM);
-        sign.initSign(privateKey);
+        sign.initSign(getPrivateKey());
         sign.update(message.getBytes());
         return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
     }
