@@ -88,12 +88,6 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
         sharedPreferencesEditor.commit();
     }
 
-    private void persistKey(SharedPreferences.Editor sharedPreferencesEditor, String keyName, Key key) {
-        byte[] keyBytes = key.getEncoded();
-        String keyStr = new String(Base64.encode(keyBytes, Base64.DEFAULT));
-        sharedPreferencesEditor.putString(keyName, keyStr);
-    }
-
     private String toBase64(Key key) {
         return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
     }
@@ -104,8 +98,8 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
         return kpg.genKeyPair();
     }
 
-    private PublicKey readPublicKey(SharedPreferences sharedPerfernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String pubKeyStr = sharedPerfernces.getString(PUBLIC_KEY, null);
+    private PublicKey readPublicKey(SharedPreferences sharedPrefernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String pubKeyStr = sharedPrefernces.getString(PUBLIC_KEY, null);
         if (pubKeyStr == null) {
             return null;
         }
@@ -115,8 +109,8 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
         return keyFact.generatePublic(x509KeySpec);
     }
 
-    private PrivateKey readPrivateKey(SharedPreferences sharedPerferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String privKeyStr = sharedPerferences.getString(PRIVATE_KEY, null);
+    private PrivateKey readPrivateKey(SharedPreferences sharedPrefernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String privKeyStr = sharedPrefernces.getString(PRIVATE_KEY, null);
         if (privKeyStr == null) {
             return null;
         }
