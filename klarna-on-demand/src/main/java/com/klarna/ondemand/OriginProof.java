@@ -5,7 +5,7 @@ import org.json.JSONObject;
 import java.util.UUID;
 
 /**
- * Assists in creating origin proofs that allow performing secure purchases.
+ * An origin proof that allows performing secure purchases.
  */
 public class OriginProof {
 
@@ -49,7 +49,7 @@ public class OriginProof {
                     .put("currency", currency)
                     .put("user_token", userToken)
                     .put("id", uuid.toString());
-            String signature = CryptoImpl.getInstance(context).sign(data.toString());
+            String signature = CryptoSharedPreferencesBaseImpl.getInstance(context).sign(data.toString());
 
             JSONObject originProof = new JSONObject()
                     .put("data", data.toString())
