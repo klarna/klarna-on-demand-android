@@ -84,7 +84,6 @@ public class OriginProofTest {
     public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
-        mockStatic(CryptoFactory.class);
 
         new OriginProof(3600, "SEK", "my_token", context);
     }
