@@ -6,11 +6,13 @@
         android:allowBackup="true">
         <activity
             android:name=".RegistrationActivity"
-            android:label="@string/TITLE_ACTIVITY_REGISTRATION" >
+            android:label="@string/TITLE_ACTIVITY_REGISTRATION"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".PreferencesActivity"
-            android:label="@string/TITLE_ACTIVITY_PREFERENCES" >
+            android:label="@string/TITLE_ACTIVITY_PREFERENCES"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
