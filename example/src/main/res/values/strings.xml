@@ -2,5 +2,7 @@
 <resources>
 
     <string name="app_name">Klarna Example App</string>
+    <string name="qrCodeImageDescription">qr code image</string>
+    <string name="closeViewImageDescription">close qr view image</string>
 
 </resources>
