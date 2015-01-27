@@ -1,5 +1,7 @@
 package com.klarna.ondemand;
 
+import com.klarna.ondemand.crypto.CryptoFactory;
+
 import java.util.Locale;
 
 final class UrlHelper {
@@ -19,7 +21,7 @@ final class UrlHelper {
                 baseUrl(),
                 Context.getApiKey(),
                 defaultLocale(),
-                CryptoSharedPreferencesBaseImpl.getInstance(context).getPublicKeyBase64Str());
+                CryptoFactory.getInstance(context).getPublicKeyBase64Str());
     }
 
     static String preferencesUrl(String token) {

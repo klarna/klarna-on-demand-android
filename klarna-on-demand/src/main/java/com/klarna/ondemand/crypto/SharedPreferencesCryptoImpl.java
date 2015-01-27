@@ -1,10 +1,9 @@
-package com.klarna.ondemand;
+package com.klarna.ondemand.crypto;
 
-import android.content.*;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Base64;
 
-import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyFactory;
 import java.security.KeyPair;
@@ -12,39 +11,18 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.Signature;
-import java.security.SignatureException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-class CryptoSharedPreferencesBaseImpl implements Crypto {
+class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
     private static final String ALGORITHM = "RSA";
-    private static final String DIGEST_ALGORITHM = "SHA256withRSA";
     private static final int KEYSIZE = 512;
-    public static final String KLARNA = ".KLARNA.";
+    private static final String KLARNA = ".KLARNA.";
 
-    private static CryptoSharedPreferencesBaseImpl cyptoInstance;
-
-    private String publicKeyBase64Str;
-    private PublicKey publicKey;
-    private PrivateKey privateKey;
-
-
-    public synchronized static Crypto getInstance(android.content.Context context) {
-        if (cyptoInstance == null) {
-            try {
-                cyptoInstance = new CryptoSharedPreferencesBaseImpl(context.getApplicationContext());
-            } catch (Exception e) {
-                throw new RuntimeException("Could not initialize " + CryptoSharedPreferencesBaseImpl.class.getName(), e);
-            }
-        }
-        return cyptoInstance;
-    }
-
-    private CryptoSharedPreferencesBaseImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
+    protected SharedPreferencesCryptoImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
         SharedPreferences sharedPreferences = context.getSharedPreferences(
                 context.getPackageName() + KLARNA,
                 Context.MODE_PRIVATE);
@@ -60,23 +38,6 @@ class CryptoSharedPreferencesBaseImpl implements Crypto {
         }
 
         publicKeyBase64Str = toBase64(publicKey);
-    }
-
-    @Override
-    public String getPublicKeyBase64Str() {
-        return publicKeyBase64Str;
-    }
-
-    protected PrivateKey getPrivateKey() {
-        return privateKey;
-    }
-
-    @Override
-    public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-        Signature sign = Signature.getInstance(DIGEST_ALGORITHM);
-        sign.initSign(getPrivateKey());
-        sign.update(message.getBytes());
-        return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
     }
 
     private void persistKeyPair(SharedPreferences sharedPreferences, KeyPair keyPair) {

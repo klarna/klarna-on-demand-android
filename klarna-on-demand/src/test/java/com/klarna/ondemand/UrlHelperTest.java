@@ -1,5 +1,8 @@
 package com.klarna.ondemand;
 
+import com.klarna.ondemand.crypto.Crypto;
+import com.klarna.ondemand.crypto.CryptoFactory;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,14 +17,13 @@ import org.robolectric.annotation.Config;
 import java.util.Locale;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
-@PrepareForTest({Context.class, Locale.class, CryptoSharedPreferencesBaseImpl.class})
+@PrepareForTest({Context.class, Locale.class, CryptoFactory.class})
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class UrlHelperTest {
 
@@ -42,8 +44,8 @@ public class UrlHelperTest {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.getPublicKeyBase64Str()).thenReturn("my_publicKey");
 
-        mockStatic(CryptoSharedPreferencesBaseImpl.class);
-        when(CryptoSharedPreferencesBaseImpl.getInstance(context)).thenReturn(cryptoMock);
+        mockStatic(CryptoFactory.class);
+        when(CryptoFactory.getInstance(context)).thenReturn(cryptoMock);
     }
 
     //region .registrationUrl

@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.MenuItem;
 
+import com.klarna.ondemand.crypto.Crypto;
+import com.klarna.ondemand.crypto.CryptoFactory;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -21,14 +24,18 @@ import org.robolectric.util.ActivityController;
 import java.util.HashMap;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
-@PrepareForTest(Context.class)
+@PrepareForTest({ Context.class, UrlHelper.class })
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class RegistrationActivityTest {
 
@@ -40,12 +47,16 @@ public class RegistrationActivityTest {
 
     @Before
     public void beforeEach() {
-        PowerMockito.mockStatic(Context.class);
+        mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("test_skadoo");
+
+        mockStatic(UrlHelper.class);
+        when(UrlHelper.registrationUrl((android.content.Context)anyObject())).thenReturn("my_url");
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).withIntent(intent).create();
         registrationActivity = spy(registrationActivityController.get());
+
     }
 
     @Test
