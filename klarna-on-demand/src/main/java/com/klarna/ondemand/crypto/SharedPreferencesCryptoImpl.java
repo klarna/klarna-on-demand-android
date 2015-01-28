@@ -23,9 +23,8 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String KLARNA = ".KLARNA.";
 
     protected SharedPreferencesCryptoImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(
-                context.getPackageName() + KLARNA,
-                Context.MODE_PRIVATE);
+        super();
+        SharedPreferences sharedPreferences = getSharedPreferences(context);
 
         publicKey = readPublicKey(sharedPreferences);
         privateKey = readPrivateKey(sharedPreferences);
@@ -38,6 +37,12 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         }
 
         publicKeyBase64Str = toBase64(publicKey);
+    }
+
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(
+                    context.getPackageName() + KLARNA,
+                    Context.MODE_PRIVATE);
     }
 
     private void persistKeyPair(SharedPreferences sharedPreferences, KeyPair keyPair) {
@@ -79,5 +84,10 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(sigBytes);
         KeyFactory keyFact = KeyFactory.getInstance(ALGORITHM);
         return keyFact.generatePrivate(pkcs8EncodedKeySpec);
+    }
+
+    public static boolean isAlreadyUseing(android.content.Context context) {
+        return getSharedPreferences(context).contains(PUBLIC_KEY) &&
+                getSharedPreferences(context).contains(PRIVATE_KEY);
     }
 }

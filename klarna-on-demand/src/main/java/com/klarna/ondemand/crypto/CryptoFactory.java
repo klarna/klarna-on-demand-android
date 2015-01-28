@@ -13,7 +13,9 @@ public class CryptoFactory {
                 synchronized(CryptoFactory.class) {
                     if (cyptoInstance == null) {
                         Context applicationContext = context.getApplicationContext();
-                        if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+
+                        if (isVersionSmallerThenJellyBeanMr2() ||
+                                SharedPreferencesCryptoImpl.isAlreadyUseing(context)) {
                             cyptoInstance = new SharedPreferencesCryptoImpl(applicationContext);
                         } else {
                             cyptoInstance = new KeyStoreCryptoImpl(applicationContext);
@@ -25,5 +27,9 @@ public class CryptoFactory {
             }
         }
         return cyptoInstance;
+    }
+
+    private static boolean isVersionSmallerThenJellyBeanMr2() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2;
     }
 }
