@@ -95,6 +95,12 @@ public abstract class WebViewActivity extends Activity {
             public void onPageFinished(WebView view, String url) {
                 progressDialog.dismiss();
             }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                setResult(RESULT_ERROR);
+                finish();
+            }
         });
     }
     
