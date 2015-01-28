@@ -11,7 +11,7 @@
         android:id="@+id/imageView"
         android:src="@drawable/the_girl_with_the_dragon_tatoo"
         android:layout_alignParentStart="false"
-        android:contentDescription="@string/movieName"
+        android:contentDescription="@string/movieImageDescription"
         android:layout_centerHorizontal="true"
         android:paddingBottom="70dp" />
 

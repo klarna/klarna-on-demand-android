@@ -4,5 +4,9 @@
     <string name="app_name">Klarna Example App</string>
     <string name="qrCodeImageDescription">qr code image</string>
     <string name="closeViewImageDescription">close qr view image</string>
+    <string name="changePaymentPreferencesButtonText">Change payment preferences</string>
+    <string name="movieImageDescription">The Girl with the Dragon Tatoo image</string>
+    <string name="buyButtonText">Buy 1 ticket for 99kr</string>
+    <string name="registerTextViewContent">You\'ll have to register first</string>
 
 </resources>
