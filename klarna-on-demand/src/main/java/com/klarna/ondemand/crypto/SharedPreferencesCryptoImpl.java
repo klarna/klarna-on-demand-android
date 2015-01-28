@@ -64,8 +64,8 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         return kpg.genKeyPair();
     }
 
-    private PublicKey readPublicKey(SharedPreferences sharedPrefernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String pubKeyStr = sharedPrefernces.getString(PUBLIC_KEY, null);
+    private PublicKey readPublicKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String pubKeyStr = sharedPreferences.getString(PUBLIC_KEY, null);
         if (pubKeyStr == null) {
             return null;
         }
@@ -75,8 +75,8 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         return keyFact.generatePublic(x509KeySpec);
     }
 
-    private PrivateKey readPrivateKey(SharedPreferences sharedPrefernces) throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String privKeyStr = sharedPrefernces.getString(PRIVATE_KEY, null);
+    private PrivateKey readPrivateKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
+        String privKeyStr = sharedPreferences.getString(PRIVATE_KEY, null);
         if (privKeyStr == null) {
             return null;
         }
