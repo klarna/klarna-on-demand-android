@@ -58,6 +58,7 @@ public class MainActivity extends Activity {
                     String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
                     saveUserToken(token);
                     updateUIElements();
+                    buyTicket();
                     break;
                 case RegistrationActivity.RESULT_CANCELED:
                     break;
@@ -130,10 +131,14 @@ public class MainActivity extends Activity {
     }
 
     public void onBuyPressed(View view) {
-        if (!this.hasUserToken()) {
+        if (this.hasUserToken()) {
+            buyTicket();
+        } else {
             openKlarnaRegistration();
         }
-        
+    }
+    
+    private void buyTicket() {
         class purchaseItemRunnable implements Runnable {
             String reference;
             OriginProof originProof;
