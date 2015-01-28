@@ -134,8 +134,6 @@ public class MainActivity extends Activity {
             openKlarnaRegistration();
         }
         
-        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
-
         class purchaseItemRunnable implements Runnable {
             String reference;
             OriginProof originProof;
@@ -162,6 +160,8 @@ public class MainActivity extends Activity {
                 }
             }
         }
+
+        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
 
         Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
         thread.start();
