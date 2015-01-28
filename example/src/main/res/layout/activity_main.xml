@@ -11,35 +11,31 @@
         android:id="@+id/imageView"
         android:src="@drawable/the_girl_with_the_dragon_tatoo"
         android:layout_alignParentStart="false"
-        android:layout_marginBottom="70dp"
-        android:contentDescription="The Girl with the Dragon Tatoo image"
-        android:layout_centerHorizontal="true" />
+        android:contentDescription="@string/movieName"
+        android:layout_centerHorizontal="true"
+        android:paddingBottom="70dp" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Buy 1 ticket for 99kr"
-        android:id="@+id/buyTextView"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="26dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:text="@string/buyButtonText"
+        android:id="@+id/buyButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textAlignment="center"
-        android:maxLines="1"
-        android:textColor="#ff0000ff"
-        android:clickable="true"
+        android:layout_alignParentRight="true"
         android:gravity="center"
-        android:textSize="30dp"
-        android:onClick="onBuyPressed" />
+        android:onClick="onBuyPressed"
+        android:layout_alignParentTop="false"
+        android:layout_alignParentEnd="false"
+        android:layout_alignParentStart="false"
+        android:textSize="25sp"
+        style="?android:attr/borderlessButtonStyle"
+        android:textColor="#ff0000ff"
+        android:layout_above="@+id/registerTextView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="You&apos;ll have to register first"
+        android:text="@string/registerTextViewContent"
         android:gravity="center"
         android:clickable="false"
         android:textColor="#ff000000"
@@ -47,17 +43,20 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/registerTextView" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Change payment preferences"
-        android:gravity="center"
-        android:clickable="true"
+        android:text="@string/changePaymentPreferencesButtonText"
+        android:id="@+id/changePaymentButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/changePaymentTextView"
+        android:gravity="center"
         android:onClick="openKlarnaPreferences"
+        style="@android:style/Widget.Holo.Light.Button.Borderless.Small"
+        android:layout_alignTop="@+id/registerTextView"
+        android:layout_alignParentTop="false"
+        android:layout_marginTop="-5dp"
+        android:textSize="15sp"
         android:textColor="#ff0000ff" />
 
     <FrameLayout
