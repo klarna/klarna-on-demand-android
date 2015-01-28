@@ -8,5 +8,6 @@
     <string name="movieImageDescription">The Girl with the Dragon Tatoo image</string>
     <string name="buyButtonText">Buy 1 ticket for 99kr</string>
     <string name="registerTextViewContent">You\'ll have to register first</string>
+    <string name="alertDefaultPositionButtonText">OK</string>
 
 </resources>

@@ -2,7 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="#ffffffff"
     android:clickable="false">
 
     <ImageView
@@ -11,6 +10,7 @@
         android:id="@+id/imageView"
         android:src="@drawable/the_girl_with_the_dragon_tatoo"
         android:layout_alignParentStart="false"
+        android:layout_alignParentLeft="false"
         android:contentDescription="@string/movieImageDescription"
         android:layout_centerHorizontal="true"
         android:paddingBottom="70dp" />
@@ -22,6 +22,8 @@
         android:id="@+id/buyButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
         android:gravity="center"
         android:onClick="onBuyPressed"
         android:textSize="25sp"
@@ -60,8 +62,8 @@
         android:layout_height="fill_parent"
         android:alpha="1"
         android:layout_alignBottom="@+id/imageView"
-        android:id="@+id/qrCodeView"
-        android:visibility="invisible">
+        android:visibility="invisible"
+        android:id="@+id/qrCodeView">
 
         <FrameLayout
             android:layout_width="fill_parent"
@@ -85,10 +87,10 @@
                 android:alpha="1"
                 android:adjustViewBounds="true"
                 android:layout_margin="50dp"
-                android:id="@+id/qrCodeView"
                 android:layout_centerInParent="true"
                 android:focusable="false"
-                android:contentDescription="@string/qrCodeImageDescription" />
+                android:contentDescription="@string/qrCodeImageDescription"
+                android:id="@+id/qrCodeImage" />
 
             <ImageView
                 android:layout_width="50dp"
@@ -99,9 +101,10 @@
                 android:onClick="hideQRCode"
                 android:clickable="true"
                 android:contentDescription="@string/closeViewImageDescription"
-                android:layout_above="@+id/qrCodeView"
-                android:layout_toRightOf="@+id/qrCodeView"
+                android:layout_above="@+id/qrCodeImage"
+                android:layout_toRightOf="@+id/qrCodeImage"
                 android:layout_marginLeft="-80dp"
+                android:layout_marginStart="-80dp"
                 android:layout_marginBottom="-70dp" />
         </RelativeLayout>
 
