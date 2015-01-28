@@ -24,13 +24,14 @@ import javax.security.auth.x500.X500Principal;
 
 class KeyStoreCryptoImpl extends CryptoBase {
 
+    public static final String ANDROID_KEY_STORE = "AndroidKeyStore";
     private final String ALIAS = "KLARNA";
-    private final KeyStore ks;
+    private final KeyStore keyStore;
 
     protected KeyStoreCryptoImpl(android.content.Context context) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableEntryException, NoSuchProviderException, InvalidAlgorithmParameterException {
-        ks = KeyStore.getInstance("AndroidKeyStore");
-        ks.load(null);
-        KeyStore.Entry entry = ks.getEntry(ALIAS, null);
+        keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
+        keyStore.load(null);
+        KeyStore.Entry entry = keyStore.getEntry(ALIAS, null);
 
         if (entry == null) {
             KeyPair keyPair = generateKeyPair(context);
@@ -51,8 +52,8 @@ class KeyStoreCryptoImpl extends CryptoBase {
         cal.add(Calendar.YEAR, 20);
         Date end = cal.getTime();
 
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA", "AndroidKeyStore");
-        kpg.initialize(new KeyPairGeneratorSpec.Builder(context)
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM, ANDROID_KEY_STORE);
+        keyPairGenerator.initialize(new KeyPairGeneratorSpec.Builder(context)
                 .setAlias(ALIAS)
                 .setStartDate(now)
                 .setEndDate(end)
@@ -60,6 +61,6 @@ class KeyStoreCryptoImpl extends CryptoBase {
                 .setSubject(new X500Principal("CN=test1"))
                 .build());
 
-        return kpg.generateKeyPair();
+        return keyPairGenerator.generateKeyPair();
     }
 }

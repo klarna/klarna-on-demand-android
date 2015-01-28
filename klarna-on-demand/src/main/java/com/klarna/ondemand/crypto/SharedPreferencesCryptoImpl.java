@@ -18,7 +18,6 @@ import java.security.spec.X509EncodedKeySpec;
 class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
-    private static final String ALGORITHM = "RSA";
     private static final int KEYSIZE = 512;
     private static final String KLARNA = ".KLARNA.";
 

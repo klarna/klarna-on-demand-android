@@ -13,6 +13,8 @@ abstract class CryptoBase implements Crypto {
 
     private static final String DIGEST_ALGORITHM = "SHA256withRSA";
 
+    protected static final String ALGORITHM = "RSA";
+
     protected String publicKeyBase64Str;
     protected PublicKey publicKey;
     protected PrivateKey privateKey;
