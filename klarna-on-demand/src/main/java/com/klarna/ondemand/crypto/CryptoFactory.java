@@ -15,7 +15,7 @@ public class CryptoFactory {
                         Context applicationContext = context.getApplicationContext();
 
                         if (isVersionSmallerThenJellyBeanMr2() ||
-                                SharedPreferencesCryptoImpl.isAlreadyUseing(context)) {
+                                SharedPreferencesCryptoImpl.isAlreadyInUse(context)) {
                             cyptoInstance = new SharedPreferencesCryptoImpl(applicationContext);
                         } else {
                             cyptoInstance = new KeyStoreCryptoImpl(applicationContext);

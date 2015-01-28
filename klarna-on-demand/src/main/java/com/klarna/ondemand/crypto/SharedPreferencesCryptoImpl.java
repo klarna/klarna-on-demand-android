@@ -86,8 +86,9 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         return keyFact.generatePrivate(pkcs8EncodedKeySpec);
     }
 
-    public static boolean isAlreadyUseing(android.content.Context context) {
-        return getSharedPreferences(context).contains(PUBLIC_KEY) &&
-                getSharedPreferences(context).contains(PRIVATE_KEY);
+    public static boolean isAlreadyInUse(android.content.Context context) {
+        SharedPreferences sharedPreferences = getSharedPreferences(context);
+        return sharedPreferences.contains(PUBLIC_KEY) &&
+                sharedPreferences.contains(PRIVATE_KEY);
     }
 }
