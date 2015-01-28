@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
     public static final int REGISTRATION_REQUEST_CODE = 1;
     public static final int PREFERENCES_REQUEST_CODE = 2;
     private static final String USER_TOKEN_KEY = "userToken";
-    
+
     private View registerTextView;
     private View changePaymentButton;
     private View qrCodeView;
@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        
+
         com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
 
         initializeUIElements();
@@ -51,14 +51,14 @@ public class MainActivity extends Activity {
         if (requestCode == REGISTRATION_REQUEST_CODE) {
             switch (resultCode) {
                 case RegistrationActivity.RESULT_OK:
-                    // Get user token extra parameter
+                    // Get user token extra parameter.
                     String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
-                    
+
                     // Save user token for future-use, in order to identify the user.
                     saveUserToken(token);
-                    
+
                     updateUIElements();
-                    
+
                     buyTicket();
                     break;
                 case RegistrationActivity.RESULT_CANCELED:
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
             }
         }
     }
-    
+
     //region UI behaviours
 
     private void initializeUIElements() {
@@ -114,9 +114,9 @@ public class MainActivity extends Activity {
                 .create()
                 .show();
     }
-    
+
     //endregion
-    
+
     //region Purchase using Klarna
 
     public void openKlarnaPreferences(View view) {
@@ -136,37 +136,8 @@ public class MainActivity extends Activity {
             startActivityForResult(intent, REGISTRATION_REQUEST_CODE);
         }
     }
-    
+
     private void buyTicket() {
-        // Create a command for purchasing item in a background thread. 
-        class purchaseItemRunnable implements Runnable {
-            String reference;
-            OriginProof originProof;
-
-            purchaseItemRunnable(String reference, OriginProof originProof) {
-                this.reference = reference;
-                this.originProof = originProof;
-            }
-
-            @Override
-            public void run() {
-                try {
-                    performPurchaseOfItem(reference, originProof);
-                } catch (final Exception e) {
-                    Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
-
-                    mainHandler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            // Log and display error.
-                            Log.e(getClass().getName(), "Error on performPurchaseOfItem", e);
-                            showAlert("Error: " + e.toString());
-                        }
-                    });
-                }
-            }
-        }
-
         // create origin proof for order.
         OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
 
@@ -177,7 +148,7 @@ public class MainActivity extends Activity {
 
     private void performPurchaseOfItem(String reference, OriginProof originProof) throws IOException, JSONException, HttpHostConnectException {
         // Create post request with backend server's path for payments.
-        
+
         //for Genymotion devices, use the following path: http://10.0.2.2:9292/pay.
         HttpPost httpPost = new HttpPost("http://10.0.2.2:9292/pay");
 
@@ -185,20 +156,20 @@ public class MainActivity extends Activity {
         jsonParams.put("originProof", originProof.toString());
         jsonParams.put("reference", reference);
         jsonParams.put("user_token", getUserToken());
-        
+
         StringEntity params = new StringEntity(jsonParams.toString());
-        params.setContentType("application/json;charset=UTF-8");
+        params.setContentType("application/json; charset=UTF-8");
 
         httpPost.setEntity(params);
 
         final HttpResponse response = new DefaultHttpClient().execute(httpPost);
-        
+
         // Handle response on UI thread (main).
-        Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
-        mainHandler.post(new Runnable() {
+        runOnMainThread(new Runnable() {
             @Override
             public void run() {
                 int statusCode = response.getStatusLine().getStatusCode();
+
                 if (statusCode >= 200 && statusCode < 300) {
                     // show QR Code for the movie.
                     showQRCode();
@@ -210,9 +181,9 @@ public class MainActivity extends Activity {
                 }
             }});
     }
-    
+
     //endregion
-    
+
     //region User token persistence
 
     private void saveUserToken(String token) {
@@ -231,6 +202,46 @@ public class MainActivity extends Activity {
     private boolean hasUserToken() {
         return getUserToken() != null;
     }
-    
+
+    //endregion
+
+    //region purchaseItemRunnable class
+
+    //  Runnable command for purchasing item in a different thread.
+    private class purchaseItemRunnable implements Runnable {
+        String reference;
+        OriginProof originProof;
+
+        purchaseItemRunnable(String reference, OriginProof originProof) {
+            this.reference = reference;
+            this.originProof = originProof;
+        }
+
+        @Override
+        public void run() {
+            try {
+                performPurchaseOfItem(reference, originProof);
+            } catch (final Exception e) {
+                runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Log and display error.
+                        Log.e(getClass().getName(), "Error in performPurchaseOfItem", e);
+                        showAlert("Error: " + e.toString());
+                    }
+                });
+            }
+        }
+    }
+
+    //endregion
+
+    //region helper methods
+
+    private void runOnMainThread(Runnable runnable) {
+        Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
+        mainHandler.post(runnable);
+    }
+
     //endregion
 }
