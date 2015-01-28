@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 
 import com.klarna.ondemand.OriginProof;
@@ -31,9 +32,9 @@ public class MainActivity extends Activity {
     public static final int PREFERENCES_REQUEST_CODE = 2;
     private static final String USER_TOKEN_KEY = "userToken";
     
-    private View changePaymentTextView;
     private View registerTextView;
-    private View buyTextView;
+    private View changePaymentButton;
+    private View buyButton;
     private View qrCodeView;
 
     @Override
@@ -84,14 +85,14 @@ public class MainActivity extends Activity {
 
     private void initializeUIElements() {
         registerTextView = findViewById(R.id.registerTextView);
-        buyTextView = findViewById(R.id.buyTextView);
-        changePaymentTextView = findViewById(R.id.changePaymentTextView);
+        buyButton = findViewById(R.id.buyButton);
+        changePaymentButton = findViewById(R.id.changePaymentButton);
         qrCodeView = findViewById(R.id.qrCodeView);
     }
 
     private void updateUIElements() {
         registerTextView.setVisibility(hasUserToken() == false ? View.VISIBLE : View.INVISIBLE);
-        changePaymentTextView.setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
+        changePaymentButton.setVisibility(hasUserToken() == true ? View.VISIBLE : View.INVISIBLE);
     }
 
     public void showQRCode() {
@@ -129,41 +130,41 @@ public class MainActivity extends Activity {
     }
 
     public void onBuyPressed(View view) {
-        if(this.hasUserToken()) {
-            OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
-
-            class purchaseItemRunnable implements Runnable {
-                String reference;
-                OriginProof originProof;
-
-                purchaseItemRunnable(String reference, OriginProof originProof) {
-                    this.reference = reference;
-                    this.originProof = originProof;
-                }
-
-                @Override
-                public void run() {
-                    try {
-                        performPurchaseOfItem(reference, originProof);
-                    } catch (final Exception e) {
-                        Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
-
-                        mainHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                showAlert("Error: " + e.toString());
-                            }
-                        });
-                    }
-                }
-            }
-            
-            Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
-            thread.start();
-        }
-        else {
+        if (!this.hasUserToken()) {
             openKlarnaRegistration();
         }
+        
+        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
+
+        class purchaseItemRunnable implements Runnable {
+            String reference;
+            OriginProof originProof;
+
+            purchaseItemRunnable(String reference, OriginProof originProof) {
+                this.reference = reference;
+                this.originProof = originProof;
+            }
+
+            @Override
+            public void run() {
+                try {
+                    performPurchaseOfItem(reference, originProof);
+                } catch (final Exception e) {
+                    Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
+
+                    mainHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            showAlert("Error: " + e.toString());
+                            Log.e(getClass().getName(), "Error on performPurchaseOfItem", e);
+                        }
+                    });
+                }
+            }
+        }
+
+        Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
+        thread.start();
     }
 
     private void performPurchaseOfItem(String reference, OriginProof originProof) throws IOException, JSONException {
@@ -194,6 +195,7 @@ public class MainActivity extends Activity {
                 }
                 else {
                      showAlert("Error: " + response.toString());
+                     Log.e(getClass().getName(), response.toString());
                 }
             }});
     }
