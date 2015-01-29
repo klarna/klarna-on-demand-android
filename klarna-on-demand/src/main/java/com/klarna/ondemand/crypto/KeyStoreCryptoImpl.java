@@ -24,22 +24,22 @@ import javax.security.auth.x500.X500Principal;
 
 class KeyStoreCryptoImpl extends CryptoBase {
 
-    public static final String ANDROID_KEY_STORE = "AndroidKeyStore";
-    private final String ALIAS = "KLARNA";
+    private static final String ANDROID_KEY_STORE = "AndroidKeyStore";
+    private static final String ALIAS = "KLARNA";
     private final KeyStore keyStore;
 
     protected KeyStoreCryptoImpl(android.content.Context context) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableEntryException, NoSuchProviderException, InvalidAlgorithmParameterException {
         keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
         keyStore.load(null);
-        KeyStore.Entry entry = keyStore.getEntry(ALIAS, null);
+        KeyStore.PrivateKeyEntry entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(ALIAS, null);
 
         if (entry == null) {
             KeyPair keyPair = generateKeyPair(context);
             publicKey = keyPair.getPublic();
             privateKey = keyPair.getPrivate();
         } else {
-            privateKey = ((KeyStore.PrivateKeyEntry) entry).getPrivateKey();
-            publicKey = ((KeyStore.PrivateKeyEntry) entry).getCertificate().getPublicKey();
+            privateKey = entry.getPrivateKey();
+            publicKey = entry.getCertificate().getPublicKey();
         }
 
         publicKeyBase64Str = new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
