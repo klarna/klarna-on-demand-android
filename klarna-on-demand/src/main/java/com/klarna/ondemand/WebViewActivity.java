@@ -98,12 +98,14 @@ public abstract class WebViewActivity extends Activity {
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                progressDialog.dismiss();
+
                 setResult(RESULT_ERROR);
                 finish();
             }
         });
     }
-    
+
     private void addSpinner() {
         progressDialog = new ProgressDialog(WebViewActivity.this);
         progressDialog.setMessage(getString(R.string.LOADING_SPINNER));
