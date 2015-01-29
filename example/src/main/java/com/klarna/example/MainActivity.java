@@ -29,6 +29,15 @@ public class MainActivity extends Activity {
     public static final int REGISTRATION_REQUEST_CODE = 1;
     public static final int PREFERENCES_REQUEST_CODE = 2;
     private static final String USER_TOKEN_KEY = "userToken";
+    public static final String API_KEY = "test_d8324b98-97ce-4974-88de-eaab2fdf4f14";
+    public static final int HTTP_200 = 200;
+    public static final int HTTP_300 = 300;
+    public static final String CURRENCY = "SEK";
+    public static final String REFRENCE_TICKET = "TCKT0001";
+    public static final String ORIGIN_PROOF_KEY_LBL = "originProof";
+    public static final String REFERENCE_KEY_LBL = "reference";
+    public static final String USER_TOKEN_LBL = "user_token";
+    public static final int AMOUNT = 3600;
 
     private View registerTextView;
     private View changePaymentButton;
@@ -40,7 +49,7 @@ public class MainActivity extends Activity {
 
         setContentView(R.layout.activity_main);
 
-        com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
+        com.klarna.ondemand.Context.setApiKey(API_KEY);
 
         initializeUIElements();
         updateUIElements();
@@ -139,10 +148,10 @@ public class MainActivity extends Activity {
 
     private void buyTicket() {
         // Create an origin proof for the order
-        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
+        OriginProof originProof = new OriginProof(AMOUNT, CURRENCY, getUserToken(), getApplicationContext());
 
         // Run a background thread to perform the purchase
-        Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
+        Thread thread = new Thread(new purchaseItemRunnable(REFRENCE_TICKET, originProof));
         thread.start();
     }
 
@@ -153,9 +162,9 @@ public class MainActivity extends Activity {
         HttpPost httpPost = new HttpPost("http://10.0.2.2:9292/pay");
 
         JSONObject jsonParams = new JSONObject();
-        jsonParams.put("originProof", originProof.toString());
-        jsonParams.put("reference", reference);
-        jsonParams.put("user_token", getUserToken());
+        jsonParams.put(ORIGIN_PROOF_KEY_LBL, originProof.toString());
+        jsonParams.put(REFERENCE_KEY_LBL, reference);
+        jsonParams.put(USER_TOKEN_LBL, getUserToken());
 
         StringEntity params = new StringEntity(jsonParams.toString());
         params.setContentType("application/json; charset=UTF-8");
@@ -170,7 +179,7 @@ public class MainActivity extends Activity {
             public void run() {
                 int statusCode = response.getStatusLine().getStatusCode();
 
-                if (statusCode >= 200 && statusCode < 300) {
+                if (statusCode >= HTTP_200 && statusCode < HTTP_300) {
                     // Show QR Code for the movie
                     showQRCode();
                 }
