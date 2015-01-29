@@ -49,7 +49,7 @@ class KeyStoreCryptoImpl extends CryptoBase {
     private KeyPair generateKeyPair(android.content.Context context) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
         Calendar cal = Calendar.getInstance();
         Date now = cal.getTime();
-        cal.add(Calendar.YEAR, 20);
+        cal.add(Calendar.YEAR, 100);
         Date end = cal.getTime();
 
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(ALGORITHM, ANDROID_KEY_STORE);
@@ -57,8 +57,8 @@ class KeyStoreCryptoImpl extends CryptoBase {
                 .setAlias(ALIAS)
                 .setStartDate(now)
                 .setEndDate(end)
-                .setSerialNumber(BigInteger.valueOf(1))
-                .setSubject(new X500Principal("CN=test1"))
+                .setSerialNumber(BigInteger.ONE)
+                .setSubject(new X500Principal(String.format("CN=%s" + ALIAS)))
                 .build());
 
         return keyPairGenerator.generateKeyPair();

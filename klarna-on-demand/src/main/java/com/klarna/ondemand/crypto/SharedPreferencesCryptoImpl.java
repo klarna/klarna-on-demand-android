@@ -19,7 +19,6 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
     private static final int KEYSIZE = 512;
-    private static final String KLARNA = ".KLARNA.";
 
     protected SharedPreferencesCryptoImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
         super();
@@ -40,7 +39,7 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
 
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(
-                    context.getPackageName() + KLARNA,
+                    SharedPreferencesCryptoImpl.class.getPackage().getName(),
                     Context.MODE_PRIVATE);
     }
 

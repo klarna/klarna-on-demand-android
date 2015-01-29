@@ -13,7 +13,7 @@ import java.security.SignatureException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public abstract class CryptoBaseTst {
+public abstract class CryptoTestBase {
 
     protected Crypto crypto;
 

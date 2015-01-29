@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Config(emulateSdk = 18)
 @PrepareForTest(SharedPreferencesCryptoImpl.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "org.json.*" })
-public class SharedPreferencesCryptoImplTest extends CryptoBaseTst {
+public class SharedPreferencesCryptoImplTest extends CryptoTestBase {
 
     @Override
     protected int getTestSdkVersion() {
