@@ -51,10 +51,10 @@ public class MainActivity extends Activity {
         if (requestCode == REGISTRATION_REQUEST_CODE) {
             switch (resultCode) {
                 case RegistrationActivity.RESULT_OK:
-                    // Get user token extra parameter.
+                    // Extract the user token from the activity's extra data
                     String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
 
-                    // Save user token for future-use, in order to identify the user.
+                    // Saves the user token so that we can identify the user in future calls
                     saveUserToken(token);
 
                     updateUIElements();
@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
                 case RegistrationActivity.RESULT_CANCELED:
                     break;
                 case RegistrationActivity.RESULT_ERROR:
-                    // You may want to convey this failure to your user.
+                    // You may want to convey this failure to your user
                     break;
                 default:
                     break;
@@ -75,7 +75,7 @@ public class MainActivity extends Activity {
                 case PreferencesActivity.RESULT_OK:
                     break;
                 case PreferencesActivity.RESULT_ERROR:
-                    // You may also want to convey this failure to your user.
+                    // You may also want to convey this failure to your user
                     break;
                 default:
                     break;
@@ -120,36 +120,36 @@ public class MainActivity extends Activity {
     //region Purchase using Klarna
 
     public void openKlarnaPreferences(View view) {
-        // Start preferences activity with user token that was saved when the user completed the registration process.
+        // Start the preferences activity with the user token that was saved when the user completed the registration process
         Intent intent = new Intent(this, PreferencesActivity.class);
         intent.putExtra(PreferencesActivity.EXTRA_USER_TOKEN, getUserToken());
         startActivityForResult(intent, PREFERENCES_REQUEST_CODE);
     }
 
     public void onBuyPressed(View view) {
-        // if a token has not been previously created
+        // If a token has not been previously created
         if (this.hasUserToken()) {
             buyTicket();
         } else {
-            // open Klarna registration
+            // Open Klarna registration
             Intent intent = new Intent(this, RegistrationActivity.class);
             startActivityForResult(intent, REGISTRATION_REQUEST_CODE);
         }
     }
 
     private void buyTicket() {
-        // create origin proof for order.
+        // Create an origin proof for the order
         OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
 
-        // run background thread with purchase item command.
+        // Run a background thread to perform the purchase
         Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
         thread.start();
     }
 
     private void performPurchaseOfItem(String reference, OriginProof originProof) throws IOException, JSONException, HttpHostConnectException {
-        // Create post request with backend server's path for payments.
-
-        //for Genymotion devices, use the following path: http://10.0.2.2:9292/pay.
+        // Create a post request to instruct the backend to perform the purchase.
+        // For Genymotion devices, use the following path: http://10.0.2.2:9292/pay.
+        // Remember that this expects to work with our sample backend: https://github.com/klarna/sample-ondemand-backend.
         HttpPost httpPost = new HttpPost("http://10.0.2.2:9292/pay");
 
         JSONObject jsonParams = new JSONObject();
@@ -164,18 +164,18 @@ public class MainActivity extends Activity {
 
         final HttpResponse response = new DefaultHttpClient().execute(httpPost);
 
-        // Handle response on UI thread (main).
+        // Handle response on UI thread (main)
         runOnMainThread(new Runnable() {
             @Override
             public void run() {
                 int statusCode = response.getStatusLine().getStatusCode();
 
                 if (statusCode >= 200 && statusCode < 300) {
-                    // show QR Code for the movie.
+                    // Show QR Code for the movie
                     showQRCode();
                 }
                 else {
-                    // Log and display error.
+                    // Log the error and display it
                     Log.e(getClass().getName(), response.toString());
                     showAlert("Error: " + response.toString());
                 }
@@ -207,7 +207,7 @@ public class MainActivity extends Activity {
 
     //region purchaseItemRunnable class
 
-    //  Runnable command for purchasing item in a different thread.
+    // Runnable command for performing a purchase in a background thread
     private class purchaseItemRunnable implements Runnable {
         String reference;
         OriginProof originProof;
@@ -225,7 +225,7 @@ public class MainActivity extends Activity {
                 runOnMainThread(new Runnable() {
                     @Override
                     public void run() {
-                        // Log and display error.
+                        // Log the error and display it
                         Log.e(getClass().getName(), "Error in performPurchaseOfItem", e);
                         showAlert("Error: " + e.toString());
                     }
