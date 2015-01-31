@@ -40,7 +40,6 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("test_skadoo");
 
-
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.getPublicKeyBase64Str()).thenReturn("my_publicKey");
 
