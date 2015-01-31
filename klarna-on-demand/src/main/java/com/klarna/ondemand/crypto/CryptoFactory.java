@@ -5,7 +5,7 @@ import android.os.Build;
 
 public class CryptoFactory {
 
-    private static Crypto cyptoInstance;
+    private volatile static Crypto cyptoInstance;
 
     public synchronized static Crypto getInstance(android.content.Context context) {
         if (cyptoInstance == null) {
