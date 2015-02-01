@@ -1,6 +1,9 @@
 package com.klarna.ondemand;
 
 import android.util.Base64;
+
+import com.klarna.ondemand.crypto.CryptoFactory;
+
 import org.json.JSONObject;
 import java.util.UUID;
 
@@ -49,7 +52,7 @@ public class OriginProof {
                     .put("currency", currency)
                     .put("user_token", userToken)
                     .put("id", uuid.toString());
-            String signature = CryptoSharedPreferencesBaseImpl.getInstance(context).sign(data.toString());
+            String signature = CryptoFactory.getInstance(context).sign(data.toString());
 
             JSONObject originProof = new JSONObject()
                     .put("data", data.toString())

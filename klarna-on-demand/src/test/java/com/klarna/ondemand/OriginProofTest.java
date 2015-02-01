@@ -2,6 +2,9 @@ package com.klarna.ondemand;
 
 import android.util.Base64;
 
+import com.klarna.ondemand.crypto.Crypto;
+import com.klarna.ondemand.crypto.CryptoFactory;
+
 import org.assertj.core.api.SoftAssertions;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +31,7 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(emulateSdk = 18)
-@PrepareForTest(CryptoSharedPreferencesBaseImpl.class)
+@PrepareForTest(CryptoFactory.class)
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*", "org.json.*" })
 public class OriginProofTest {
 
@@ -44,8 +47,8 @@ public class OriginProofTest {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenReturn("my_signature");
 
-        mockStatic(CryptoSharedPreferencesBaseImpl.class);
-        when(CryptoSharedPreferencesBaseImpl.getInstance(context)).thenReturn(cryptoMock);
+        mockStatic(CryptoFactory.class);
+        when(CryptoFactory.getInstance(context)).thenReturn(cryptoMock);
     }
 
     @Test
@@ -81,7 +84,7 @@ public class OriginProofTest {
     public void constructor_ShouldThrowExceptionWhenItCantGenerateSignature() throws Exception {
         Crypto cryptoMock = mock(Crypto.class);
         when(cryptoMock.sign(anyString())).thenThrow(new SignatureException());
-        mockStatic(CryptoSharedPreferencesBaseImpl.class);
+        when(CryptoFactory.getInstance(context)).thenReturn(cryptoMock);
 
         new OriginProof(3600, "SEK", "my_token", context);
     }

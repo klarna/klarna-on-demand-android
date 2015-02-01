@@ -1,4 +1,4 @@
-package com.klarna.ondemand;
+package com.klarna.ondemand.crypto;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;

@@ -139,7 +139,7 @@ public class MainActivity extends Activity {
 
     private void buyTicket() {
         // Create an origin proof for the order
-        OriginProof originProof = new OriginProof(3600, "SEK", getUserToken(), getApplicationContext());
+        OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
 
         // Run a background thread to perform the purchase
         Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
@@ -148,12 +148,12 @@ public class MainActivity extends Activity {
 
     private void performPurchaseOfItem(String reference, OriginProof originProof) throws IOException, JSONException, HttpHostConnectException {
         // Create a post request to instruct the backend to perform the purchase.
-        // For Genymotion devices, use the following path: http://10.0.2.2:9292/pay.
+        // For Genymotion devices, use the following path: http://10.0.3.2:9292/pay.
         // Remember that this expects to work with our sample backend: https://github.com/klarna/sample-ondemand-backend.
         HttpPost httpPost = new HttpPost("http://10.0.2.2:9292/pay");
 
         JSONObject jsonParams = new JSONObject();
-        jsonParams.put("originProof", originProof.toString());
+        jsonParams.put("origin_proof", originProof.toString());
         jsonParams.put("reference", reference);
         jsonParams.put("user_token", getUserToken());
 

@@ -1,29 +1,47 @@
 package com.klarna.ondemand;
 
+import android.net.Uri;
+
+import com.klarna.ondemand.crypto.CryptoFactory;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Locale;
 
 final class UrlHelper {
 
-    private static final String KlarnaPlaygroundUrl = "https://inapp.playground.klarna.com";
-    private static final String KlarnaProductionUrl = "https://inapp.klarna.com";
+    private static final String KLARNA_PLAYGROUND_AUTHORITY = "inapp.playground.klarna.com";
+    private static final String KLARNA_PRODUCTION_AUTHORITY = "inapp.klarna.com";
 
-    static String baseUrl() {
+    static String getAuthority() {
         if(com.klarna.ondemand.Context.getApiKey().startsWith("test_")) {
-            return KlarnaPlaygroundUrl;
+            return KLARNA_PLAYGROUND_AUTHORITY;
         }
-        return KlarnaProductionUrl;
+        return KLARNA_PRODUCTION_AUTHORITY;
     }
 
     static String registrationUrl(android.content.Context context) {
-        return String.format("%s/registration/new?api_key=%s&locale=%s&public_key=%s",
-                baseUrl(),
-                Context.getApiKey(),
-                defaultLocale(),
-                CryptoSharedPreferencesBaseImpl.getInstance(context).getPublicKeyBase64Str());
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(getAuthority())
+                .appendPath("registration")
+                .appendPath("new")
+                .appendQueryParameter("api_key", Context.getApiKey())
+                .appendQueryParameter("locale", defaultLocale())
+                .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
+        return builder.build().toString();
     }
 
     static String preferencesUrl(String token) {
-        return String.format("%s/users/%s/preferences?api_key=%s&locale=%s", baseUrl(), token, Context.getApiKey(), defaultLocale());
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https")
+                .authority(getAuthority())
+                .appendPath("users")
+                .appendPath(token)
+                .appendPath("preferences")
+                .appendQueryParameter("api_key", Context.getApiKey())
+                .appendQueryParameter("locale", defaultLocale());
+        return builder.build().toString();
     }
 
     static String defaultLocale() {
