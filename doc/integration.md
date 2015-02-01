@@ -25,7 +25,7 @@ Simply open up your build.gradle file and add the following dependency:
 
 ```groovy
 dependencies {
-  compile 'com.klarna.ondemand:klarna-on-demand-sdk:1.0.0'
+  compile 'com.klarna.ondemand:klarna-on-demand-sdk:1.0.1'
   //...
 }
 ```
