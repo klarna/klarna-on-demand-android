@@ -53,10 +53,8 @@ public class RegistrationActivityTest {
         mockStatic(UrlHelper.class);
         when(UrlHelper.registrationUrl((android.content.Context)anyObject())).thenReturn("my_url");
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).withIntent(intent).create();
+        registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).create();
         registrationActivity = spy(registrationActivityController.get());
-
     }
 
     @Test

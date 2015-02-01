@@ -27,13 +27,13 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PowerMockIgnore({ "org.mockito.*", "org.robolectric.*", "android.*" })
 public class UrlHelperTest {
 
-    private String token = "my_token";
+    private static final String TOKEN = "my_token";
     private android.content.Context context;
+    private Crypto cryptoMock;
+
 
     @Rule
     public final PowerMockRule rule = new PowerMockRule();
-    private Crypto cryptoMock;
-
     @Before
     public void beforeEach() {
         context = Robolectric.application.getApplicationContext();
@@ -83,8 +83,8 @@ public class UrlHelperTest {
     //region .PreferencesUrlWithToken
     @Test
     public void preferencesUrlWithToken_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        String expectedPrefix = "https://inapp.playground.klarna.com/users/" + token + "/preferences";
-        assertThat(UrlHelper.preferencesUrl(token)).startsWith(expectedPrefix);
+        String expectedPrefix = "https://inapp.playground.klarna.com/users/" + TOKEN + "/preferences";
+        assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
     }
 
     @Test
@@ -92,15 +92,15 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("skadoo");
 
-        String expectedPrefix = "https://inapp.klarna.com/users/" + token +"/preferences";
-        assertThat(UrlHelper.preferencesUrl(token)).startsWith(expectedPrefix);
+        String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN +"/preferences";
+        assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
     }
 
     @Test
     public void preferencesUrlWithToken_ShouldReturnUrlWithTheDefaultLocale() {
         Locale.setDefault(new Locale("my_locale"));
 
-        assertThat(UrlHelper.preferencesUrl(token)).contains("locale=my_locale");
+        assertThat(UrlHelper.preferencesUrl(TOKEN)).contains("locale=my_locale");
     }
     //endregion
 }
