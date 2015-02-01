@@ -32,6 +32,7 @@ public class UrlHelperTest {
 
     @Rule
     public final PowerMockRule rule = new PowerMockRule();
+    private Crypto cryptoMock;
 
     @Before
     public void beforeEach() {
@@ -40,7 +41,7 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("test_skadoo");
 
-        Crypto cryptoMock = mock(Crypto.class);
+        cryptoMock = mock(Crypto.class);
         when(cryptoMock.getPublicKeyBase64Str()).thenReturn("my_publicKey");
 
         mockStatic(CryptoFactory.class);
@@ -69,6 +70,13 @@ public class UrlHelperTest {
     @Test
     public void registrationUrl_ShouldIncludeThePublicKeyInTheRegistrationUrl() {
         assertThat(UrlHelper.registrationUrl(context)).contains("public_key=my_publicKey");
+    }
+
+    @Test
+    public void registrationUrl_ShouldEncodeUrlParameters() {
+        when(cryptoMock.getPublicKeyBase64Str()).thenReturn("my+publicKey");
+
+        assertThat(UrlHelper.registrationUrl(context)).contains("public_key=my%2BpublicKey");
     }
     //endregion
 

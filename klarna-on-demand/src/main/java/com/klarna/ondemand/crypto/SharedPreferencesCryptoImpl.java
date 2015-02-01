@@ -24,16 +24,12 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         super();
         SharedPreferences sharedPreferences = getSharedPreferences(context);
 
-        publicKey = readPublicKey(sharedPreferences);
-        privateKey = readPrivateKey(sharedPreferences);
-        if (publicKey == null || privateKey == null) {
-            KeyPair keyPair = generateKeyPair();
-            publicKey = keyPair.getPublic();
-            privateKey = keyPair.getPrivate();
-
-            persistKeyPair(sharedPreferences, keyPair);
+        if (!isAlreadyInUse(sharedPreferences)) {
+            generateKeyPair(sharedPreferences);
         }
 
+        publicKey = readPublicKey(sharedPreferences);
+        privateKey = readPrivateKey(sharedPreferences);
         publicKeyBase64Str = toBase64(publicKey);
     }
 
@@ -56,10 +52,11 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
     }
 
-    private KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+    private void generateKeyPair(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
         kpg.initialize(KEYSIZE);
-        return kpg.genKeyPair();
+
+        persistKeyPair(sharedPreferences, kpg.genKeyPair());
     }
 
     private PublicKey readPublicKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
@@ -86,6 +83,10 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
 
     public static boolean isAlreadyInUse(android.content.Context context) {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
+        return isAlreadyInUse(sharedPreferences);
+    }
+
+    private static boolean isAlreadyInUse(SharedPreferences sharedPreferences) {
         return sharedPreferences.contains(PUBLIC_KEY) &&
                 sharedPreferences.contains(PRIVATE_KEY);
     }

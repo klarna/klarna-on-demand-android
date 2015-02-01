@@ -31,22 +31,20 @@ class KeyStoreCryptoImpl extends CryptoBase {
     protected KeyStoreCryptoImpl(android.content.Context context) throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableEntryException, NoSuchProviderException, InvalidAlgorithmParameterException {
         keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
         keyStore.load(null);
-        KeyStore.PrivateKeyEntry entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(ALIAS, null);
 
-        if (entry == null) {
-            KeyPair keyPair = generateKeyPair(context);
-            publicKey = keyPair.getPublic();
-            privateKey = keyPair.getPrivate();
-        } else {
-            privateKey = entry.getPrivateKey();
-            publicKey = entry.getCertificate().getPublicKey();
+        if (!keyStore.isKeyEntry(ALIAS)) {
+            generateKeyPair(context);
         }
+
+        KeyStore.PrivateKeyEntry entry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(ALIAS, null);
+        privateKey = entry.getPrivateKey();
+        publicKey = entry.getCertificate().getPublicKey();
 
         publicKeyBase64Str = new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
-    private KeyPair generateKeyPair(android.content.Context context) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
+    private void generateKeyPair(android.content.Context context) throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException {
         Calendar cal = Calendar.getInstance();
         Date now = cal.getTime();
         cal.add(Calendar.YEAR, 100);
@@ -58,9 +56,9 @@ class KeyStoreCryptoImpl extends CryptoBase {
                 .setStartDate(now)
                 .setEndDate(end)
                 .setSerialNumber(BigInteger.ONE)
-                .setSubject(new X500Principal(String.format("CN=%s" + ALIAS)))
+                .setSubject(new X500Principal(String.format("CN=%s", ALIAS)))
                 .build());
+        keyPairGenerator.generateKeyPair();
 
-        return keyPairGenerator.generateKeyPair();
     }
 }
