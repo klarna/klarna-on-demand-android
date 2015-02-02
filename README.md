@@ -4,7 +4,7 @@
 
 Klarna on-demand allows you to integrate Klarna's payment solution in mobile apps that offer on demand services. It's a perfect fit for apps selling concert tickets, taxi rides, food pick-ups, etc.
 
-This project contains Klarna's on-demand purchase SDK for Android 4+, as well as a sample application utilizing the SDK.
+This project contains Klarna's on-demand payment solution SDK for Android 4+, as well as a sample application utilizing the SDK.
 
 **Note:** This project is still a work in progress, and as such the documentation may be behind (or ahead) what is currently implemented.
 
