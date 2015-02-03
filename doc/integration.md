@@ -149,7 +149,7 @@ which will allow you to construct an object as seen below:
 OriginProof originProof = new OriginProof(4050, "EUR", getUserToken(), getApplicationContext());
 ```
 
-Assume `getUserToken()` returns the user's token as received during registration. Note that the method expects the purchase amount to be supplied in cents. You can find the constructor's full documentation [here](http://klarna.github.io/klarna-on-demand-android/com/klarna/ondemand/OriginProof.html#OriginProof-int-java.lang.String-java.lang.String-android.content.Context-).
+Assume `getUserToken()` returns the user's token as received during registration. Note that the constructor expects the purchase amount to be supplied in cents. You can find the constructor's full documentation [here](http://klarna.github.io/klarna-on-demand-android/com/klarna/ondemand/OriginProof.html#OriginProof-int-java.lang.String-java.lang.String-android.content.Context-).
 
 ###Purchase example
 We now know how to generate the signature required for a purchase to go through. Let us see how to send it, along with other required information, to the sample backend.
@@ -158,7 +158,7 @@ You will most likely have a "buy" button somewhere in your application. The code
 
 ```java
 private void buyTicket() {
-  // Create an origin proof for the order
+  // create an origin proof, as seen in the previous section (notice this is not the exact same call)
   OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
 
   // Run a background thread to perform the purchase
@@ -183,7 +183,8 @@ private void performPurchaseOfItem(String reference, OriginProof originProof) th
   final HttpResponse response = new DefaultHttpClient().execute(httpPost);
 
   // Handle response on UI thread (main)
-  runOnMainThread(new Runnable() {
+  Handler mainHandler = new Handler(getApplicationContext().getMainLooper());
+  mainHandler.post(new Runnable() {
     @Override
     public void run() {
       int statusCode = response.getStatusLine().getStatusCode();
@@ -210,7 +211,7 @@ The code above is less daunting than it seems. All it does is send the following
 }
 ```
 
-This JSON contains the data required for the sample backend to know which purchase request to issue. The `reference` identifies the item to purchase, the `user_token` identifies the user for which to perform the purchase and the `origin_proof` proves that the request originated from the user's device. Note how we sent a string representation of `originProof` by calling its `toString` method.
+This JSON contains the data required for the sample backend to know which purchase request to issue. The `reference` identifies the item to purchase, the `user_token` identifies the user for whom to perform the purchase and the `origin_proof` proves that the request originated from the user's device. Note how we sent a string representation of `originProof` by calling its `toString` method.
 
 Remember that if you try this out for yourself, your origin proof and user token will obviously be different. Also note the placeholder comments in the last portion of the code sample, where you will most likely want to notify the user of the purchase attempt's outcome.
 
