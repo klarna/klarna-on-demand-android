@@ -159,10 +159,21 @@ You will most likely have a "buy" button somewhere in your application. The code
 ```java
 private void buyTicket() {
   // create an origin proof, as seen in the previous section (notice this is not the exact same call)
-  OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
+  final OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
 
   // Run a background thread to perform the purchase
-  Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
+  Thread thread = new Thread(new Runnable() {
+    @Override
+    public void run() {
+      try {
+        performPurchaseOfItem("TCKT0001", originProof);
+      }
+      catch (final Exception e) {
+        // Failed to request purchase...
+      }
+    }
+  });
+
   thread.start();
 }
 
