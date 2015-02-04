@@ -4,6 +4,7 @@ apply plugin: 'signing'
 // Add tasks for javadoc and source jar generation
 task androidJavadocs(type: Javadoc) {
     exclude '**/jockeyjs/**'
+    exclude '**/crypto/**'
     source = android.sourceSets.main.java.srcDirs
     classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
     options.links("http://docs.oracle.com/javase/7/docs/api/")
@@ -83,4 +84,13 @@ uploadArchives {
             }
         }
     }
+}
+
+apply plugin: 'org.ajoberstar.github-pages'
+
+githubPages {
+  repoUri = 'https://github.com/klarna/klarna-on-demand-android.git'
+  pages {
+    from androidJavadocs.outputs.files
+  }
 }
