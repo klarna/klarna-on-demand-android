@@ -57,6 +57,8 @@ public class MainActivity extends Activity {
 }
 ```
 
+**Note:** API keys beginning with "test" always belong to the playground environment, so you may perform any action while using them without worry of subjecting users to any actual cost.
+
 <a name="registration_view"></a>
 ##The registration view
 Users must go through a quick registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to charge the user for purchases.
