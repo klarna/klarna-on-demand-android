@@ -33,6 +33,17 @@ dependencies {
 }
 ```
 
+###Granting internet access
+To function properly, the SDK requires access to the internet. You will need to make sure that the following user permission appears in your application's manifest:
+
+```xml
+<manifest xlmns:android="http://schemas.android.com/apk/res/android">
+  ...
+  <uses-permission android:name="android.permission.INTERNET" />
+  ...
+</manifest>
+```
+
 ##Supplying your API key
 In order to use the SDK, you will need an API key to identify yourself. You can get one from our [developer site (coming soon)](http://developers.klarna.com/).
 
