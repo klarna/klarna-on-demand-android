@@ -14,7 +14,7 @@ import com.jockeyjs.JockeyImpl;
 
 import java.util.Map;
 
-public abstract class WebViewActivity extends Activity {
+abstract class WebViewActivity extends Activity {
 
     private ProgressDialog progressDialog;
     private WebViewClient webViewClient;
