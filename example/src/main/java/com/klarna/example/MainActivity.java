@@ -13,6 +13,7 @@ import android.view.View;
 import com.klarna.ondemand.OriginProof;
 import com.klarna.ondemand.PreferencesActivity;
 import com.klarna.ondemand.RegistrationActivity;
+import com.klarna.ondemand.RegistrationResult;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -29,6 +30,7 @@ public class MainActivity extends Activity {
     public static final int REGISTRATION_REQUEST_CODE = 1;
     public static final int PREFERENCES_REQUEST_CODE = 2;
     private static final String USER_TOKEN_KEY = "userToken";
+    private static final String LOG_TAG = MainActivity.class.getName();
 
     private View registerTextView;
     private View changePaymentButton;
@@ -51,11 +53,16 @@ public class MainActivity extends Activity {
         if (requestCode == REGISTRATION_REQUEST_CODE) {
             switch (resultCode) {
                 case RegistrationActivity.RESULT_OK:
-                    // Extract the user token from the activity's extra data
-                    String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
+
+
+                    // Extract the registration result from the activity's extra data
+                    RegistrationResult registrationResult = (RegistrationResult) data.getSerializableExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT);
 
                     // Saves the user token so that we can identify the user in future calls
-                    saveUserToken(token);
+                    saveUserToken(registrationResult.getToken());
+
+                    Log.i(LOG_TAG, "User's phone number is" + registrationResult.getPhoneNumber());
+                    Log.i(LOG_TAG, "User's registration details" + registrationResult.getUserDetails());
 
                     updateUIElements();
 

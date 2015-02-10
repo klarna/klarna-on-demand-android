@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -16,6 +17,7 @@ public class RegistrationActivity extends WebViewActivity {
      * This item uniquely identifies the user at Klarna.
      */
     public static final String EXTRA_USER_TOKEN = "userToken";
+    public static final String EXTRA_REGISTRATION_RESULT = "registrationResult";
 
     @Override
     protected String getUrl() {
@@ -24,9 +26,19 @@ public class RegistrationActivity extends WebViewActivity {
 
     @Override
     protected void handleUserReadyEvent(Map<Object, Object> payload) {
-        String token = (String) payload.get("userToken");
         Intent result = new Intent();
-        result.putExtra(EXTRA_USER_TOKEN, token);
+
+        // Backwards compatibility.
+        result.putExtra(EXTRA_USER_TOKEN, (String)payload.get("userToken"));
+
+        HashMap<Object, Object> userDetails = new HashMap<>((Map<Object, Object>)payload.get("userDetails"));
+        RegistrationResult registrationResult =new RegistrationResult(
+                (String)payload.get("userToken"),
+                (String)payload.get("phoneNumber"),
+                userDetails);
+
+        result.putExtra(EXTRA_REGISTRATION_RESULT, registrationResult);
+
         setResult(RESULT_OK, result);
         finish();
     }
