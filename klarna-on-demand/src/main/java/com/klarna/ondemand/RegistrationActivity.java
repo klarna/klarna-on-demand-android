@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +19,9 @@ public class RegistrationActivity extends WebViewActivity {
      */
     public static final String EXTRA_USER_TOKEN = "userToken";
     public static final String EXTRA_REGISTRATION_RESULT = "registrationResult";
+    private static final String PAYLOAD_USER_TOKEN = "userToken";
+    private static final String PAYLOAD_PHONE_NUMBER= "phoneNumber";
+    private static final String PAYLOAD_USER_DETAILS = "userDetails";
 
     @Override
     protected String getUrl() {
@@ -29,12 +33,12 @@ public class RegistrationActivity extends WebViewActivity {
         Intent result = new Intent();
 
         // Backwards compatibility.
-        result.putExtra(EXTRA_USER_TOKEN, (String)payload.get("userToken"));
+        result.putExtra(EXTRA_USER_TOKEN, (String)payload.get(PAYLOAD_USER_TOKEN));
 
-        HashMap<Object, Object> userDetails = new HashMap<>((Map<Object, Object>)payload.get("userDetails"));
+        Map<?, ?> userDetails =  payload.containsKey(PAYLOAD_USER_DETAILS) ? (Map<?, ?>)payload.get(PAYLOAD_USER_DETAILS) : (Map<?, ?>)Collections.EMPTY_MAP;
         RegistrationResult registrationResult =new RegistrationResult(
-                (String)payload.get("userToken"),
-                (String)payload.get("phoneNumber"),
+                (String)payload.get(PAYLOAD_USER_TOKEN),
+                (String)payload.get(PAYLOAD_PHONE_NUMBER),
                 userDetails);
 
         result.putExtra(EXTRA_REGISTRATION_RESULT, registrationResult);

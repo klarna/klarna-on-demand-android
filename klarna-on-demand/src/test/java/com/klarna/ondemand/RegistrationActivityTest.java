@@ -17,6 +17,7 @@ import org.robolectric.annotation.Config;
 import org.robolectric.tester.android.view.TestMenuItem;
 import org.robolectric.util.ActivityController;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 import static org.mockito.Matchers.anyObject;
@@ -51,7 +52,7 @@ public class RegistrationActivityTest {
     }
 
     @Test
-    public void handleUserReadyEvent_ShouldCallFinishWithResultOk_WhenATokenIsReceived() {
+    public void handleUserReadyEvent_ShouldPutRegistrationResultInExtraAndCallFinishWithResultOk() {
         final HashMap<Object, Object> userDetails = new HashMap<Object, Object>() {{
             put("firstName", "Tom");
         }};
@@ -68,6 +69,23 @@ public class RegistrationActivityTest {
 
         expectedIntent.putExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT,
                 new RegistrationResult("my_token", "my_phoneNumber", userDetails));
+
+        verify(registrationActivity).setResult(eq(Activity.RESULT_OK), eq(expectedIntent));
+        verify(registrationActivity).finish();
+    }
+
+    @Test
+    public void handleUserReadyEvent_ShouldPutEmptyUserDetailsInTheRegistrationResult_WhenPaylodDoesNotContainUserDetails() {
+        registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
+            put("userToken", "my_token");
+            put("phoneNumber", "my_phoneNumber");
+        }});
+
+        Intent expectedIntent = new Intent();
+        expectedIntent.putExtra(RegistrationActivity.EXTRA_USER_TOKEN, "my_token");
+
+        expectedIntent.putExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT,
+                new RegistrationResult("my_token", "my_phoneNumber", Collections.emptyMap()));
 
         verify(registrationActivity).setResult(eq(Activity.RESULT_OK), eq(expectedIntent));
         verify(registrationActivity).finish();

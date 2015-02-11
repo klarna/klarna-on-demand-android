@@ -3,6 +3,7 @@ package com.klarna.ondemand;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *  The user's Klarna registration result, which includes the token used for making purchaces.
@@ -12,10 +13,10 @@ public class RegistrationResult implements Serializable{
     private String phoneNumber;
     private HashMap<Object, Object> userDetails;
 
-    public RegistrationResult(String token, String phoneNumber, HashMap<Object, Object> userDetails) {
+    public RegistrationResult(String token, String phoneNumber, Map<?, ?> userDetails) {
         this.token = token;
         this.phoneNumber = phoneNumber;
-        this.userDetails = userDetails;
+        this.userDetails = new HashMap<>(userDetails);
     }
 
     /**
