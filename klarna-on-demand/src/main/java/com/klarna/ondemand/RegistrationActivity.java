@@ -20,7 +20,7 @@ public class RegistrationActivity extends WebViewActivity {
     public static final String EXTRA_USER_TOKEN = "userToken";
     public static final String EXTRA_REGISTRATION_RESULT = "registrationResult";
     private static final String PAYLOAD_USER_TOKEN = "userToken";
-    private static final String PAYLOAD_PHONE_NUMBER= "phoneNumber";
+    private static final String PAYLOAD_PHONE_NUMBER= "phone";
     private static final String PAYLOAD_USER_DETAILS = "userDetails";
 
     @Override

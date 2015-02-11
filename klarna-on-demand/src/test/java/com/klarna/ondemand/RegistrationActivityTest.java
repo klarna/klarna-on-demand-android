@@ -59,7 +59,7 @@ public class RegistrationActivityTest {
 
         registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
             put("userToken", "my_token");
-            put("phoneNumber", "my_phoneNumber");
+            put("phone", "my_phoneNumber");
             put("userDetails", userDetails);
         }});
 
@@ -78,7 +78,7 @@ public class RegistrationActivityTest {
     public void handleUserReadyEvent_ShouldPutEmptyUserDetailsInTheRegistrationResult_WhenPaylodDoesNotContainUserDetails() {
         registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
             put("userToken", "my_token");
-            put("phoneNumber", "my_phoneNumber");
+            put("phone", "my_phoneNumber");
         }});
 
         Intent expectedIntent = new Intent();
