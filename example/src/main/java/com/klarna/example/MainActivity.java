@@ -13,6 +13,7 @@ import android.view.View;
 import com.klarna.ondemand.OriginProof;
 import com.klarna.ondemand.PreferencesActivity;
 import com.klarna.ondemand.RegistrationActivity;
+import com.klarna.ondemand.RegistrationSettingsBuilder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -132,7 +133,9 @@ public class MainActivity extends Activity {
             buyTicket();
         } else {
             // Open Klarna registration
+
             Intent intent = new Intent(this, RegistrationActivity.class);
+            intent.putExtra(RegistrationActivity.EXTRA_SETTINGS, new RegistrationSettingsBuilder().setConfirmedUserDataId("abcd").build());
             startActivityForResult(intent, REGISTRATION_REQUEST_CODE);
         }
     }
