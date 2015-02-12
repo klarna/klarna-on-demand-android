@@ -104,8 +104,11 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
   if (requestCode == REGISTRATION_REQUEST_CODE) {
     switch (resultCode) {
       case RegistrationActivity.RESULT_OK:
+        // Extract the registration result from the activity's extra data
+        RegistrationResult registrationResult = (RegistrationResult) data.getSerializableExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT);
+        
         // Here we store the token assigned to the user
-        String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
+        String token = registrationResult.getToken();
         saveUserToken(token);
         break;
       case RegistrationActivity.RESULT_CANCELED:
