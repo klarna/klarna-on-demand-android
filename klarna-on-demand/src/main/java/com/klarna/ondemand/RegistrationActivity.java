@@ -31,11 +31,10 @@ public class RegistrationActivity extends WebViewActivity {
     protected void handleUserReadyEvent(Map<Object, Object> payload) {
         Intent result = new Intent();
 
-        Map<?, ?> userDetails =  payload.containsKey(PAYLOAD_USER_DETAILS) ? (Map<?, ?>)payload.get(PAYLOAD_USER_DETAILS) : (Map<?, ?>)Collections.EMPTY_MAP;
         RegistrationResult registrationResult = new RegistrationResult(
                 (String)payload.get(PAYLOAD_USER_TOKEN),
                 (String)payload.get(PAYLOAD_PHONE_NUMBER),
-                userDetails);
+                (Map<?, ?>)payload.get(PAYLOAD_USER_DETAILS));
 
         result.putExtra(EXTRA_REGISTRATION_RESULT, registrationResult);
 

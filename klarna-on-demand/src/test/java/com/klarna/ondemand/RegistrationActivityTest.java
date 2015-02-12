@@ -73,22 +73,6 @@ public class RegistrationActivityTest {
     }
 
     @Test
-    public void handleUserReadyEvent_ShouldPutEmptyUserDetailsInTheRegistrationResult_WhenPaylodDoesNotContainUserDetails() {
-        registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
-            put("userToken", "my_token");
-            put("phone", "my_phoneNumber");
-        }});
-
-        Intent expectedIntent = new Intent();
-
-        expectedIntent.putExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT,
-                new RegistrationResult("my_token", "my_phoneNumber", Collections.emptyMap()));
-
-        verify(registrationActivity).setResult(eq(Activity.RESULT_OK), eq(expectedIntent));
-        verify(registrationActivity).finish();
-    }
-
-    @Test
     public void handleUserErrorEvent_ShouldCallFinishWithResultError() {
         registrationActivity.handleUserErrorEvent();
 
