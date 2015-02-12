@@ -17,9 +17,13 @@ public class RegistrationActivity extends WebViewActivity {
      */
     public static final String EXTRA_USER_TOKEN = "userToken";
 
+    public static final String EXTRA_SETTINGS = "settings";
+
     @Override
     protected String getUrl() {
-        return UrlHelper.registrationUrl(getApplicationContext());
+        RegistrationSettings registrationSettings = (RegistrationSettings) getIntent().getSerializableExtra(EXTRA_SETTINGS);
+
+        return UrlHelper.registrationUrl(getApplicationContext(), registrationSettings);
     }
 
     @Override
