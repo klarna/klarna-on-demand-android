@@ -64,8 +64,6 @@ public class RegistrationActivityTest {
         }});
 
         Intent expectedIntent = new Intent();
-        expectedIntent.putExtra(RegistrationActivity.EXTRA_USER_TOKEN, "my_token");
-
 
         expectedIntent.putExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT,
                 new RegistrationResult("my_token", "my_phoneNumber", userDetails));
@@ -82,7 +80,6 @@ public class RegistrationActivityTest {
         }});
 
         Intent expectedIntent = new Intent();
-        expectedIntent.putExtra(RegistrationActivity.EXTRA_USER_TOKEN, "my_token");
 
         expectedIntent.putExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT,
                 new RegistrationResult("my_token", "my_phoneNumber", Collections.emptyMap()));
