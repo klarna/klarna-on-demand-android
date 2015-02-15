@@ -172,6 +172,7 @@ You will most likely have a "buy" button somewhere in your application. The code
 
 private void performPurchaseOfItem(String reference, OriginProof originProof) throws IOException, JSONException, HttpHostConnectException {
   // Create a post request to instruct the backend to perform the purchase.
+  // For Genymotion devices, use the following path: http://10.0.3.2:9292/pay.
   HttpPost httpPost = new HttpPost("http://10.0.2.2:9292/pay");
 
   JSONObject jsonParams = new JSONObject();
