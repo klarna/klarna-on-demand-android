@@ -213,6 +213,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.os.Handler;
 ```
 
 The code above is less daunting than it seems. All it does is send the following JSON to `http://10.0.2.2:9292/pay` (This is [AVD](http://developer.android.com/tools/devices/managing-avds.html#createavd)'s loopback address, where a locally run sample backend would expect purchase requests):
