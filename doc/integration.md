@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 
 <a name="registration_view"></a>
 ##The registration view
-Users must go through a quick registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to charge the user for purchases.
+Users must go through a quick one time registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to charge the user for purchases.
 
 **Note:** It is important to point out that the registration activity will not function properly without network access, and that it does not currently support a landscape orientation.
 
