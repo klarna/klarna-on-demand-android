@@ -149,7 +149,7 @@ import com.klarna.ondemand.OriginProof;
 You will most likely have a "buy" button somewhere in your application. The code below shows how such a button might be implemented in your application's controller:
 
 ```java
-private void buyTicket() {
+ public void onBuyPressed(View view) {
   // create an origin proof to secure the purchase. Assume the getUserToken method yields
   // the user's token.
   final OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
