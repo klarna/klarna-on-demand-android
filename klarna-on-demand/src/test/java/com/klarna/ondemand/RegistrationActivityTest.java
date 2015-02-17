@@ -53,20 +53,13 @@ public class RegistrationActivityTest {
 
     @Test
     public void handleUserReadyEvent_ShouldPutRegistrationResultInExtraAndCallFinishWithResultOk() {
-        final HashMap<Object, Object> userDetails = new HashMap<Object, Object>() {{
-            put("firstName", "Tom");
-        }};
-
         registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
             put("userToken", "my_token");
-            put("phone", "my_phoneNumber");
-            put("userDetails", userDetails);
         }});
 
         Intent expectedIntent = new Intent();
 
-        expectedIntent.putExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT,
-                new RegistrationResult("my_token", "my_phoneNumber", userDetails));
+        expectedIntent.putExtra(RegistrationActivity.EXTRA_USER_TOKEN, "my_token");
 
         verify(registrationActivity).setResult(eq(Activity.RESULT_OK), eq(expectedIntent));
         verify(registrationActivity).finish();
