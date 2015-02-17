@@ -106,10 +106,9 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
       case RegistrationActivity.RESULT_OK:
         // Extract the registration result from the activity's extra data
         RegistrationResult registrationResult = (RegistrationResult) data.getSerializableExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT);
-        
-        // Here we store the token assigned to the user
         String token = registrationResult.getToken();
         
+        // Here we store the token assigned to the user
         // This is for illustrative purposes, we do not supply this method
         saveUserToken(token);
         break;
