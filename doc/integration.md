@@ -61,7 +61,7 @@ public class MainActivity extends Activity {
 
 <a name="registration_view"></a>
 ##The registration view
-Users must go through a quick registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to charge the user for purchases.
+Users must go through a quick one time registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to charge the user for purchases.
 
 **Note:** It is important to point out that the registration activity will not function properly without network access, and that it does not currently support a landscape orientation.
 
@@ -104,11 +104,13 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
   if (requestCode == REGISTRATION_REQUEST_CODE) {
     switch (resultCode) {
       case RegistrationActivity.RESULT_OK:
-        // Extract the user token from the activity's extra data
-        String userToken = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
-   
+        // Extract the registration result from the activity's extra data
+        RegistrationResult registrationResult = (RegistrationResult) data.getSerializableExtra(RegistrationActivity.EXTRA_REGISTRATION_RESULT);
+        String token = registrationResult.getToken();
+        
         // Here we store the token assigned to the user
-        saveUserToken(userToken);
+        // This is for illustrative purposes, we do not supply this method
+        saveUserToken(token);
         break;
       case RegistrationActivity.RESULT_CANCELED:
         break;
@@ -148,7 +150,7 @@ import com.klarna.ondemand.OriginProof;
 You will most likely have a "buy" button somewhere in your application. The code below shows how such a button might be implemented in your application's controller:
 
 ```java
-private void buyTicket() {
+ public void onBuyPressed(View view) {
   // create an origin proof to secure the purchase. Assume the getUserToken method yields
   // the user's token.
   final OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
@@ -171,6 +173,7 @@ private void buyTicket() {
 
 private void performPurchaseOfItem(String reference, OriginProof originProof) throws IOException, JSONException, HttpHostConnectException {
   // Create a post request to instruct the backend to perform the purchase.
+  // For Genymotion devices, use the following path: http://10.0.3.2:9292/pay.
   HttpPost httpPost = new HttpPost("http://10.0.2.2:9292/pay");
 
   JSONObject jsonParams = new JSONObject();
@@ -212,6 +215,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.os.Handler;
 ```
 
 The code above is less daunting than it seems. All it does is send the following JSON to `http://10.0.2.2:9292/pay` (This is [AVD](http://developer.android.com/tools/devices/managing-avds.html#createavd)'s loopback address, where a locally run sample backend would expect purchase requests):
