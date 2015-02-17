@@ -109,6 +109,8 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         
         // Here we store the token assigned to the user
         String token = registrationResult.getToken();
+        
+        // This is for illustrative purposes, we do not supply this method
         saveUserToken(token);
         break;
       case RegistrationActivity.RESULT_CANCELED:
