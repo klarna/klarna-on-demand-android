@@ -20,9 +20,8 @@ final class UrlHelper {
         return KLARNA_PRODUCTION_AUTHORITY;
     }
 
-    static String registrationUrl(android.content.Context context, RegistrationSettings settings) {
+    static String registrationUrl(android.content.Context context) {
         Uri.Builder builder = new Uri.Builder();
-
         builder.scheme("https")
                 .authority(getAuthority())
                 .appendPath("registration")
@@ -30,25 +29,19 @@ final class UrlHelper {
                 .appendQueryParameter("api_key", Context.getApiKey())
                 .appendQueryParameter("locale", defaultLocale())
                 .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
-
-        if(settings != null && settings.confirmedUserDataId != null) {
-            builder.appendQueryParameter("confirmed_user_data_id", settings.confirmedUserDataId);
-        }
-
         return builder.build().toString();
     }
 
     static String preferencesUrl(String token) {
         Uri.Builder builder = new Uri.Builder();
-        return builder.scheme("https")
+        builder.scheme("https")
                 .authority(getAuthority())
                 .appendPath("users")
                 .appendPath(token)
                 .appendPath("preferences")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
-                .build()
-                .toString();
+                .appendQueryParameter("locale", defaultLocale());
+        return builder.build().toString();
     }
 
     static String defaultLocale() {
