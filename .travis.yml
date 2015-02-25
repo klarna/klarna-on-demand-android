@@ -14,9 +14,9 @@ install:
 
 script:
 # Change the example app's API key to circumvent Ringcaptcha
-- find example -name "*.java" -print0 | xargs -0 sed -i "" 's#test_d8324b98-97ce-4974-88de-eaab2fdf4f14#test_6666666-6666-6666-6666-666666666666#g'
+- find example -name "*.java" -print0 | xargs -0 sed -i 's#test_d8324b98-97ce-4974-88de-eaab2fdf4f14#test_6666666-6666-6666-6666-666666666666#g'
 # Direct the app to the sample backend on Heroku
-- find example -name "*.java" -print0 | xargs -0 sed -i "" 's#http://10.0.2.2:9292/pay#https://sample-ondemand-backend.herokuapp.com/pay#g'
+- find example -name "*.java" -print0 | xargs -0 sed -i 's#http://10.0.2.2:9292/pay#https://sample-ondemand-backend.herokuapp.com/pay#g'
 
 # Build & run tests
 - ./gradlew build
