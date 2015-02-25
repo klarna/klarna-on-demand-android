@@ -6,6 +6,32 @@ android:
     - build-tools-21.1.2
     - android-21
 
-script:
-  - ./gradlew build
+addons:
+  sauce_connect: true
 
+install:
+- (cd integration-tests && bundle install)
+
+script:
+# Change the example app's API key to circumvent Ringcaptcha
+- find example -name "*.java" -print0 | xargs -0 sed -i "" 's#test_d8324b98-97ce-4974-88de-eaab2fdf4f14#test_6666666-6666-6666-6666-666666666666#g'
+# Direct the app to the sample backend on Heroku
+- find example -name "*.java" -print0 | xargs -0 sed -i "" 's#http://10.0.2.2:9292/pay#https://sample-ondemand-backend.herokuapp.com/pay#g'
+
+# Build & run tests
+- ./gradlew build
+
+# Send the app to SauceLabs
+- "curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY -X POST \"http://saucelabs.com/rest/v1/storage/$SAUCE_USERNAME/KODSampleApp.apk?overwrite=true\" -H \"Content-Type: application/octet-stream\" --data-binary @example/build/outputs/apk/example-debug.apk"
+
+# Run integration tests
+- (cd integration-tests && APP_LOCATION=sauce-storage:KODSampleApp.apk PLATFORM=android bundle exec cucumber)
+
+notifications:
+  email:
+  - index.e@klarna.com
+
+env:
+  global:
+  - secure: W8XABGAFbYdfnA6WgXTQN3+8f5iAB7ut38kqcvLLWeafg5yH61kXDOdArU9qDJQ/V7BcrspG3hiWcbPtzM0f9CCjzg7qmL7QY4owmo7pUMmOHAUcgAPnWq/ZufwAZQYdFomAwJnhO5/czUfyGr7GXx09kpaGeYM+KM95Wpu8e5c=
+  - secure: BhejJkf1IHr3vHoU7EGA661CzrVnu9nIzC4BymCLVq9wpAaD9XXl2G4kMlvtiud3IXRI+ceX+z1eTYooYRRwSLcp2C5bnHF1VIPifpMZdIqzDCULF8sGZe1EtDaDATZvaUspgzGKnXFwo+BhryCkgLOAkDWjiugi5pBDiIqB4NQ=
