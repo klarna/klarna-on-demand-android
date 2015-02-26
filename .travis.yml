@@ -25,7 +25,7 @@ script:
 - "curl -u $SAUCE_USERNAME:$SAUCE_ACCESS_KEY -X POST \"http://saucelabs.com/rest/v1/storage/$SAUCE_USERNAME/KODSampleApp.apk?overwrite=true\" -H \"Content-Type: application/octet-stream\" --data-binary @example/build/outputs/apk/example-debug.apk"
 
 # Run integration tests
-- (cd integration-tests && APP_LOCATION=sauce-storage:KODSampleApp.apk PLATFORM=android bundle exec cucumber)
+- (cd integration-tests && APP_LOCATION=sauce-storage:KODSampleApp.apk PLATFORM=android PLATFORM_VERSION=5.0 bundle exec cucumber)
 
 notifications:
   email:
