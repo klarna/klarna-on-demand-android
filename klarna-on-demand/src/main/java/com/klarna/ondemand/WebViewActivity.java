@@ -74,7 +74,6 @@ abstract class WebViewActivity extends Activity {
 
     protected WebView getWebView() {
         if (webView == null) {
-            WebView.setWebContentsDebuggingEnabled(true);
             webView = (WebView) findViewById(R.id.webView);
         }
 
