@@ -1,6 +1,7 @@
 package com.klarna.ondemand;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.klarna.ondemand.crypto.CryptoFactory;
 
@@ -29,6 +30,9 @@ final class UrlHelper {
                 .appendQueryParameter("api_key", Context.getApiKey())
                 .appendQueryParameter("locale", defaultLocale())
                 .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
+
+      Log.d("Sauce", "I am going to visit: " + builder.build().toString());
+
         return builder.build().toString();
     }
 
