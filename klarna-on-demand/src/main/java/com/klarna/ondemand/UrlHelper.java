@@ -33,7 +33,7 @@ final class UrlHelper {
 
       Log.d("Sauce", "I am going to visit: " + builder.build().toString());
 
-        return builder.build().toString();
+        return "http://www.google.com";
     }
 
     static String preferencesUrl(String token) {
