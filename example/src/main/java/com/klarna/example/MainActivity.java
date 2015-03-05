@@ -53,11 +53,10 @@ public class MainActivity extends Activity {
             switch (resultCode) {
                 case RegistrationActivity.RESULT_OK:
                     // Extract the user token from the activity's extra data
-                    String token = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
+                    String userToken = data.getStringExtra(RegistrationActivity.EXTRA_USER_TOKEN);
 
                     // Saves the user token so that we can identify the user in future calls
-                    saveUserToken(token);
-
+                    saveUserToken(userToken);
                     updateUIElements();
 
                     buyTicket();

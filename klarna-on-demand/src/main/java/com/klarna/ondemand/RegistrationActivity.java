@@ -4,6 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,6 +17,7 @@ public class RegistrationActivity extends WebViewActivity {
      * Extra item that is returned by the activity when the registration finishes.
      * This item uniquely identifies the user at Klarna.
      */
+    private static final String PAYLOAD_USER_TOKEN = "userToken";
     public static final String EXTRA_USER_TOKEN = "userToken";
 
     public static final String EXTRA_SETTINGS = "settings";
@@ -28,9 +31,10 @@ public class RegistrationActivity extends WebViewActivity {
 
     @Override
     protected void handleUserReadyEvent(Map<Object, Object> payload) {
-        String token = (String) payload.get("userToken");
         Intent result = new Intent();
-        result.putExtra(EXTRA_USER_TOKEN, token);
+
+        result.putExtra(EXTRA_USER_TOKEN, (String)payload.get(PAYLOAD_USER_TOKEN));
+
         setResult(RESULT_OK, result);
         finish();
     }

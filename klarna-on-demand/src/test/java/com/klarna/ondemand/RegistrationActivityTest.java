@@ -4,14 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import com.klarna.ondemand.crypto.Crypto;
-import com.klarna.ondemand.crypto.CryptoFactory;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.rule.PowerMockRule;
@@ -21,13 +17,11 @@ import org.robolectric.annotation.Config;
 import org.robolectric.tester.android.view.TestMenuItem;
 import org.robolectric.util.ActivityController;
 
+import java.util.Collections;
 import java.util.HashMap;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyObject;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -58,12 +52,16 @@ public class RegistrationActivityTest {
     }
 
     @Test
-    public void handleUserReadyEvent_ShouldCallFinishWithResultOk_WhenATokenIsReceived() {
+    public void handleUserReadyEvent_ShouldPutRegistrationResultInExtraAndCallFinishWithResultOk() {
         registrationActivity.handleUserReadyEvent(new HashMap<Object, Object>() {{
             put("userToken", "my_token");
         }});
 
-        verify(registrationActivity).setResult(eq(Activity.RESULT_OK), any(Intent.class));
+        Intent expectedIntent = new Intent();
+
+        expectedIntent.putExtra(RegistrationActivity.EXTRA_USER_TOKEN, "my_token");
+
+        verify(registrationActivity).setResult(eq(Activity.RESULT_OK), eq(expectedIntent));
         verify(registrationActivity).finish();
     }
 
