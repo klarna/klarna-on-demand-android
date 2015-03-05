@@ -78,6 +78,12 @@ public class UrlHelperTest {
 
         assertThat(UrlHelper.registrationUrl(context)).contains("public_key=my%2BpublicKey");
     }
+
+    @Test
+    public void registrationUrl_ShouldIncludeConfirmedUserDataIdWhenSupplied() {
+        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettingsBuilder().setConfirmedUserDataId("abcd").build())).contains("confirmed_user_data_id=abcd");
+    }
+
     //endregion
 
     //region .PreferencesUrlWithToken
@@ -92,7 +98,7 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("skadoo");
 
-        String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN +"/preferences";
+        String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN + "/preferences";
         assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
     }
 
