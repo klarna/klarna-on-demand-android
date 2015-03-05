@@ -1,7 +1,15 @@
 package com.klarna.ondemand;
 
-/**
- * Created by tomerlevi on 3/5/15.
- */
-public class RegistrationSettings {
+import java.io.Serializable;
+
+public class RegistrationSettings implements Serializable {
+    private String confirmedUserDataId;
+
+    RegistrationSettings(RegistrationSettingsBuilder builder) {
+        this.confirmedUserDataId = builder.confirmedUserDataId;
+    }
+
+    public String getConfirmedUserDataId() {
+        return confirmedUserDataId;
+    }
 }
