@@ -51,7 +51,7 @@ public class RegistrationActivityTest {
         when(Context.getApiKey()).thenReturn("test_skadoo");
 
         mockStatic(UrlHelper.class);
-        when(UrlHelper.registrationUrl((android.content.Context)anyObject())).thenReturn("my_url");
+        when(UrlHelper.registrationUrl((android.content.Context)anyObject(),(RegistrationSettings)anyObject())).thenReturn("my_url");
 
         registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).create();
         registrationActivity = spy(registrationActivityController.get());
