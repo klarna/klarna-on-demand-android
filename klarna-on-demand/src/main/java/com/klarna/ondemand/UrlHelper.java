@@ -1,6 +1,7 @@
 package com.klarna.ondemand;
 
 import android.net.Uri;
+import android.telephony.TelephonyManager;
 
 import com.klarna.ondemand.crypto.CryptoFactory;
 
@@ -39,7 +40,17 @@ final class UrlHelper {
             builder.appendQueryParameter("confirmed_user_data_id", settings.getConfirmedUserDataId());
         }
 
+        String phoneNumber = (settings != null && settings.getPhoneNumber() != null) ? settings.getPhoneNumber() : getGoogleAccountPhoneNumber(context);
+        if(phoneNumber != null && !phoneNumber.isEmpty()) {
+            builder.appendQueryParameter("prefill_phone_number", phoneNumber);
+        }
+
         return builder.build().toString();
+    }
+
+    static String getGoogleAccountPhoneNumber(android.content.Context context) {
+        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
+        return tMgr.getLine1Number();
     }
 
     static String preferencesUrl(String token) {
