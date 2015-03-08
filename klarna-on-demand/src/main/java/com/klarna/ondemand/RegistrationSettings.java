@@ -7,18 +7,18 @@ import java.io.Serializable;
  */
 public class RegistrationSettings implements Serializable {
     private String confirmedUserDataId;
-    private String phoneNumber;
+    private String prefillPhoneNumber;
 
     RegistrationSettings(RegistrationSettingsBuilder builder) {
         this.confirmedUserDataId = builder.confirmedUserDataId;
-        this.phoneNumber = builder.phoneNumber;
+        this.prefillPhoneNumber = builder.prefillPhoneNumber;
     }
 
     public String getConfirmedUserDataId() {
         return confirmedUserDataId;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getPrefillPhoneNumber() {
+        return prefillPhoneNumber;
     }
 }

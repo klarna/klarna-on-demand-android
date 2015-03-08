@@ -5,8 +5,6 @@ import android.telephony.TelephonyManager;
 
 import com.klarna.ondemand.crypto.CryptoFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Locale;
 
 final class UrlHelper {
@@ -40,7 +38,7 @@ final class UrlHelper {
             builder.appendQueryParameter("confirmed_user_data_id", settings.getConfirmedUserDataId());
         }
 
-        String phoneNumber = (settings != null && settings.getPhoneNumber() != null) ? settings.getPhoneNumber() : getGoogleAccountPhoneNumber(context);
+        String phoneNumber = (settings != null && settings.getPrefillPhoneNumber() != null) ? settings.getPrefillPhoneNumber() : getGoogleAccountPhoneNumber(context);
         if(phoneNumber != null && !phoneNumber.isEmpty()) {
             builder.appendQueryParameter("prefill_phone_number", phoneNumber);
         }

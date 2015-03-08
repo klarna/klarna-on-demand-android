@@ -6,7 +6,7 @@ package com.klarna.ondemand;
 public class RegistrationSettingsBuilder {
 
     String confirmedUserDataId;
-    String phoneNumber;
+    String prefillPhoneNumber;
 
     /**
      * Sets confirmed user data id parameter
@@ -20,12 +20,12 @@ public class RegistrationSettingsBuilder {
     }
 
     /**
-     * Sets phone number parameter
-     * @param phoneNumber phone number of the user. This number will be pre-filled in the registration activity.
+     * Sets pre-fill phone number parameter
+     * @param prefillPhoneNumber phone number of the user. This number will be pre-filled in the registration activity.
      * @return this registration settings builder object
      */
-    public RegistrationSettingsBuilder setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public RegistrationSettingsBuilder setPrefillPhoneNumber(String prefillPhoneNumber) {
+        this.prefillPhoneNumber = prefillPhoneNumber;
 
         return this;
     }

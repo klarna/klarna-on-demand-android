@@ -86,7 +86,7 @@ public class UrlHelperTest {
 
     @Test
     public void registrationUrl_ShouldIncludePhoneNumberWhenSupplied() {
-        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettingsBuilder().setPhoneNumber("12345678").build())).contains("prefill_phone_number=12345678");
+        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettingsBuilder().setPrefillPhoneNumber("12345678").build())).contains("prefill_phone_number=12345678");
     }
 
     //endregion
