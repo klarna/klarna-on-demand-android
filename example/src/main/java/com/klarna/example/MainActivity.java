@@ -133,7 +133,6 @@ public class MainActivity extends Activity {
         } else {
             // Open Klarna registration
             Intent intent = new Intent(this, RegistrationActivity.class);
-            intent.putExtra(RegistrationActivity.EXTRA_SETTINGS, new RegistrationSettingsBuilder().setConfirmedUserDataId("abcd").build());
             startActivityForResult(intent, REGISTRATION_REQUEST_CODE);
         }
     }
