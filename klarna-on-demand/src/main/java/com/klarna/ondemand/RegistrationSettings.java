@@ -9,15 +9,21 @@ public class RegistrationSettings implements Serializable {
     private String confirmedUserDataId;
     private String prefillPhoneNumber;
 
-    RegistrationSettings(RegistrationSettingsBuilder builder) {
-        this.confirmedUserDataId = builder.confirmedUserDataId;
-        this.prefillPhoneNumber = builder.prefillPhoneNumber;
+    RegistrationSettings(String confirmedUserDataId, String prefillPhoneNumber) {
+        this.confirmedUserDataId = confirmedUserDataId;
+        this.prefillPhoneNumber = prefillPhoneNumber;
     }
 
+    /**
+     * @return Confirmed user data id
+     */
     public String getConfirmedUserDataId() {
         return confirmedUserDataId;
     }
 
+    /**
+     * @return Pre-fill phone number
+     */
     public String getPrefillPhoneNumber() {
         return prefillPhoneNumber;
     }

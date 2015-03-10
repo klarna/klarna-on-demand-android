@@ -35,6 +35,6 @@ public class RegistrationSettingsBuilder {
      * @return registration settings object
      */
     public RegistrationSettings build() {
-        return new RegistrationSettings(this);
+        return new RegistrationSettings(confirmedUserDataId, prefillPhoneNumber);
     }
 }
