@@ -19,10 +19,6 @@ final class UrlHelper {
         return KLARNA_PRODUCTION_AUTHORITY;
     }
 
-    static String registrationUrl(android.content.Context context) {
-        return registrationUrl(context, null);
-    }
-
     static String registrationUrl(android.content.Context context, RegistrationSettings settings) {
         Uri.Builder builder = new Uri.Builder();
 
