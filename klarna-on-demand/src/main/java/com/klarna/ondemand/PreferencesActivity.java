@@ -1,6 +1,8 @@
 package com.klarna.ondemand;
 
 import java.util.Map;
+
+import android.os.Bundle;
 import android.text.TextUtils;
 
 /**
@@ -15,9 +17,16 @@ public class PreferencesActivity extends WebViewActivity {
     public static final String EXTRA_USER_TOKEN = "userToken";
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        getWebView().loadUrl(getUrl());
+    }
+
+    @Override
     protected String getUrl() {
         String token = getIntent().getStringExtra(EXTRA_USER_TOKEN);
-        
+
         if (TextUtils.isEmpty(token))
         //This also checks if the Token is not null but empty string for some reason.
         {

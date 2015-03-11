@@ -34,17 +34,11 @@ final class UrlHelper {
             builder.appendQueryParameter("confirmed_user_data_id", settings.getConfirmedUserDataId());
         }
 
-        String phoneNumber = (settings != null && settings.getPrefillPhoneNumber() != null) ? settings.getPrefillPhoneNumber() : getGoogleAccountPhoneNumber(context);
-        if(phoneNumber != null && !phoneNumber.isEmpty()) {
-            builder.appendQueryParameter("prefill_phone_number", phoneNumber);
+        if(settings != null && settings.getPrefillPhoneNumber() != null) {
+            builder.appendQueryParameter("prefill_phone_number", settings.getPrefillPhoneNumber());
         }
 
         return builder.build().toString();
-    }
-
-    static String getGoogleAccountPhoneNumber(android.content.Context context) {
-        TelephonyManager tMgr = (TelephonyManager) context.getSystemService(context.TELEPHONY_SERVICE);
-        return tMgr.getLine1Number();
     }
 
     static String preferencesUrl(String token) {

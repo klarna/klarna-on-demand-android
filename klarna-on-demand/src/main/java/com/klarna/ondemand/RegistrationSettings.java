@@ -6,8 +6,8 @@ import java.io.Serializable;
  * Defines the settings for Klarna's Registration Activity
  */
 public class RegistrationSettings implements Serializable {
-    private String confirmedUserDataId;
-    private String prefillPhoneNumber;
+    String confirmedUserDataId;
+    String prefillPhoneNumber;
 
     RegistrationSettings(String confirmedUserDataId, String prefillPhoneNumber) {
         this.confirmedUserDataId = confirmedUserDataId;

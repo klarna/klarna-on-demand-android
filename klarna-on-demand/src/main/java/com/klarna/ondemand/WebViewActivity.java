@@ -38,8 +38,6 @@ abstract class WebViewActivity extends Activity {
         initializeWebView();
 
         registerJockeyEvents();
-
-        getWebView().loadUrl(getUrl());
     }
 
     @Override
