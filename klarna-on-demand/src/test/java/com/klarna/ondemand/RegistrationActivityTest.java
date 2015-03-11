@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.view.MenuItem;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -17,11 +18,12 @@ import org.robolectric.annotation.Config;
 import org.robolectric.tester.android.view.TestMenuItem;
 import org.robolectric.util.ActivityController;
 
-import java.util.Collections;
 import java.util.HashMap;
 
 import static org.mockito.Matchers.anyObject;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,8 +38,8 @@ public class RegistrationActivityTest {
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
-    private ActivityController<RegistrationActivity> registrationActivityController;
-    private RegistrationActivity registrationActivity;
+    private ActivityController<RegistrationActivityMock> registrationActivityController;
+    private RegistrationActivityMock registrationActivity;
 
     @Before
     public void beforeEach() {
@@ -47,7 +49,7 @@ public class RegistrationActivityTest {
         mockStatic(UrlHelper.class);
         when(UrlHelper.registrationUrl((android.content.Context)anyObject(),(RegistrationSettings)anyObject())).thenReturn("my_url");
 
-        registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).create();
+        registrationActivityController = Robolectric.buildActivity(RegistrationActivityMock.class).create();
         registrationActivity = spy(registrationActivityController.get());
     }
 
@@ -93,5 +95,5 @@ public class RegistrationActivityTest {
         verify(registrationActivity).showDismissAlert();
     }
 
-    //Missing specs for getSimCardPhoneNumber() and getDevicePhoneNumber()
+    //Missing specs for getSimCardPhoneNumber() and getDevicePhoneNumber(), due to inability to mock Activities in the current testing environment.
 }
