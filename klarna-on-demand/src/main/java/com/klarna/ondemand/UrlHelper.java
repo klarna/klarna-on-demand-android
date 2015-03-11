@@ -1,7 +1,6 @@
 package com.klarna.ondemand;
 
 import android.net.Uri;
-import android.telephony.TelephonyManager;
 
 import com.klarna.ondemand.crypto.CryptoFactory;
 

@@ -1,7 +1,7 @@
 package com.klarna.ondemand;
 
 /**
- * Builds a RegistrationSettings object
+ * Builds a RegistrationSettings {@link com.klarna.ondemand.RegistrationSettings} object
  */
 public class RegistrationSettingsBuilder {
 
@@ -21,7 +21,7 @@ public class RegistrationSettingsBuilder {
 
     /**
      * Sets pre-fill phone number parameter
-     * @param prefillPhoneNumber phone number of the user. This number will be pre-filled in the registration activity.
+     * @param prefillPhoneNumber phone number of the user. This number will be pre-filled in the registration activity
      * @return this registration settings builder object
      */
     public RegistrationSettingsBuilder setPrefillPhoneNumber(String prefillPhoneNumber) {
@@ -31,7 +31,7 @@ public class RegistrationSettingsBuilder {
     }
 
     /**
-     * Creates a RegistrationSettings object from this builder.
+     * Creates a RegistrationSettings object
      * @return registration settings object
      */
     public RegistrationSettings build() {
