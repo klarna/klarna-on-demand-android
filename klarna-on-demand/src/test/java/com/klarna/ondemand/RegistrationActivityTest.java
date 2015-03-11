@@ -92,4 +92,6 @@ public class RegistrationActivityTest {
 
         verify(registrationActivity).showDismissAlert();
     }
+
+    //Missing specs for getSimCardPhoneNumber() and getDevicePhoneNumber()
 }
