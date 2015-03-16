@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -94,19 +93,15 @@ abstract class WebViewActivity extends Activity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-              Log.d("Sauce", "Everything is awesome!");
-              progressDialog.dismiss();
+                progressDialog.dismiss();
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-              Log.d("Sauce", "Something bad happened! " + errorCode);
-              Log.d("Sauce", description);
+                progressDialog.dismiss();
 
-              progressDialog.dismiss();
-
-              setResult(RESULT_ERROR);
-              finish();
+                setResult(RESULT_ERROR);
+                finish();
             }
         });
     }

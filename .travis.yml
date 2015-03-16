@@ -6,12 +6,13 @@ android:
     - build-tools-21.1.2
     - android-21
 
-# TODO: Update the URL once this gets merged to master
-before_script:
-  - curl https://raw.githubusercontent.com/klarna/klarna-on-demand-android/feature/IACO-681-integration-test-infrastructure/sauce_connect_init.sh -L | bash
-
 install:
 - (cd integration-tests && bundle install)
+
+# TODO: Update the URL once this gets merged to master
+before_script:
+- curl https://raw.githubusercontent.com/klarna/klarna-on-demand-android/feature/IACO-681-integration-test-infrastructure/sauce_connect_init.sh -L | bash
+
 
 script:
 # Change the example app's API key to circumvent Ringcaptcha
