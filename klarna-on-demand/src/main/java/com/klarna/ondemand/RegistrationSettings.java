@@ -9,6 +9,11 @@ public class RegistrationSettings implements Serializable {
     String confirmedUserDataId;
     String prefillPhoneNumber;
 
+    /**
+     * create a registration-settings object
+     * @param prefillPhoneNumber Pre-fill phone number
+     * @param confirmedUserDataId Confirmed user data id
+     */
     public RegistrationSettings(String prefillPhoneNumber, String confirmedUserDataId) {
         this.prefillPhoneNumber = prefillPhoneNumber;
         this.confirmedUserDataId = confirmedUserDataId;
