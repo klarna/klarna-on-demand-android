@@ -23,7 +23,6 @@ public class PreferencesActivity extends WebViewActivity {
         getWebView().loadUrl(getUrl());
     }
 
-    @Override
     protected String getUrl() {
         String token = getIntent().getStringExtra(EXTRA_USER_TOKEN);
 
