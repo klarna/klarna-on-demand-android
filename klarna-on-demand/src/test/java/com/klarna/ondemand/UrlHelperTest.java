@@ -81,12 +81,12 @@ public class UrlHelperTest {
 
     @Test
     public void registrationUrl_ShouldIncludeConfirmedUserDataIdWhenSupplied() {
-        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettingsBuilder().setConfirmedUserDataId("abcd").build())).contains("confirmed_user_data_id=abcd");
+        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettings(null, "abcd"))).contains("confirmed_user_data_id=abcd");
     }
 
     @Test
     public void registrationUrl_ShouldIncludePrefillPhoneNumberWhenSupplied() {
-        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettingsBuilder().setPrefillPhoneNumber("12345678").build())).contains("prefill_phone_number=12345678");
+        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettings("12345678", null))).contains("prefill_phone_number=12345678");
     }
 
     //endregion
