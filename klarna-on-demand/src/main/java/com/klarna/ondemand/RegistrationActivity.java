@@ -102,6 +102,12 @@ public class RegistrationActivity extends WebViewActivity implements LoaderManag
 
     //region LoaderManager.LoaderCallbacks<Cursor> implementation
 
+    /**
+     * Create loader for extracting the user's phone number asynchronically
+     * @param id
+     * @param arguments
+     * @return generated cursor
+     */
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle arguments) {
         return new CursorLoader(this,
