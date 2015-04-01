@@ -64,7 +64,7 @@ public class MainActivity extends Activity {
 Users must go through a quick one time registration process in order to pay using Klarna. To make this process as simple as possible, the SDK provides an activity which hosts a registration view that you should present to your users. Once the registration process is complete, you will receive a token that will allow you to charge the user for purchases.
 
 **Note:** It is important to point out that the registration activity will not function properly without network access, and that it does not currently support a landscape orientation.
-Moreover, the SDK requires READ_PROFILE, READ_CONTACTS and READ_PHONE_STATE permissions, because it extracts the user's phone number upon registration, if possible.
+Moreover, it requires READ_PROFILE, READ_CONTACTS and READ_PHONE_STATE permissions, because it extracts the user's phone number upon registration, if possible.
 
 ###Showing the view
 For the sake of this example, assume we have a button that launches the registration activity (we will cover a better approach [later](#when_to_show_registration)).
