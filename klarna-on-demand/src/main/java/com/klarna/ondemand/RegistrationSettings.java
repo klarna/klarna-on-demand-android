@@ -9,9 +9,12 @@ public class RegistrationSettings implements Serializable {
     String confirmedUserDataId;
     String prefillPhoneNumber;
 
-    RegistrationSettings(String confirmedUserDataId, String prefillPhoneNumber) {
-        this.confirmedUserDataId = confirmedUserDataId;
+    public RegistrationSettings(String prefillPhoneNumber, String confirmedUserDataId) {
         this.prefillPhoneNumber = prefillPhoneNumber;
+        this.confirmedUserDataId = confirmedUserDataId;
+    }
+
+    RegistrationSettings() {
     }
 
     /**
@@ -26,5 +29,11 @@ public class RegistrationSettings implements Serializable {
      */
     public String getPrefillPhoneNumber() {
         return prefillPhoneNumber;
+    }
+
+    void setPrefillPhoneNumberIfBlank(String phoneNumber) {
+        if(prefillPhoneNumber == null || prefillPhoneNumber.isEmpty()) {
+            prefillPhoneNumber = phoneNumber;
+        }
     }
 }

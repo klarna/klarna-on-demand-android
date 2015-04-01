@@ -22,46 +22,40 @@ public class RegistrationActivity extends WebViewActivity implements LoaderManag
      */
     private static final String PAYLOAD_USER_TOKEN = "userToken";
     public static final String EXTRA_USER_TOKEN = "userToken";
-    private static String myProfilePhoneNumber = null;
-
     public static final String EXTRA_SETTINGS = "settings";
+    private RegistrationSettings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initializeLoader();
+        settings = (RegistrationSettings) getIntent().getSerializableExtra(EXTRA_SETTINGS);
+        if(settings == null) {
+            settings = new RegistrationSettings();
+        }
+
+        settings.setPrefillPhoneNumberIfBlank(getSimCardPhoneNumber());
+
+        if(settings.prefillPhoneNumber != null) {
+            getWebView().loadUrl(getUrl());
+        }
+        else {
+            initializeLoader();
+        }
+    }
+
+    private String getSimCardPhoneNumber() {
+        TelephonyManager tMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+
+        return tMgr == null ? null : tMgr.getLine1Number();
     }
 
     void initializeLoader() {
         getLoaderManager().initLoader(0, null, this);
     }
 
-    @Override
     protected String getUrl() {
-        RegistrationSettings settings = (RegistrationSettings) getIntent().getSerializableExtra(EXTRA_SETTINGS);
-
-        if(settings == null) {
-            settings = new RegistrationSettingsBuilder().build();
-        }
-
-        if(settings.prefillPhoneNumber == null) {
-            settings.prefillPhoneNumber = getDevicePhoneNumber();
-        }
-
         return UrlHelper.registrationUrl(getApplicationContext(), settings);
-    }
-
-    String getDevicePhoneNumber() {
-        String simCardPhoneNumber = getSimCardPhoneNumber();
-
-        return (simCardPhoneNumber != null && !simCardPhoneNumber.isEmpty()) ? simCardPhoneNumber : myProfilePhoneNumber;
-    }
-
-    String getSimCardPhoneNumber() {
-        TelephonyManager tMgr = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
-
-        return tMgr == null ? null : tMgr.getLine1Number();
     }
 
     @Override
@@ -130,7 +124,9 @@ public class RegistrationActivity extends WebViewActivity implements LoaderManag
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
         cursor.moveToFirst();
 
-        myProfilePhoneNumber = cursor.getString(ProfileQuery.NUMBER);
+        if(cursor.getCount() > 0) {
+            settings.prefillPhoneNumber = cursor.getString(ProfileQuery.NUMBER);
+        }
 
         getWebView().loadUrl(getUrl());
     }
