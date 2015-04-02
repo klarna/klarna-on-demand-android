@@ -4,8 +4,6 @@ import android.net.Uri;
 
 import com.klarna.ondemand.crypto.CryptoFactory;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Locale;
 
 final class UrlHelper {
@@ -20,8 +18,9 @@ final class UrlHelper {
         return KLARNA_PRODUCTION_AUTHORITY;
     }
 
-    static String registrationUrl(android.content.Context context) {
+    static String registrationUrl(android.content.Context context, RegistrationSettings settings) {
         Uri.Builder builder = new Uri.Builder();
+
         builder.scheme("https")
                 .authority(getAuthority())
                 .appendPath("registration")
@@ -29,19 +28,31 @@ final class UrlHelper {
                 .appendQueryParameter("api_key", Context.getApiKey())
                 .appendQueryParameter("locale", defaultLocale())
                 .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
+
+        if(settings != null) {
+            if (!HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
+                builder.appendQueryParameter("prefill_phone_number", settings.getPrefillPhoneNumber());
+            }
+
+            if (!HelperMethods.isBlank(settings.getConfirmedUserDataId())) {
+                builder.appendQueryParameter("confirmed_user_data_id", settings.getConfirmedUserDataId());
+            }
+        }
+
         return builder.build().toString();
     }
 
     static String preferencesUrl(String token) {
         Uri.Builder builder = new Uri.Builder();
-        builder.scheme("https")
+        return builder.scheme("https")
                 .authority(getAuthority())
                 .appendPath("users")
                 .appendPath(token)
                 .appendPath("preferences")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale());
-        return builder.build().toString();
+                .appendQueryParameter("locale", defaultLocale())
+                .build()
+                .toString();
     }
 
     static String defaultLocale() {

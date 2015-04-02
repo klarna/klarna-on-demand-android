@@ -38,8 +38,6 @@ abstract class WebViewActivity extends Activity {
         initializeWebView();
 
         registerJockeyEvents();
-
-        getWebView().loadUrl(getUrl());
     }
 
     @Override
@@ -61,8 +59,6 @@ abstract class WebViewActivity extends Activity {
     }
 
     protected abstract int homeButtonResultCode();
-
-    protected abstract String getUrl();
 
     protected abstract void handleUserReadyEvent(Map<Object, Object> payload);
 

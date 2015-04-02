@@ -51,33 +51,44 @@ public class UrlHelperTest {
     //region .registrationUrl
     @Test
     public void registrationUrl_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        assertThat(UrlHelper.registrationUrl(context)).startsWith("https://inapp.playground.klarna.com/registration/new");
+        assertThat(UrlHelper.registrationUrl(context, null)).startsWith("https://inapp.playground.klarna.com/registration/new");
     }
 
     @Test
     public void registrationUrl_ShouldReturnProductionUrl_WhenTokenIsForProduction() {
         when(Context.getApiKey()).thenReturn("skadoo");
-        assertThat(UrlHelper.registrationUrl(context)).startsWith("https://inapp.klarna.com/registration/new");
+        assertThat(UrlHelper.registrationUrl(context, null)).startsWith("https://inapp.klarna.com/registration/new");
     }
 
     @Test
     public void registrationUrl_ShouldReturnUrlWithTheDefaultLocale() {
         Locale.setDefault(new Locale("my_locale"));
 
-        assertThat(UrlHelper.registrationUrl(context)).contains("locale=my_locale");
+        assertThat(UrlHelper.registrationUrl(context, null)).contains("locale=my_locale");
     }
 
     @Test
     public void registrationUrl_ShouldIncludeThePublicKeyInTheRegistrationUrl() {
-        assertThat(UrlHelper.registrationUrl(context)).contains("public_key=my_publicKey");
+        assertThat(UrlHelper.registrationUrl(context, null)).contains("public_key=my_publicKey");
     }
 
     @Test
     public void registrationUrl_ShouldEncodeUrlParameters() {
         when(cryptoMock.getPublicKeyBase64Str()).thenReturn("my+publicKey");
 
-        assertThat(UrlHelper.registrationUrl(context)).contains("public_key=my%2BpublicKey");
+        assertThat(UrlHelper.registrationUrl(context, null)).contains("public_key=my%2BpublicKey");
     }
+
+    @Test
+    public void registrationUrl_ShouldIncludeConfirmedUserDataIdWhenSupplied() {
+        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettings(null, "abcd"))).contains("confirmed_user_data_id=abcd");
+    }
+
+    @Test
+    public void registrationUrl_ShouldIncludePrefillPhoneNumberWhenSupplied() {
+        assertThat(UrlHelper.registrationUrl(context, new RegistrationSettings("12345678", null))).contains("prefill_phone_number=12345678");
+    }
+
     //endregion
 
     //region .PreferencesUrlWithToken
@@ -92,7 +103,7 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("skadoo");
 
-        String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN +"/preferences";
+        String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN + "/preferences";
         assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
     }
 
