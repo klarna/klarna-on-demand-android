@@ -36,11 +36,11 @@ public class RegistrationActivity extends WebViewActivity implements LoaderManag
 
         settings.setPrefillPhoneNumberIfBlank(getSimCardPhoneNumber());
 
-        if(settings.prefillPhoneNumber != null) {
-            getWebView().loadUrl(getUrl());
+        if(HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
+            initializeLoader();
         }
         else {
-            initializeLoader();
+            getWebView().loadUrl(getUrl());
         }
     }
 

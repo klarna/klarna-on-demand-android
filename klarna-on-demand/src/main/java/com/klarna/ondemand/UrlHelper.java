@@ -29,12 +29,14 @@ final class UrlHelper {
                 .appendQueryParameter("locale", defaultLocale())
                 .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
 
-        if(settings != null && settings.getConfirmedUserDataId() != null) {
-            builder.appendQueryParameter("confirmed_user_data_id", settings.getConfirmedUserDataId());
-        }
+        if(settings != null) {
+            if (!HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
+                builder.appendQueryParameter("prefill_phone_number", settings.getPrefillPhoneNumber());
+            }
 
-        if(settings != null && settings.getPrefillPhoneNumber() != null) {
-            builder.appendQueryParameter("prefill_phone_number", settings.getPrefillPhoneNumber());
+            if (!HelperMethods.isBlank(settings.getConfirmedUserDataId())) {
+                builder.appendQueryParameter("confirmed_user_data_id", settings.getConfirmedUserDataId());
+            }
         }
 
         return builder.build().toString();

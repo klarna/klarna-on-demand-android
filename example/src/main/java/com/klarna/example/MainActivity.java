@@ -13,6 +13,7 @@ import android.view.View;
 import com.klarna.ondemand.OriginProof;
 import com.klarna.ondemand.PreferencesActivity;
 import com.klarna.ondemand.RegistrationActivity;
+import com.klarna.ondemand.RegistrationSettings;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
