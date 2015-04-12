@@ -86,6 +86,9 @@ public void onRegisterPressed(View view) {
 
 We should point out that `REGISTRATION_REQUEST_CODE` is simply a constant that we will later use to tell that the registration activity has completed.
 
+**Note:**
+If you're using [AppCompat] (https://developer.android.com/reference/android/support/v7/appcompat/package-summary.html) styles, make sure you don't set it as default in your ApplicationManifest.xml under `<application>` tag.
+
 This is really all there is to displaying the registration view.
 
 ###Interacting with the view
