@@ -12,12 +12,14 @@
         <activity
             android:name=".RegistrationActivity"
             android:label="@string/TITLE_ACTIVITY_REGISTRATION"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light">
         </activity>
         <activity
             android:name=".PreferencesActivity"
             android:label="@string/TITLE_ACTIVITY_PREFERENCES"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Holo.Light">
         </activity>
     </application>
 
