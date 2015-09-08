@@ -29,7 +29,7 @@ public final class Context {
 
     /**
      * Sets the button color for Klarna views in this application.
-     * @param buttonColor Merchant's public API key for this application.
+     * @param buttonColor Button color for Klarna views in this application.
      */
     public static void setButtonColor(Integer buttonColor) { Context.buttonColor = buttonColor; }
 
@@ -41,12 +41,12 @@ public final class Context {
 
     /**
      * Sets the link color for Klarna views in this application.
-     * @param linkColor Merchant's public API key for this application.
+     * @param linkColor Link color for Klarna views in this application.
      */
     public static void setLinkColor(Integer linkColor) { Context.linkColor = linkColor; }
 
     /**
-     * Returns the link color set using {@link #setLinkColor(android.graphics.Color)}.
+     * Returns the link color set using {@link #setLinkColor(Integer)}.
      * @return Link color for Klarna views in this application.
      */
     public static Integer getLinkColor() { return linkColor; }
