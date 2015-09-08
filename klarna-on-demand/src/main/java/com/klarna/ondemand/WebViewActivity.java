@@ -145,7 +145,7 @@ abstract class WebViewActivity extends Activity {
 
                 jockey.send(USER_READY_RESPONSE_EVENT_IDENTIFIER,
                             getWebView(),
-                            new UserReadyResponsePayload(payload.get("event").toString(), "success"););
+                            new UserReadyResponsePayload(payload.get("event").toString(), "success"));
             }
         });
 
