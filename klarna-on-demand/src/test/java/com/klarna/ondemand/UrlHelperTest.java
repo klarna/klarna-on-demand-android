@@ -51,13 +51,13 @@ public class UrlHelperTest {
     //region .registrationUrl
     @Test
     public void registrationUrl_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        assertThat(UrlHelper.registrationUrl(context, null)).startsWith("https://inapp.playground.klarna.com/registration/new");
+        assertThat(UrlHelper.registrationUrl(context, null)).startsWith("https://ondemand-dg.playground.klarna.com/web/registration");
     }
 
     @Test
     public void registrationUrl_ShouldReturnProductionUrl_WhenTokenIsForProduction() {
         when(Context.getApiKey()).thenReturn("skadoo");
-        assertThat(UrlHelper.registrationUrl(context, null)).startsWith("https://inapp.klarna.com/registration/new");
+        assertThat(UrlHelper.registrationUrl(context, null)).startsWith("https://ondemand.klarna.com/web/registration");
     }
 
     @Test
@@ -94,8 +94,9 @@ public class UrlHelperTest {
     //region .PreferencesUrlWithToken
     @Test
     public void preferencesUrlWithToken_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
-        String expectedPrefix = "https://inapp.playground.klarna.com/users/" + TOKEN + "/preferences";
+        String expectedPrefix = "https://ondemand-dg.playground.klarna.com/web/preferences";
         assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
+        assertThat(UrlHelper.preferencesUrl(TOKEN)).contains(String.format("user_token=%s", TOKEN));
     }
 
     @Test
@@ -103,8 +104,9 @@ public class UrlHelperTest {
         mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("skadoo");
 
-        String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN + "/preferences";
+        String expectedPrefix = "https://ondemand.klarna.com/web/preferences";
         assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
+        assertThat(UrlHelper.preferencesUrl(TOKEN)).contains(String.format("user_token=%s", TOKEN));
     }
 
     @Test
