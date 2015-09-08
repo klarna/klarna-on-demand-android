@@ -8,7 +8,7 @@ import java.util.Locale;
 
 final class UrlHelper {
 
-    private static final String KLARNA_PLAYGROUND_AUTHORITY = "ondemand-dg.klarna.com";
+    private static final String KLARNA_PLAYGROUND_AUTHORITY = "ondemand-dg.playground.klarna.com";
     private static final String KLARNA_PRODUCTION_AUTHORITY = "ondemand.klarna.com";
 
     static String getAuthority() {
@@ -19,14 +19,15 @@ final class UrlHelper {
     }
 
     static String registrationUrl(android.content.Context context, RegistrationSettings settings) {
-        Uri.Builder builder = Uri.parse("http://192.168.56.1:8000").buildUpon()
+        Uri.Builder builder = new Uri.Builder().scheme("https")
+                                               .authority(getAuthority())
                                                .appendPath("web")
                                                .appendPath("registration")
                                                .appendQueryParameter("in_app", "true")
                                                .appendQueryParameter("api_key", Context.getApiKey())
                                                .appendQueryParameter("locale", defaultLocale())
                                                .appendQueryParameter("flow", "registration")
-                                               .appendQueryParameter("public_key", "4444");
+                                               .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
 
         if(Context.getButtonColor() != null) {
             builder = builder.appendQueryParameter("color_button", HelperMethods.hexStringFromColor(Context.getButtonColor()));
