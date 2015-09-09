@@ -43,7 +43,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
-        com.klarna.ondemand.Context.setButtonColor(Color.rgb(31, 120, 200));
+        com.klarna.ondemand.Context.setLinkColor(Color.rgb(31, 120, 200));
         com.klarna.ondemand.Context.setButtonColor(Color.GRAY);
 
         initializeUIElements();
