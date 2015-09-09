@@ -8,8 +8,8 @@ import java.util.Locale;
 
 final class UrlHelper {
 
-    private static final String KLARNA_PLAYGROUND_AUTHORITY = "inapp.playground.klarna.com";
-    private static final String KLARNA_PRODUCTION_AUTHORITY = "inapp.klarna.com";
+    private static final String KLARNA_PLAYGROUND_AUTHORITY = "ondemand-dg.playground.klarna.com";
+    private static final String KLARNA_PRODUCTION_AUTHORITY = "ondemand.klarna.com";
 
     static String getAuthority() {
         if(com.klarna.ondemand.Context.getApiKey().startsWith("test_")) {
@@ -19,15 +19,23 @@ final class UrlHelper {
     }
 
     static String registrationUrl(android.content.Context context, RegistrationSettings settings) {
-        Uri.Builder builder = new Uri.Builder();
+        Uri.Builder builder = new Uri.Builder().scheme("https")
+                                               .authority(getAuthority())
+                                               .appendPath("web")
+                                               .appendPath("registration")
+                                               .appendQueryParameter("in_app", "true")
+                                               .appendQueryParameter("api_key", Context.getApiKey())
+                                               .appendQueryParameter("locale", defaultLocale())
+                                               .appendQueryParameter("flow", "registration")
+                                               .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
 
-        builder.scheme("https")
-                .authority(getAuthority())
-                .appendPath("registration")
-                .appendPath("new")
-                .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
-                .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
+        if(Context.getButtonColor() != null) {
+            builder = builder.appendQueryParameter("color_button", HelperMethods.hexStringFromColor(Context.getButtonColor()));
+        }
+
+        if(Context.getLinkColor() != null) {
+            builder = builder.appendQueryParameter("color_link", HelperMethods.hexStringFromColor(Context.getLinkColor()));
+        }
 
         if(settings != null) {
             if (!HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
@@ -43,16 +51,25 @@ final class UrlHelper {
     }
 
     static String preferencesUrl(String token) {
-        Uri.Builder builder = new Uri.Builder();
-        return builder.scheme("https")
-                .authority(getAuthority())
-                .appendPath("users")
-                .appendPath(token)
-                .appendPath("preferences")
-                .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
-                .build()
-                .toString();
+        Uri.Builder builder = new Uri.Builder().scheme("https")
+                                               .authority(getAuthority())
+                                               .appendPath("web")
+                                               .appendPath("preferences")
+                                               .appendQueryParameter("in_app", "true")
+                                               .appendQueryParameter("user_token", token)
+                                               .appendQueryParameter("api_key", Context.getApiKey())
+                                               .appendQueryParameter("flow", "purchase")
+                                               .appendQueryParameter("locale", defaultLocale());
+
+        if(Context.getButtonColor() != null) {
+            builder = builder.appendQueryParameter("color_button", HelperMethods.hexStringFromColor(Context.getButtonColor()));
+        }
+
+        if(Context.getLinkColor() != null) {
+            builder = builder.appendQueryParameter("color_link", HelperMethods.hexStringFromColor(Context.getLinkColor()));
+        }
+
+        return builder.build().toString();
     }
 
     static String defaultLocale() {
