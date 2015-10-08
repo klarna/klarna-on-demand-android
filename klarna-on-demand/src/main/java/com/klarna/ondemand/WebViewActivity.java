@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -23,19 +22,8 @@ abstract class WebViewActivity extends Activity {
     private WebView webView;
 
     private static final String USER_READY_EVENT_IDENTIFIER = "userReady";
-    private static final String USER_READY_RESPONSE_EVENT_IDENTIFIER = "userReadyResponse";
     private static final String USER_ERROR_EVENT_IDENTIFIER = "userError";
     public static final int RESULT_ERROR = 1;
-
-    private class UserReadyResponsePayload {
-        private String event;
-        private String status;
-
-        protected UserReadyResponsePayload(String event, String status) {
-            this.event = event;
-            this.status = status;
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +110,6 @@ abstract class WebViewActivity extends Activity {
 
     private void initializeActionBar() {
         ActionBar actionBar = getActionBar();
-
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeButtonEnabled(true);
     }
@@ -134,31 +121,15 @@ abstract class WebViewActivity extends Activity {
 
         jockey.on(USER_READY_EVENT_IDENTIFIER, new JockeyHandler() {
             @Override
-            protected void doPerform(final Map<Object, Object> payload) {
-                Handler handler = new Handler();
-                Runnable r=new Runnable() {
-                    public void run() {
-                        handleUserReadyEvent(payload);
-                    }
-                };
-                handler.postDelayed(r, 1000);
-
-                jockey.send(USER_READY_RESPONSE_EVENT_IDENTIFIER,
-                            getWebView(),
-                            new UserReadyResponsePayload(payload.get("event").toString(), "success"));
+            protected void doPerform(Map<Object, Object> payload) {
+                handleUserReadyEvent(payload);
             }
         });
 
         jockey.on(USER_ERROR_EVENT_IDENTIFIER, new JockeyHandler() {
             @Override
             protected void doPerform(Map<Object, Object> payload) {
-                Handler handler = new Handler();
-                Runnable r=new Runnable() {
-                    public void run() {
-                        handleUserErrorEvent();
-                    }
-                };
-                handler.postDelayed(r, 1000);
+                handleUserErrorEvent();
             }
         });
     }

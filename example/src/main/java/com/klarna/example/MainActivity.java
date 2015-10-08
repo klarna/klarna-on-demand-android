@@ -5,7 +5,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -43,8 +42,6 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         com.klarna.ondemand.Context.setApiKey("test_d8324b98-97ce-4974-88de-eaab2fdf4f14");
-        com.klarna.ondemand.Context.setLinkColor(Color.rgb(31, 120, 200));
-        com.klarna.ondemand.Context.setButtonColor(Color.GRAY);
 
         initializeUIElements();
         updateUIElements();
