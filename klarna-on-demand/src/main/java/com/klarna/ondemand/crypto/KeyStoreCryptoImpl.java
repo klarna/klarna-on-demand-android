@@ -40,7 +40,7 @@ class KeyStoreCryptoImpl extends CryptoBase {
         privateKey = entry.getPrivateKey();
         publicKey = entry.getCertificate().getPublicKey();
 
-        publicKeyBase64Str = new String(Base64.encode(publicKey.getEncoded(), Base64.NO_WRAP));
+        publicKeyBase64Str = new String(Base64.encode(publicKey.getEncoded(), Base64.DEFAULT));
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
