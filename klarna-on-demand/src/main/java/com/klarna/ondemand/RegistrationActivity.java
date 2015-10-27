@@ -34,8 +34,9 @@ public class RegistrationActivity extends WebViewActivity implements LoaderManag
             settings = new RegistrationSettings();
         }
 
-        if (HelperMethods.isVersionSmallerThanMarshmallow())
+        if(HelperMethods.isVersionSmallerThanMarshmallow()) {
             settings.setPrefillPhoneNumberIfBlank(getSimCardPhoneNumber());
+        }
 
         if(HelperMethods.isVersionSmallerThanMarshmallow() && HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
             initializeLoader();
