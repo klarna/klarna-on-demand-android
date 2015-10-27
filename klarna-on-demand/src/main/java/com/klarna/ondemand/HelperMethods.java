@@ -8,7 +8,7 @@ class HelperMethods {
         return str == null || str.isEmpty();
     }
 
-    static Boolean isVersionSmallerThenMarshmallow() {
+    static Boolean isVersionSmallerThanMarshmallow() {
         return Build.VERSION.SDK_INT < Build.VERSION_CODES.M;
     }
 }
