@@ -30,13 +30,14 @@ public class RegistrationActivity extends WebViewActivity implements LoaderManag
         super.onCreate(savedInstanceState);
 
         settings = (RegistrationSettings) getIntent().getSerializableExtra(EXTRA_SETTINGS);
-        if(settings == null) {
+        if (settings == null) {
             settings = new RegistrationSettings();
         }
 
-        settings.setPrefillPhoneNumberIfBlank(getSimCardPhoneNumber());
+        if (HelperMethods.isVersionSmallerThenMarshmallow())
+            settings.setPrefillPhoneNumberIfBlank(getSimCardPhoneNumber());
 
-        if(HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
+        if(HelperMethods.isVersionSmallerThenMarshmallow() && HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
             initializeLoader();
         }
         else {
