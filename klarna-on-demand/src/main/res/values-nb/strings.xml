@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="TITLE_ACTIVITY_REGISTRATION">Betalinformation</string>
-    <string name="LOADING_SPINNER">Laddar ...</string>
-    <string name="TITLE_ACTIVITY_PREFERENCES">Välj Betalsätt</string>
-    <string name="DISMISS_ALERT_MESSAGE">Är du säker på att du vill avsluta?</string>
+    <string name="TITLE_ACTIVITY_REGISTRATION">Betalinformasjon</string>
+    <string name="LOADING_SPINNER">Laster ...</string>
+    <string name="TITLE_ACTIVITY_PREFERENCES">Velg betalingsmåte</string>
+    <string name="DISMISS_ALERT_MESSAGE">Er du sikker på at du vil avslutte?</string>
     <string name="DISMISS_ALERT_POSITIVE_BUTTON_TEXT">Ja</string>
-    <string name="DISMISS_ALERT_NEGATIVE_BUTTON_TEXT">Nej</string>
+    <string name="DISMISS_ALERT_NEGATIVE_BUTTON_TEXT">Nei</string>
 </resources>
