@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="TITLE_ACTIVITY_REGISTRATION">Betalinformasjon</string>
-    <string name="LOADING_SPINNER">Laster ...</string>
+    <string name="TITLE_ACTIVITY_REGISTRATION">Betalingsinformasjon</string>
+    <string name="LOADING_SPINNER">Laster inn ...</string>
     <string name="TITLE_ACTIVITY_PREFERENCES">Velg betalingsmåte</string>
     <string name="DISMISS_ALERT_MESSAGE">Er du sikker på at du vil avslutte?</string>
     <string name="DISMISS_ALERT_POSITIVE_BUTTON_TEXT">Ja</string>
