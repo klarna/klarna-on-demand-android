@@ -3,6 +3,7 @@ package com.klarna.ondemand;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.webkit.WebView;
@@ -54,6 +55,7 @@ abstract class WebViewActivity extends Activity {
     protected void onDestroy() {
         jockey.off(USER_READY_EVENT_IDENTIFIER);
         jockey.off(USER_ERROR_EVENT_IDENTIFIER);
+        dismissProgressDialog();
 
         super.onDestroy();
     }
@@ -89,7 +91,11 @@ abstract class WebViewActivity extends Activity {
 
             @Override
             public void onPageFinished(WebView view, String url) {
-                progressDialog.dismiss();
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && WebViewActivity.this.isDestroyed()) ||
+                    WebViewActivity.this.isFinishing()) {
+                    return;
+                }
+                dismissProgressDialog();
             }
 
             @Override
@@ -100,6 +106,12 @@ abstract class WebViewActivity extends Activity {
                 finish();
             }
         });
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null && progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
     }
 
     private void addSpinner() {
