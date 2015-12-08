@@ -26,7 +26,7 @@ final class UrlHelper {
                 .appendPath("registration")
                 .appendPath("new")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
+                .appendQueryParameter("locale", defaultLocale(context))
                 .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
 
         if(settings != null) {
@@ -42,7 +42,7 @@ final class UrlHelper {
         return builder.build().toString();
     }
 
-    static String preferencesUrl(String token) {
+    static String preferencesUrl(android.content.Context context, String token) {
         Uri.Builder builder = new Uri.Builder();
         return builder.scheme("https")
                 .authority(getAuthority())
@@ -50,12 +50,12 @@ final class UrlHelper {
                 .appendPath(token)
                 .appendPath("preferences")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
+                .appendQueryParameter("locale", defaultLocale(context))
                 .build()
                 .toString();
     }
 
-    static String defaultLocale() {
-        return Locale.getDefault().getLanguage();
+    static String defaultLocale(android.content.Context context) {
+        return context.getResources().getConfiguration().locale.getLanguage();
     }
 }
