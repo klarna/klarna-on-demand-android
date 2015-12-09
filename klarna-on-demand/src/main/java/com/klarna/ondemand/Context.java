@@ -27,7 +27,7 @@ public final class Context {
         return apiKey;
     }
 
-    static String getLocale(android.content.Context context) {
+    static String getLanguage(android.content.Context context) {
         Locale locale = context.getResources().getConfiguration().locale;
 
         return locale.getLanguage();

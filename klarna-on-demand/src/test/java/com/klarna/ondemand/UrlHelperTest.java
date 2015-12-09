@@ -64,7 +64,7 @@ public class UrlHelperTest {
 
     @Test
     public void registrationUrl_ShouldReturnUrlWithTheDefaultLocale() {
-        when(Context.getLocale(context)).thenReturn("my_locale");
+        when(Context.getLanguage(context)).thenReturn("my_locale");
 
         assertThat(UrlHelper.registrationUrl(context, null)).contains("locale=my_locale");
     }
@@ -111,7 +111,7 @@ public class UrlHelperTest {
 
     @Test
     public void preferencesUrlWithToken_ShouldReturnUrlWithTheConfiguredLocale() {
-        when(Context.getLocale(context)).thenReturn("my_locale");
+        when(Context.getLanguage(context)).thenReturn("my_locale");
 
         assertThat(UrlHelper.preferencesUrl(context, TOKEN)).contains("locale=my_locale");
     }
