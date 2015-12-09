@@ -26,7 +26,7 @@ final class UrlHelper {
                 .appendPath("registration")
                 .appendPath("new")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale(context))
+                .appendQueryParameter("locale", Context.getLocale(context))
                 .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
 
         if(settings != null) {
@@ -50,12 +50,8 @@ final class UrlHelper {
                 .appendPath(token)
                 .appendPath("preferences")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale(context))
+                .appendQueryParameter("locale", Context.getLocale(context))
                 .build()
                 .toString();
-    }
-
-    static String defaultLocale(android.content.Context context) {
-        return context.getResources().getConfiguration().locale.getLanguage();
     }
 }
