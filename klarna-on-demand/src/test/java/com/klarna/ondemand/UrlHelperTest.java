@@ -1,5 +1,7 @@
 package com.klarna.ondemand;
 
+import android.content.res.Resources;
+
 import com.klarna.ondemand.crypto.Crypto;
 import com.klarna.ondemand.crypto.CryptoFactory;
 
@@ -62,7 +64,7 @@ public class UrlHelperTest {
 
     @Test
     public void registrationUrl_ShouldReturnUrlWithTheDefaultLocale() {
-        Locale.setDefault(new Locale("my_locale"));
+        when(Context.getLocale(context)).thenReturn("my_locale");
 
         assertThat(UrlHelper.registrationUrl(context, null)).contains("locale=my_locale");
     }
@@ -95,7 +97,7 @@ public class UrlHelperTest {
     @Test
     public void preferencesUrlWithToken_ShouldReturnPlaygroundUrl_WhenTokenIsForPlayground() {
         String expectedPrefix = "https://inapp.playground.klarna.com/users/" + TOKEN + "/preferences";
-        assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
+        assertThat(UrlHelper.preferencesUrl(context, TOKEN)).startsWith(expectedPrefix);
     }
 
     @Test
@@ -104,14 +106,14 @@ public class UrlHelperTest {
         when(Context.getApiKey()).thenReturn("skadoo");
 
         String expectedPrefix = "https://inapp.klarna.com/users/" + TOKEN + "/preferences";
-        assertThat(UrlHelper.preferencesUrl(TOKEN)).startsWith(expectedPrefix);
+        assertThat(UrlHelper.preferencesUrl(context, TOKEN)).startsWith(expectedPrefix);
     }
 
     @Test
-    public void preferencesUrlWithToken_ShouldReturnUrlWithTheDefaultLocale() {
-        Locale.setDefault(new Locale("my_locale"));
+    public void preferencesUrlWithToken_ShouldReturnUrlWithTheConfiguredLocale() {
+        when(Context.getLocale(context)).thenReturn("my_locale");
 
-        assertThat(UrlHelper.preferencesUrl(TOKEN)).contains("locale=my_locale");
+        assertThat(UrlHelper.preferencesUrl(context, TOKEN)).contains("locale=my_locale");
     }
     //endregion
 }
