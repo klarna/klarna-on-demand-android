@@ -1,5 +1,7 @@
 package com.klarna.ondemand;
 
+import java.util.Locale;
+
 /**
  * Manages the application-wide context for Klarna on Demand payments.
  */
@@ -23,5 +25,11 @@ public final class Context {
             throw new RuntimeException("You must set the API key first.");
         }
         return apiKey;
+    }
+
+    static String getLanguage(android.content.Context context) {
+        Locale locale = context.getResources().getConfiguration().locale;
+
+        return locale.getLanguage();
     }
 }

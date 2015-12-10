@@ -18,7 +18,7 @@ final class UrlHelper {
         return KLARNA_PRODUCTION_AUTHORITY;
     }
 
-    static String registrationUrl(android.content.Context context, RegistrationSettings settings) {
+    static String registrationUrl(android.content.Context applicationContext, RegistrationSettings settings) {
         Uri.Builder builder = new Uri.Builder();
 
         builder.scheme("https")
@@ -26,8 +26,8 @@ final class UrlHelper {
                 .appendPath("registration")
                 .appendPath("new")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
-                .appendQueryParameter("public_key", CryptoFactory.getInstance(context).getPublicKeyBase64Str());
+                .appendQueryParameter("locale", Context.getLanguage(applicationContext))
+                .appendQueryParameter("public_key", CryptoFactory.getInstance(applicationContext).getPublicKeyBase64Str());
 
         if(settings != null) {
             if (!HelperMethods.isBlank(settings.getPrefillPhoneNumber())) {
@@ -42,7 +42,7 @@ final class UrlHelper {
         return builder.build().toString();
     }
 
-    static String preferencesUrl(String token) {
+    static String preferencesUrl(android.content.Context applicationContext, String token) {
         Uri.Builder builder = new Uri.Builder();
         return builder.scheme("https")
                 .authority(getAuthority())
@@ -50,12 +50,8 @@ final class UrlHelper {
                 .appendPath(token)
                 .appendPath("preferences")
                 .appendQueryParameter("api_key", Context.getApiKey())
-                .appendQueryParameter("locale", defaultLocale())
+                .appendQueryParameter("locale", Context.getLanguage(applicationContext))
                 .build()
                 .toString();
-    }
-
-    static String defaultLocale() {
-        return Locale.getDefault().getLanguage();
     }
 }

@@ -32,11 +32,14 @@ public class PreferencesActivityTest {
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
+    private android.content.Context context;
     private ActivityController<PreferencesActivity> preferencesActivityController;
     private PreferencesActivity preferencesActivity;
 
     @Before
     public void beforeEach() {
+        context = Robolectric.application.getApplicationContext();
+
         PowerMockito.mockStatic(Context.class);
         when(Context.getApiKey()).thenReturn("test_skadoo");
 
@@ -61,7 +64,7 @@ public class PreferencesActivityTest {
 
         preferencesActivity.handleUserReadyEvent(null);
 
-        verify(webView).loadUrl(UrlHelper.preferencesUrl("my_token"));
+        verify(webView).loadUrl(UrlHelper.preferencesUrl(context, "my_token"));
     }
 
     @Test

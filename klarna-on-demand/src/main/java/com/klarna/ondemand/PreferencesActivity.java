@@ -31,7 +31,7 @@ public class PreferencesActivity extends WebViewActivity {
         {
             throw new IllegalStateException("EXTRA_USER_TOKEN is not set for preferences activity");
         }
-        return UrlHelper.preferencesUrl(token);
+        return UrlHelper.preferencesUrl(getApplicationContext(), token);
     }
 
     @Override
