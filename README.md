@@ -51,6 +51,7 @@ As per [running the application](#running_the_application).
 
 1. Fork the project and clone your repository
 2. Import the project into a Gradle-friendly work environment such as [Android Studio](http://developer.android.com/sdk/index.html) or [Eclipse](https://eclipse.org/) with [Gradle tooling support](https://github.com/spring-projects/eclipse-integration-gradle/)
+Note! When using Android Studio, please make sure its version is 1.0 and JDK's version is lower or equal to 1.7.
 3. Get busy!
 
 ### Tests
