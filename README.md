@@ -15,6 +15,8 @@ While not necessary, the simplest way to get going with both the sample applicat
 ## Using the SDK
 Have a look at the [integration guide](doc/integration.md) for full details on how to use our SDK in your application.
 
+For a short overview of the recent changes, please check out the project's [changelog](https://github.com/klarna/klarna-on-demand-android/blob/master/CHANGELOG.md).
+
 <a name="running_the_application"></a>
 ## Running the sample application
 ### Prerequisites
