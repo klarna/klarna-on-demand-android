@@ -17,6 +17,7 @@ This guide includes all information necessary to receive payments from a user of
 - [The preferences view](#the-preferences-view)
   - [Showing the view](#showing-the-view-1)
   - [Interacting with the view](#interacting-with-the-view-1)
+- [Using ProGuard](#using-proguard)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -310,3 +311,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 Note that we identified that it is the preferences activity which ended by using the previously introduced `PREFERENCES_REQUEST_CODE` constant.
 
 We strongly encourage you to notify the user in case of an error, as most errors are unrecoverable and require the preferences view to be reopened.
+
+##Using ProGuard.
+When using proguard for shrinking, optimizing and obfuscation of your code, make sure you add the following lines to your ProGuard configuration (.pro) file:
+```
+-keep class com.klarna.** { *; }
+-keep class com.jockeyjs.** { *; }
+```
