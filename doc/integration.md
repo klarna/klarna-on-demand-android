@@ -312,7 +312,7 @@ Note that we identified that it is the preferences activity which ended by using
 
 We strongly encourage you to notify the user in case of an error, as most errors are unrecoverable and require the preferences view to be reopened.
 
-##Using ProGuard.
+##Using ProGuard
 When using proguard for shrinking, optimizing and obfuscation of your code, make sure you add the following lines to your ProGuard configuration (.pro) file:
 ```
 -keep class com.klarna.** { *; }
