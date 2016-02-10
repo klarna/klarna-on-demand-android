@@ -3,9 +3,12 @@ package com.klarna.ondemand;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.*;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -104,6 +107,20 @@ abstract class WebViewActivity extends Activity {
 
                 setResult(RESULT_ERROR);
                 finish();
+            }
+        });
+
+        webView.getSettings().setSupportMultipleWindows(true);
+        webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onCreateWindow(WebView view, boolean dialog, boolean userGesture, android.os.Message resultMsg)
+            {
+                WebView.HitTestResult result = view.getHitTestResult();
+                String data = result.getExtra();
+                android.content.Context context = view.getContext();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(data));
+                context.startActivity(browserIntent);
+                return false;
             }
         });
     }
