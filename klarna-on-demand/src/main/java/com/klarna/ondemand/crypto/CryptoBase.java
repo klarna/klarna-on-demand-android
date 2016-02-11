@@ -35,10 +35,6 @@ public abstract class CryptoBase implements Crypto {
         return new String(Base64.encode(sign.sign(), Base64.DEFAULT));
     }
 
-    public static String sign(String message, String privateKey) throws GeneralSecurityException {
-        return sign(message, loadPrivateKey(privateKey));
-    }
-
     @Override
     public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         return sign(message, getPrivateKey());
@@ -46,15 +42,6 @@ public abstract class CryptoBase implements Crypto {
 
     protected PrivateKey getPrivateKey() {
         return privateKey;
-    }
-
-    public static PrivateKey loadPrivateKey(String key64) throws GeneralSecurityException {
-        byte[] clear = Base64.decode(key64, Base64.DEFAULT);
-        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(clear);
-        KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PrivateKey generatedKey = keyFactory.generatePrivate(keySpec);
-        Arrays.fill(clear, (byte) 0);
-        return generatedKey;
     }
 
 }

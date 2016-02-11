@@ -139,15 +139,7 @@ public class MainActivity extends Activity {
 
     private void buyTicket() {
         // Create an origin proof for the order
-        String pri ="MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAyBgiv1o529czu+LhyVR1YtO8ZRUq\n" +
-                "g5uIY4TciC858e9ptfaOdbNHQG/BUK3T+yiF5ewjai4kub4I62Od3QnY7QIDAQABAkAzFdZpPEPh\n" +
-                "WMQgiABVQnbl0GEc/ZZpG2Bq6BTVwBjvJ1jyKWvx9D9oUddP81RZt1ojP/BjRGD5O9yUP87CmBkB\n" +
-                "AiEA8HrLlhqD4VibDVKS/UjkuXMp/BVhZcLbQxZU+f0Py50CIQDVAhfX7gBQehR6rpDEQlWcLstm\n" +
-                "gHwkSX5BJhSHzvsJkQIgJepmgQMrOfN7du1HCbJdhbPXscw5MA85/Ojfew7gV60CIQDDpUeHMnih\n" +
-                "cnAK+vnG+fKuIKD8RflATyyi5DopP2h+sQIgK5ADbcsWOKtkIqiOq6yeKSyIukmgdXJuTUkFkVlt\n" +
-                "374=\n";
-        OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), pri);
-        //OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
+        OriginProof originProof = new OriginProof(9900, "SEK", getUserToken(), getApplicationContext());
 
         // Run a background thread to perform the purchase
         Thread thread = new Thread(new purchaseItemRunnable("TCKT0001", originProof));
