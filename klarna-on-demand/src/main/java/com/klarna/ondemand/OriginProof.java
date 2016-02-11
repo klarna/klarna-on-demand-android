@@ -6,6 +6,8 @@ import com.klarna.ondemand.crypto.CryptoBase;
 import com.klarna.ondemand.crypto.CryptoFactory;
 
 import org.json.JSONObject;
+
+import java.security.PrivateKey;
 import java.util.UUID;
 
 /**
@@ -17,11 +19,11 @@ public class OriginProof {
     private final int amount;
     private final String currency;
     private final String userToken;
-    private final String externalPrivateKey;
+    private final PrivateKey externalPrivateKey;
     private final UUID uuid;
     private final String originProofBase64Str;
 
-    private OriginProof(int amount, String currency, String userToken, String externalPrivateKey, android.content.Context context) {
+    private OriginProof(int amount, String currency, String userToken, PrivateKey externalPrivateKey, android.content.Context context) {
         this.amount = amount;
         this.currency = currency;
         this.userToken = userToken;
@@ -37,7 +39,7 @@ public class OriginProof {
      * @param userToken          Token identifying the user making the purchase
      * @param externalPrivateKey Private key stored in device, in case cryptographic keys generation is performed outside of the SDK
      */
-    public OriginProof(int amount, String currency, String userToken, String externalPrivateKey) {
+    public OriginProof(int amount, String currency, String userToken, PrivateKey externalPrivateKey) {
         this(amount, currency, userToken, externalPrivateKey, null);
     }
 
