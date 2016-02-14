@@ -15,7 +15,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-class SharedPreferencesCryptoImpl extends CryptoBase {
+public class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
     private static final int KEYSIZE = 512;
@@ -25,7 +25,8 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
 
         if (!isAlreadyInUse(sharedPreferences)) {
-            generateKeyPair(sharedPreferences);
+            KeyPair keyPair = generateKeyPair();
+            persistKeyPair(sharedPreferences, keyPair);
         }
 
         publicKey = readPublicKey(sharedPreferences);
@@ -52,11 +53,10 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
     }
 
-    private void generateKeyPair(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException {
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
         KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
         kpg.initialize(KEYSIZE);
-
-        persistKeyPair(sharedPreferences, kpg.genKeyPair());
+        return kpg.genKeyPair();
     }
 
     private PublicKey readPublicKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
