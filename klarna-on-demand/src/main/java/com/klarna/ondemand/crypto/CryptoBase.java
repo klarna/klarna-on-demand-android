@@ -18,7 +18,6 @@ public abstract class CryptoBase implements Crypto {
 
     private static final String DIGEST_ALGORITHM = "SHA256withRSA";
     protected static final String ALGORITHM = "RSA";
-    private static final int KEYSIZE = 512;
     protected String publicKeyBase64Str;
     protected PublicKey publicKey;
     protected PrivateKey privateKey;
@@ -38,12 +37,6 @@ public abstract class CryptoBase implements Crypto {
     @Override
     public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         return sign(message, getPrivateKey());
-    }
-
-    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
-        kpg.initialize(KEYSIZE);
-        return kpg.genKeyPair();
     }
 
     protected PrivateKey getPrivateKey() {

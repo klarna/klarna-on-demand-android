@@ -5,6 +5,7 @@ import android.os.Build;
 import android.util.Base64;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import org.robolectric.Robolectric;
@@ -19,6 +20,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Ignore
 public abstract class CryptoBaseTest {
 
     protected CryptoBase crypto;
