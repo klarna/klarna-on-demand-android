@@ -2,23 +2,22 @@ package com.klarna.ondemand.crypto;
 
 import android.util.Base64;
 
-import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
-import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.Arrays;
 
+/**
+ * This class contains common functionality for Crypto objects.
+ */
 public abstract class CryptoBase implements Crypto {
 
     private static final String DIGEST_ALGORITHM = "SHA256withRSA";
-
     protected static final String ALGORITHM = "RSA";
-
     protected String publicKeyBase64Str;
     protected PublicKey publicKey;
     protected PrivateKey privateKey;

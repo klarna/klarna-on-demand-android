@@ -15,6 +15,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+/**
+ * This class generates cryptographic keys using java.security package
+ * and stores them using Android's standard storage.
+ */
 public class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
@@ -34,6 +38,12 @@ public class SharedPreferencesCryptoImpl extends CryptoBase {
         publicKeyBase64Str = toBase64(publicKey);
     }
 
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
+        kpg.initialize(KEYSIZE);
+        return kpg.genKeyPair();
+    }
+
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(
                     SharedPreferencesCryptoImpl.class.getPackage().getName(),
@@ -51,12 +61,6 @@ public class SharedPreferencesCryptoImpl extends CryptoBase {
 
     private String toBase64(Key key) {
         return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
-    }
-
-    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
-        kpg.initialize(KEYSIZE);
-        return kpg.genKeyPair();
     }
 
     private PublicKey readPublicKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {

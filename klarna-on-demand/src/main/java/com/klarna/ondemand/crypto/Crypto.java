@@ -5,7 +5,9 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SignatureException;
 
 /**
- * This class is internal and shouldn't be used directly.
+ * Interface for Crypto instances.
+ * a Crypto instance is an instance that stores public and private keys, and allows signing messages using its public key.
+ * This interface is internal and shouldn't be used directly.
  */
 public interface Crypto {
 
