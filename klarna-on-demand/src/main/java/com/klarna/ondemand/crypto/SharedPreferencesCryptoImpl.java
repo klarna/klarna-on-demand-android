@@ -15,6 +15,10 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
+/**
+ * This class generates cryptographic keys using java.security package
+ * and stores them using Android's standard storage.
+ */
 public class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
