@@ -95,7 +95,7 @@ public class OriginProofTest {
 
     @Test
     public void constructor_shouldReturnAbase64EncodedJsonInTheCorrectFormat_whenGivenExternalPrivateKey() throws Exception {
-        PrivateKey externalPrivateKey = SharedPreferencesCryptoImpl.generateKeyPair().getPrivate();
+        PrivateKey externalPrivateKey = CryptoBase.generateKeyPair().getPrivate();
         mockStatic(CryptoBase.class);
         when(CryptoBase.sign(anyString(), eq(externalPrivateKey))).thenReturn("my_external_private_key_signature");
 

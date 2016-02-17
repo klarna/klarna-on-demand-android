@@ -5,6 +5,8 @@ import android.util.Base64;
 import java.security.GeneralSecurityException;
 import java.security.InvalidKeyException;
 import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -16,9 +18,8 @@ import java.util.Arrays;
 public abstract class CryptoBase implements Crypto {
 
     private static final String DIGEST_ALGORITHM = "SHA256withRSA";
-
     protected static final String ALGORITHM = "RSA";
-
+    private static final int KEYSIZE = 512;
     protected String publicKeyBase64Str;
     protected PublicKey publicKey;
     protected PrivateKey privateKey;
@@ -38,6 +39,12 @@ public abstract class CryptoBase implements Crypto {
     @Override
     public String sign(String message) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         return sign(message, getPrivateKey());
+    }
+
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
+        kpg.initialize(KEYSIZE);
+        return kpg.genKeyPair();
     }
 
     protected PrivateKey getPrivateKey() {

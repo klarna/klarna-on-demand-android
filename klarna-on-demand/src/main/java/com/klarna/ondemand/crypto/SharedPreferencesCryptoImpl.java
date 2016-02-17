@@ -18,7 +18,6 @@ import java.security.spec.X509EncodedKeySpec;
 public class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
-    private static final int KEYSIZE = 512;
 
     protected SharedPreferencesCryptoImpl(android.content.Context context) throws NoSuchAlgorithmException, InvalidKeySpecException {
         super();
@@ -51,12 +50,6 @@ public class SharedPreferencesCryptoImpl extends CryptoBase {
 
     private String toBase64(Key key) {
         return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
-    }
-
-    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
-        kpg.initialize(KEYSIZE);
-        return kpg.genKeyPair();
     }
 
     private PublicKey readPublicKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
