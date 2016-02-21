@@ -3,6 +3,9 @@
 ## 2.3.0
 * Allows opening links outside the app.
 
+## 2.2.0
+* Adds the option to create origin proof with a provided private key.
+
 ## 2.1.0
 * Adds the option to set programatically the locale of the SDK.
 

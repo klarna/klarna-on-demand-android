@@ -15,7 +15,11 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
-class SharedPreferencesCryptoImpl extends CryptoBase {
+/**
+ * This class generates cryptographic keys using java.security package
+ * and stores them using Android's standard storage.
+ */
+public class SharedPreferencesCryptoImpl extends CryptoBase {
     private static final String PUBLIC_KEY = "PublicKey";
     private static final String PRIVATE_KEY = "PrivateKey";
     private static final int KEYSIZE = 512;
@@ -25,12 +29,19 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
         SharedPreferences sharedPreferences = getSharedPreferences(context);
 
         if (!isAlreadyInUse(sharedPreferences)) {
-            generateKeyPair(sharedPreferences);
+            KeyPair keyPair = generateKeyPair();
+            persistKeyPair(sharedPreferences, keyPair);
         }
 
         publicKey = readPublicKey(sharedPreferences);
         privateKey = readPrivateKey(sharedPreferences);
         publicKeyBase64Str = toBase64(publicKey);
+    }
+
+    public static KeyPair generateKeyPair() throws NoSuchAlgorithmException {
+        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
+        kpg.initialize(KEYSIZE);
+        return kpg.genKeyPair();
     }
 
     private static SharedPreferences getSharedPreferences(Context context) {
@@ -50,13 +61,6 @@ class SharedPreferencesCryptoImpl extends CryptoBase {
 
     private String toBase64(Key key) {
         return new String(Base64.encode(key.getEncoded(), Base64.DEFAULT));
-    }
-
-    private void generateKeyPair(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance(ALGORITHM);
-        kpg.initialize(KEYSIZE);
-
-        persistKeyPair(sharedPreferences, kpg.genKeyPair());
     }
 
     private PublicKey readPublicKey(SharedPreferences sharedPreferences) throws NoSuchAlgorithmException, InvalidKeySpecException {
