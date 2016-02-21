@@ -3,6 +3,10 @@ package com.klarna.ondemand.crypto;
 import android.content.Context;
 import android.os.Build;
 
+/**
+ * This factory class creates new cryptographic objects depending on the current Android version.
+ * Note: currently this factory creates only SharedPreferencesCryptoImpl objects.
+ */
 public class CryptoFactory {
 
     private volatile static Crypto cyptoInstance;

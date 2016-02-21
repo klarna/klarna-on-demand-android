@@ -1,5 +1,6 @@
 package com.klarna.ondemand;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -90,6 +91,7 @@ abstract class WebViewActivity extends Activity {
             }
 
             @Override
+            @SuppressLint("NewApi")
             public void onPageFinished(WebView view, String url) {
                 if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && WebViewActivity.this.isDestroyed()) ||
                     WebViewActivity.this.isFinishing()) {
