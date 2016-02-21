@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -25,6 +27,7 @@ abstract class WebViewActivity extends Activity {
 
     private static final String USER_READY_EVENT_IDENTIFIER = "userReady";
     private static final String USER_ERROR_EVENT_IDENTIFIER = "userError";
+    private static final String OPEN_IN_BROWSER_PARAMETER = "openInBrowser=true";
     public static final int RESULT_ERROR = 1;
 
     @Override
@@ -87,6 +90,14 @@ abstract class WebViewActivity extends Activity {
 
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.contains(OPEN_IN_BROWSER_PARAMETER)) {
+                    String parameterlessUrl = url.substring(0,url.lastIndexOf("?"));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(parameterlessUrl));
+                    startActivity(browserIntent);
+
+                    return true;
+                }
+
                 return false;
             }
 
