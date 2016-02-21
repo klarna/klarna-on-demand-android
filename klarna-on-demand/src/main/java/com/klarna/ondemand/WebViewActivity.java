@@ -27,7 +27,7 @@ abstract class WebViewActivity extends Activity {
 
     private static final String USER_READY_EVENT_IDENTIFIER = "userReady";
     private static final String USER_ERROR_EVENT_IDENTIFIER = "userError";
-    private static final String OPEN_IN_BROWSER_PARAMETER = "openInBrowser";
+    private static final String OPEN_IN_BROWSER_PARAMETER = "openInBrowser=true";
     public static final int RESULT_ERROR = 1;
 
     @Override
