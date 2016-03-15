@@ -38,8 +38,8 @@ public class RegistrationActivityTest {
     @Rule
     public PowerMockRule rule = new PowerMockRule();
 
-    private ActivityController<RegistrationActivityMock> registrationActivityController;
-    private RegistrationActivityMock registrationActivity;
+    private ActivityController<RegistrationActivity> registrationActivityController;
+    private RegistrationActivity registrationActivity;
 
     @Before
     public void beforeEach() {
@@ -49,7 +49,7 @@ public class RegistrationActivityTest {
         mockStatic(UrlHelper.class);
         when(UrlHelper.registrationUrl((android.content.Context)anyObject(),(RegistrationSettings)anyObject())).thenReturn("my_url");
 
-        registrationActivityController = Robolectric.buildActivity(RegistrationActivityMock.class).create();
+        registrationActivityController = Robolectric.buildActivity(RegistrationActivity.class).create();
         registrationActivity = spy(registrationActivityController.get());
     }
 
