@@ -1,5 +1,8 @@
 # CHANGELOG for Klarna-on-Demand-Android
 
+## 2.4.0
+* Remove phone-number prefill from device info.
+
 ## 2.3.0
 * Allows opening links outside the app.
 
