@@ -1,5 +1,8 @@
 # CHANGELOG for Klarna-on-Demand-Android
 
+## 2.4.1
+* Update Norwegian Translations. 
+
 ## 2.4.0
 * Remove phone-number prefill from device info.
 
