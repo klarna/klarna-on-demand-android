@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="TITLE_ACTIVITY_REGISTRATION">Zahlungsinformation</string>
+    <string name="LOADING_SPINNER">Lädt ...</string>
+    <string name="TITLE_ACTIVITY_PREFERENCES">Wählen Sie Ihre Zahlungsmethode</string>
+    <string name="DISMISS_ALERT_MESSAGE">Sind Sie sicher, dass Sie den Vorgang abbrechen wollen?</string>
+    <string name="DISMISS_ALERT_POSITIVE_BUTTON_TEXT">Ja</string>
+    <string name="DISMISS_ALERT_NEGATIVE_BUTTON_TEXT">Nein</string>
+</resources>
