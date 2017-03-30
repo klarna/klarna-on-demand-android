@@ -25,7 +25,11 @@ public class RegistrationActivity extends WebViewActivity {
         super.onCreate(savedInstanceState);
 
         settings = (RegistrationSettings) getIntent().getSerializableExtra(EXTRA_SETTINGS);
-        getWebView().loadUrl(getUrl());
+        try {
+            getWebView().loadUrl(getUrl());
+        } catch (Exception e) {
+            this.finish();
+        }
     }
 
     protected String getUrl() {
