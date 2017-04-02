@@ -20,7 +20,11 @@ public class PreferencesActivity extends WebViewActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWebView().loadUrl(getUrl());
+        try {
+            getWebView().loadUrl(getUrl());
+        } catch (Exception e) {
+            this.finish();
+        }
     }
 
     protected String getUrl() {
